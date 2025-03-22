@@ -39,6 +39,12 @@ public class BaiVietController {
 
     }
 
+    @GetMapping("/tao")
+    public String hienThiFormTaoBaiViet(Model model) {
+        model.addAttribute("baiViet", new BaiViet());
+        return "user/tao_baiviet";
+    }
+    
     @PostMapping("/tao")
     public String taoBaiViet(@AuthenticationPrincipal UserDetails userDetails, @ModelAttribute BaiViet baiViet) {
         try {
@@ -46,7 +52,7 @@ public class BaiVietController {
             NguoiDung nguoiDung = nguoiDungService.getNguoiDungByEmail(username);
             baiViet.setNguoiDung(nguoiDung);
             baiVietService.luuBaiViet(baiViet);
-            return "redirect:/user/baiviet/tatca";
+            return "redirect:/user/baiviet/tatcabaiviethientai";
         } catch (Exception e) {
             e.printStackTrace();
             return "error";

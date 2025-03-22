@@ -12,7 +12,11 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-    <link rel="shortcut icon" href="/images/user/user.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="/images/user/user.png"
+      type="image/x-icon"
+    />
     <style>
       body {
         font-family: "Poppins", sans-serif;
@@ -56,12 +60,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/user}">
-          <img
-            src="/images/user/user.png"
-            alt="User"
-            width="40"
-            height="40"
-          />
+          <img src="/images/user/user.png" alt="User" width="40" height="40" />
           Trang Chủ VIP
         </a>
         <button
@@ -85,27 +84,16 @@
                 <i class="fas fa-home me-1"></i> Trang Chủ
               </a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link active" th:href="@{/user/thongtincanhan}">
-                <i class="fas fa-user me-1"></i> Thông tin cá nhân
-              </a>
-            </li>
+
             <li class="nav-item">
               <a class="nav-link" th:href="@{/user/diem/bangxephang}">
                 <i class="fas fa-trophy me-1"></i> Bảng Xếp Hạng
               </a>
             </li>
+
             <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/baiviet/tatca}">
-                <i class="fas fa-bolt me-1"></i> Hoạt động của tôi
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                th:href="@{/user/baiviet/tatcabaiviethientai}"
-              >
-                <i class="fas fa-file-alt me-1"></i> Bài Viết Của Tôi
+              <a class="nav-link" th:href="@{/user/baiviet/tao}">
+                <i class="fas fa-file-alt me-1"></i> Viết Bài
               </a>
             </li>
             <li class="nav-item">

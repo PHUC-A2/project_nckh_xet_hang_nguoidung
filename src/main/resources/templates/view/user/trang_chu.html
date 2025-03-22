@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trang chủ</title>
+    <title>Hồ Sơ Cá Nhân - VIP PRO</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -16,34 +16,24 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="shortcut icon" href="/images/avatar/ico.png" type="image/x-icon">
     <style>
-      /* CSS được giữ nguyên */
+      /* VIP PRO Styling */
       body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+        background: linear-gradient(to right, #141e30, #243b55);
         color: white;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
       }
 
-      .navbar {
-        background: rgba(0, 0, 0, 0.8);
-      }
-
-      .navbar-brand img {
-        border-radius: 50%;
-        margin-right: 10px;
-      }
-
       .content {
         padding: 2rem;
         flex-grow: 1;
-        padding-top: 100px;
+        padding-top: 50px;
       }
 
-      .card {
+      .card-custom {
         background: rgba(255, 255, 255, 0.1);
         border: none;
         border-radius: 10px;
@@ -52,17 +42,68 @@
         transition: all 0.3s;
       }
 
-      .card:hover {
+      .card-custom:hover {
         transform: translateY(-5px);
       }
 
-      .profile-img {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 1rem;
-        border: 3px solid #fff;
+      .scrollable-table {
+        max-height: 300px; /* Adjusted height for 5 items */
+        overflow-y: auto; /* Add scrollbar when content exceeds height */
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 10px;
+      }
+
+      .scrollable-table table {
+        width: 100%;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      .scrollable-table th {
+        background: #ff4757;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .scrollable-table td {
+        padding: 10px;
+      }
+
+      .scrollable-table tr:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: scale(1.02);
+      }
+
+      .rank-1 {
+        color: gold;
+        font-weight: bold;
+      }
+
+      .rank-2 {
+        color: silver;
+        font-weight: bold;
+      }
+
+      .rank-3 {
+        color: #cd7f32;
+        font-weight: bold;
+      }
+
+      .navbar-brand {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      .navbar-nav .nav-link {
+        font-size: 1.1rem;
+        margin-right: 1rem;
+        transition: color 0.3s;
+      }
+
+      .navbar-nav .nav-link:hover {
+        color: #ff4757;
       }
 
       .btn-custom {
@@ -78,30 +119,23 @@
       }
     </style>
   </head>
-
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/user}">
-          <img
-            src="/images/user/user.png"
-            alt="User"
-            width="40"
-            height="40"
-          />
-          Hồ Sơ Cá Nhân
-        </a>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container">
+        <p class="navbar-brand" href="#">Xếp hạng người dùng</p>
+
         <button
           class="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
+          data-bs-target="#navbarNav"
         >
           <span class="navbar-toggler-icon"></span>
         </button>
         <div
           class="collapse navbar-collapse justify-content-end"
-          id="navbarContent"
+          id="navbarNav"
         >
           <ul class="navbar-nav">
             <li class="nav-item">
@@ -110,112 +144,100 @@
               >
             </li>
             <li class="nav-item">
-              <a class="nav-link active" th:href="@{/user/thongtincanhan}">
-                <i class="fas fa-user me-1"></i> Thông tin cá nhân
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/diem/bangxephang}"
-                ><i class="fas fa-trophy me-1"></i> Bảng Xếp Hạng</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/baiviet/tatca}">
-                <i class="fas fa-bolt me-1"></i> Hoạt động của tôi
+              <a class="nav-link" th:href="@{/user/baiviet/tao}">
+                <i class="fas fa-pencil-alt"></i> Viết bài
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/baiviet/tatcabaiviethientai}"
-                ><i class="fas fa-file-alt me-1"></i> Bài Viết Của Tôi</a
-              >
+              <a class="nav-link" th:href="@{/register}">
+                <i class="fas fa-user-plus"></i> Đăng ký
+              </a>
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link"
-                href="javascript:void(0);"
-                onclick="document.getElementById('logoutForm').submit();"
-                ><i class="fas fa-sign-out-alt me-1"></i> Đăng Xuất</a
-              >
+              <a class="nav-link" th:href="@{/login}">
+                <i class="fas fa-sign-in-alt"></i> Đăng nhập
+              </a>
             </li>
-            <form
-              id="logoutForm"
-              th:action="@{/logout}"
-              method="post"
-              style="display: none"
-            ></form>
           </ul>
         </div>
       </div>
     </nav>
 
     <div class="content container">
-      <div class="row">
-        <div class="col-md-4 text-center">
-          <div class="card p-4">
-            <img
-              src="/images/user/user.png"
-              alt="Profile"
-              class="profile-img"
-            />
-            <!-- <h4>ID: <span th:text="${nguoiDungId}"></span></h4> -->
-
-            <h4>
-              <i class="fas fa-user"></i>
-              Tên
-            </h4>
-
-            <p>
-              <i class="fas fa-envelope"></i>
-              user@example.com
-            </p>
-            <p><i class="fas fa-star"></i> Điểm:150</p>
-            <p><i class="fas fa-user-tag"></i> Vai Trò:USER/ADMIN</p>
-            <p>
-              <i class="fas fa-level-up-alt"></i> Cấp
-              Bậc:DONG/BAC/VANG/KIM_CUONG
-            </p>
-            <p><i class="fas fa-calendar-alt"></i> Ngày Tạo:2025-03-12</p>
+      <h3>Hãy tương tác cùng mọi người bằng cách đăng bài viết, video, hình ảnh, bình luận... để lên rank nhé!</h3>
+      <div class="row mt-3">
+        <!-- Danh sách bài viết -->
+        <div class="col-md-7">
+          <div class="card-custom p-4">
+            <h4 class="text-center mb-3">Tất cả bài viết</h4>
+            <div class="scrollable-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th colspan="2">Các bài viết</th>
+                    <!-- Tiêu đề mở rộng 2 cột -->
+                  </tr>
+                </thead>
+                <tbody th:each="baiViet : ${danhSachBaiViet}">
+                  <tr>
+                    <td>
+                      <a
+                        th:href="@{/user/baiviet/chitiet/{id}(id=${baiViet.id})}"
+                        th:text="${baiViet.tieuDe}"
+                      ></a>
+                    </td>
+                    <td>
+                      <span th:text="${baiViet.nguoiDung.tenDangNhap}"></span>
+                      <span
+                        th:text="' đã đăng vào ngày ' + ${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"
+                      ></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-        <div class="col-md-8">
-          <div class="card p-4">
-            <h5><i class="fas fa-history"></i> Hoạt động gần đây</h5>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item bg-transparent text-white">
-                <i class="fas fa-comment"></i> Bình luận bài viết "Tiêu đề bài
-                viết 1".
-              </li>
-              <li class="list-group-item bg-transparent text-white">
-                <i class="fas fa-thumbs-up"></i> Thích bài viết "Tiêu đề bài
-                viết 2".
-              </li>
-              <li class="list-group-item bg-transparent text-white">
-                <i class="fas fa-plus"></i> Đăng bài mới "Tiêu đề bài viết 3".
-              </li>
-              <li class="list-group-item bg-transparent text-white">
-                <i class="fas fa-trophy"></i> Đạt 10 điểm.
-              </li>
-            </ul>
+
+        <!-- Bảng xếp hạng -->
+        <div class="col-md-5">
+          <div class="card-custom p-4">
+            <h4 class="text-center mb-3">🏆 Bảng Xếp Hạng</h4>
+            <div class="scrollable-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Top</th>
+                    <th>Tên Đăng Nhập</th>
+                    <th>Điểm</th>
+                    <th>Cấp Bậc</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    th:each="nguoiDung, iterStat : ${danhSachNguoiDung}"
+                    th:classappend="${iterStat.count == 1} ? 'rank-1' : (${iterStat.count == 2} ? 'rank-2' : (${iterStat.count == 3} ? 'rank-3' : ''))"
+                  >
+                    <td th:text="${iterStat.count}"></td>
+                    <td th:text="${nguoiDung.tenDangNhap}"></td>
+                    <td
+                      th:text="${diemNguoiDungService.tinhTongDiemByNguoiDungId(nguoiDung.id)}"
+                    ></td>
+                    <td th:text="${nguoiDung.capBac}"></td>
+                  </tr>
+                  <tr th:if="${danhSachNguoiDung.isEmpty()}">
+                    <td colspan="4" class="text-center text-danger">
+                      Không có người dùng nào
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-        </div>
-      </div>
-      <div class="row mt-4">
-        <div class="col-md-4">
-          <a
-            th:href="@{/user/baiviet/tatcabaiviethientai}"
-            class="btn btn-custom w-100"
-            ><i class="fas fa-eye"></i> Xem Bài Viết</a
-          >
-        </div>
-        <div class="col-md-4">
-          <a th:href="@{/user/diem/bangxephang}" class="btn btn-custom w-100"
-            ><i class="fas fa-trophy"></i> Bảng Xếp Hạng</a
-          >
         </div>
       </div>
     </div>
-    <script src="/js/user/trang_chu.js"></script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

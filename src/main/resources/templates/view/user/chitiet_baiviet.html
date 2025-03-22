@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
   <head>
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chi Tiết Bài Viết</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
     <link
@@ -13,10 +15,16 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.css"
     />
-    <link rel="shortcut icon" href="/images/user/user.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="/images/user/user.png"
+      type="image/x-icon"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.js"></script>
     <style>
       body {
         font-family: "Poppins", sans-serif;
@@ -25,8 +33,8 @@
           #1a2a6c,
           #b21f24,
           #eb8f07
-        ); /* Thay đổi gradient cho dễ nhìn hơn */
-        color: #e0e0e0; /* Thay đổi màu văn bản */
+        );
+        color: #e0e0e0;
         min-height: 100vh;
         display: flex;
         flex-direction: column;
@@ -90,18 +98,46 @@
       .article-content strong {
         color: #ff416c;
       }
+
+      .comment-box {
+        display: flex;
+        align-items: center;
+        background: #e9ecef;
+        padding: 5px;
+        border-radius: 20px;
+        width: 100%;
+      }
+
+      .comment-box textarea {
+        height: 30px;
+        border: none;
+        background: transparent;
+        color: #343a40;
+        flex-grow: 1;
+        resize: none;
+        padding: 5px 10px;
+        font-size: 14px;
+        width: 100%;
+      }
+
+      .comment-box button {
+        border: none;
+        background: none;
+        color: #007bff;
+        font-size: 16px;
+      }
+
+      .comment-section p {
+        word-wrap: break-word;
+        word-break: break-all;
+      }
     </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/user}">
-          <img
-            src="/images/user/user.png"
-            alt="User"
-            width="40"
-            height="40"
-          />
+          <img src="/images/user/user.png" alt="User" width="40" height="40" />
           Trang Chủ VIP
         </a>
         <button
@@ -125,27 +161,27 @@
                 <i class="fas fa-home me-1"></i> Trang Chủ
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link active" th:href="@{/user/thongtincanhan}">
                 <i class="fas fa-user me-1"></i> Thông tin cá nhân
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a class="nav-link" th:href="@{/user/diem/bangxephang}">
                 <i class="fas fa-trophy me-1"></i> Bảng Xếp Hạng
               </a>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a class="nav-link" th:href="@{/user/baiviet/tatca}">
                 <i class="fas fa-bolt me-1"></i> Hoạt động của tôi
               </a>
-            </li>
+            </li> -->
             <li class="nav-item">
               <a
                 class="nav-link"
-                th:href="@{/user/baiviet/tatcabaiviethientai}"
+                th:href="@{/user/baiviet/tao}"
               >
-                <i class="fas fa-file-alt me-1"></i> Bài Viết Của Tôi
+                <i class="fas fa-file-alt me-1"></i> Viết Bài
               </a>
             </li>
             <li class="nav-item">
@@ -189,8 +225,112 @@
             </p>
             <hr />
             <div th:utext="${baiViet.noiDung}">Nội dung bài viết...</div>
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <div>
+                <a
+                  th:href="@{'/user/luotthich/' + ${baiViet.id} + '#baiviet-' + ${baiViet.id}}"
+                  class="btn btn-outline-primary btn-sm"
+                >
+                  <i class="fas fa-thumbs-up"></i>
+                  <span th:text="${baiViet.soLuotThich}"></span>
+                </a>
+                <span class="btn btn-outline-primary btn-sm">
+                  <i class="fas fa-comment"></i>
+                  <span th:text="${baiViet.soLuotBinhLuan}"></span>
+                </span>
+
+                <a
+                  th:href="@{/user/baiviet/sua/{id}(id=${baiViet.id})}"
+                  class="btn btn-warning btn-sm"
+                >
+                  <i class="fas fa-edit"></i> Sửa
+                </a>
+                <form
+                  th:action="@{/user/baiviet/xoa/{id}(id=${baiViet.id})}"
+                  method="post"
+                  style="display: inline"
+                >
+                  <button class="btn btn-danger btn-sm">
+                    <i class="fas fa-trash"></i> Xóa
+                  </button>
+                </form>
+              </div>
+              <small
+                class="text-muted"
+                th:text="'Bài viết được đăng vào ngày: ' + ${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"
+              >
+                01/01/2025
+              </small>
+            </div>
+            <div class="comment-section mt-3">
+              <div
+                th:each="binhLuan : ${baiViet.binhLuans}"
+                class="d-flex mb-2"
+                th:id="'binhluan-' + ${binhLuan.id}"
+              >
+                <img
+                  src="/images/user/user.png"
+                  alt="Commenter"
+                  width="40"
+                  height="40"
+                  class="rounded-circle me-2"
+                />
+                <div>
+                  <h6 class="mb-0" th:text="${binhLuan.nguoiDung.tenDangNhap}">
+                    Tên Người Dùng
+                  </h6>
+                  <small
+                    class="text-muted"
+                    th:text="${#temporals.format(binhLuan.ngayDang, 'dd/MM/yyyy')}"
+                    >01/01/2025 12:00</small
+                  >
+                  <p th:text="${binhLuan.noiDung}">
+                    Nội dung bình luận...
+                  </p>
+                  <div>
+                    <a
+                      class="btn btn-warning btn-sm"
+                      th:href="@{'/user/binhluan/sua/' + ${binhLuan.id}}"
+                    >
+                      <i class="fas fa-pencil-alt"></i> Sửa
+                    </a>
+                    <form
+                      th:action="@{'/user/binhluan/xoa/' + ${binhLuan.id}}"
+                      method="post"
+                      style="display: inline"
+                    >
+                      <input type="hidden" name="_method" value="delete" />
+                      <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i> Xóa
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              <div class="comment-box">
+                <form th:action="@{/user/binhluan/tao}" method="post">
+                  <input
+                    type="hidden"
+                    name="baiVietId"
+                    th:value="${baiViet.id}"
+                  />
+                  <textarea
+                    class="bg bg-light"
+                    name="noiDung"
+                    placeholder="Viết bình luận..."
+                    required
+                  ></textarea>
+                  <button type="submit">
+                    <i class="far fa-paper-plane"></i> Gửi
+                  </button>
+                </form>
+              </div>
+            </div>
             <div class="mt-4">
-              <a th:href="@{'/user/baiviet/tatca#baiviet-' + ${baiViet.id}}" class="btn btn-custom">
+              <a
+                th:href="@{'/user/baiviet/tatca#baiviet-' + ${baiViet.id}}"
+                class="btn btn-custom"
+              >
                 <i class="fas fa-arrow-left me-1"></i> Quay lại
               </a>
             </div>
@@ -198,7 +338,14 @@
         </div>
       </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <hr class="mb-4" />
+    <script>
+      $(document).ready(function () {
+        $(".comment-box textarea").each(function () {
+          $(this).emojioneArea({ pickerPosition: "top" });
+        });
+      });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>

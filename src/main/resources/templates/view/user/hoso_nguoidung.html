@@ -81,7 +81,51 @@
         transform: scale(1.05);
       }
       h4 {
-        color:bisque;
+        color: bisque;
+      }
+
+      .content {
+        padding: 2rem;
+        flex-grow: 1;
+        padding-top: 50px;
+      }
+
+      .card-custom {
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s;
+      }
+
+      .card-custom:hover {
+        transform: translateY(-5px);
+      }
+
+      .scrollable-table {
+        max-height: 300px; /* Adjusted height for 5 items */
+        overflow-y: auto; /* Add scrollbar when content exceeds height */
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        padding: 10px;
+      }
+
+      .scrollable-table table {
+        width: 100%;
+        text-align: left;
+        font-weight: bold;
+      }
+
+      .scrollable-table th {
+        background: #ff4757;
+        color: white;
+        padding: 10px;
+        border-radius: 5px;
+      }
+
+      .scrollable-table td {
+        padding: 10px;
       }
     </style>
   </head>
@@ -111,24 +155,15 @@
                 ><i class="fas fa-home me-1"></i> Trang Chủ</a
               >
             </li>
+
             <li class="nav-item">
-              <a class="nav-link active" th:href="@{/user/thongtincanhan}">
-                <i class="fas fa-user me-1"></i> Thông tin cá nhân
+              <a class="nav-link" th:href="@{/user/diem/bangxephang}">
+                <i class="fas fa-bolt me-1"></i> Bảng Xếp Hạng
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/diem/bangxephang}"
-                ><i class="fas fa-trophy me-1"></i> Bảng Xếp Hạng</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/baiviet/tatca}">
-                <i class="fas fa-bolt me-1"></i> Hoạt động của tôi
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/baiviet/tatcabaiviethientai}"
-                ><i class="fas fa-file-alt me-1"></i> Bài Viết Của Tôi</a
+              <a class="nav-link" th:href="@{/user/baiviet/tao}"
+                ><i class="fas fa-file-alt me-1"></i> Viết bài</a
               >
             </li>
             <li class="nav-item">
@@ -150,7 +185,7 @@
       </div>
     </nav>
 
-    <div class="content container">
+    <div class="content container mt-4">
       <div class="row">
         <div class="col-md-4 text-center">
           <div class="card p-4">
@@ -194,38 +229,51 @@
           </div>
         </div>
         <div class="col-md-8">
-          <div class="card p-4">
-            <h5><i class="fas fa-history"></i> Hoạt động gần đây</h5>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item bg-transparent text-white">
-                <i class="fas fa-comment"></i> Bình luận bài viết "Tiêu đề bài
-                viết 1".
-              </li>
-              <li class="list-group-item bg-transparent text-white">
-                <i class="fas fa-thumbs-up"></i> Thích bài viết "Tiêu đề bài
-                viết 2".
-              </li>
-              <li class="list-group-item bg-transparent text-white">
-                <i class="fas fa-plus"></i> Đăng bài mới "Tiêu đề bài viết 3".
-              </li>
-              <li class="list-group-item bg-transparent text-white">
-                <i class="fas fa-trophy"></i> Đạt 10 điểm.
-              </li>
-            </ul>
+          <div class="card-custom p-4">
+            <h4 class="text-center mb-3">Bài viết của mọi người</h4>
+            <div class="scrollable-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th colspan="2">Tiêu đề bài viết</th>
+                  </tr>
+                </thead>
+                <tbody th:each="baiViet : ${danhSachBaiViet}">
+                  <tr>
+                    <td>
+                      <a
+                        th:href="@{/user/baiviet/chitiet/{id}(id=${baiViet.id})}"
+                        th:text="${baiViet.tieuDe}"
+                      ></a>
+                    </td>
+                    <td>
+                      <span
+                        class="text-dark"
+                        th:text="${baiViet.nguoiDung.tenDangNhap} + ' '"
+                      ></span>
+                      <span
+                        class="text-warning"
+                        th:text="' đã đăng vào ngày ' + ${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"
+                      ></span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
       <div class="row mt-4">
         <div class="col-md-4">
-          <a
-            th:href="@{/user/baiviet/tatcabaiviethientai}"
-            class="btn btn-custom w-100"
-            ><i class="fas fa-eye"></i> Xem Bài Viết</a
+          <a th:href="@{/user/thongtincanhan}" class="btn btn-custom w-100"
+            ><i class="fas fa-eye"></i>Thông tin cá nhân</a
           >
         </div>
         <div class="col-md-4">
-          <a th:href="@{/user/diem/bangxephang}" class="btn btn-custom w-100"
-            ><i class="fas fa-trophy"></i> Bảng Xếp Hạng</a
+          <a
+            th:href="@{/user/baiviet/tatcabaiviethientai}"
+            class="btn btn-custom w-100"
+            ><i class="fas fa-eye"></i>Bài viết của tôi</a
           >
         </div>
       </div>
