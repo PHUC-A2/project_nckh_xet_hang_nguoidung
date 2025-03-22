@@ -24,6 +24,32 @@ public class LuotThichController {
         this.nguoiDungService = nguoiDungService;
     }
 
+    // @GetMapping("/{baiVietId}")
+    // public RedirectView toggleLike(@PathVariable Long baiVietId,
+    // RedirectAttributes redirectAttributes) {
+    // Authentication authentication =
+    // SecurityContextHolder.getContext().getAuthentication();
+    // if (authentication == null || !authentication.isAuthenticated()) {
+    // redirectAttributes.addFlashAttribute("error", "Bạn cần đăng nhập để thực hiện
+    // thao tác này.");
+    // return new RedirectView("/login");
+    // }
+
+    // Long nguoiDungId =
+    // nguoiDungService.layIdNguoiDungHienTai(authentication.getName());
+    // boolean daLike = luotThichService.kiemTraDaThich(nguoiDungId, baiVietId);
+
+    // if (daLike) {
+    // luotThichService.xoaLuotThich(nguoiDungId, baiVietId);
+    // } else {
+    // luotThichService.themLuotThich(nguoiDungId, baiVietId);
+    // }
+
+    // // Lấy lại số lượt thích sau khi cập nhật
+    // int soLuotThich = luotThichService.demSoLuotThich(baiVietId);
+    // redirectAttributes.addFlashAttribute("soLuotThich", soLuotThich);
+    // return new RedirectView("/user/baiviet/chitiet/{id}"); // load lại trang
+    // }
     @GetMapping("/{baiVietId}")
     public RedirectView toggleLike(@PathVariable Long baiVietId, RedirectAttributes redirectAttributes) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -44,6 +70,6 @@ public class LuotThichController {
         // Lấy lại số lượt thích sau khi cập nhật
         int soLuotThich = luotThichService.demSoLuotThich(baiVietId);
         redirectAttributes.addFlashAttribute("soLuotThich", soLuotThich);
-        return new RedirectView("/user/baiviet/tatca"); // load lại trang 
+        return new RedirectView("/user/baiviet/chitiet/" + baiVietId); // load lại trang
     }
 }

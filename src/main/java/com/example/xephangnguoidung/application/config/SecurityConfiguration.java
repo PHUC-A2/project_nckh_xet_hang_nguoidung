@@ -74,7 +74,7 @@ public class SecurityConfiguration {
                                                 .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE)
                                                 .permitAll()
                                                 // Cho phép truy cập không cần xác thực vào các đường dẫn cụ thể
-                                                .requestMatchers("/","/user/baiviet/chitiet/{id}","/hello", "/css/**", "/js/**", "/images/**").permitAll()
+                                                .requestMatchers("/","/user/baiviet/chitiet/{id}","/user/baiviet/tatca","/hello", "/css/**", "/js/**", "/images/**").permitAll()
                                                 .requestMatchers("/login", "/register").permitAll()
                                                 // Chỉ cho phép người dùng có vai trò ADMIN truy cập vào /admin/**
                                                 .requestMatchers("/admin/**").hasRole("ADMIN")

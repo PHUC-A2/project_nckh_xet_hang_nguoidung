@@ -22,6 +22,12 @@
       type="image/x-icon"
     />
     <style>
+      .info {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+      }
+    </style>
+    <style>
       /* CSS được giữ nguyên */
       body {
         font-family: "Poppins", sans-serif;
@@ -54,6 +60,10 @@
         backdrop-filter: blur(10px);
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
         transition: all 0.3s;
+      }
+      .card,
+      .card-custom {
+        min-height: 100%;
       }
 
       .card:hover {
@@ -127,6 +137,69 @@
       .scrollable-table td {
         padding: 10px;
       }
+      .row {
+        display: flex;
+        align-items: stretch;
+      }
+
+      .equal-height {
+        display: flex;
+        flex-wrap: wrap;
+      }
+
+      .equal-height > div {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .fixed-height {
+        height: 500px; /* Set a fixed height for the columns */
+      }
+
+      /* Modal styling */
+      .modal-content {
+        background: #2c3e50;
+        color: white;
+        border-radius: 10px;
+      }
+
+      .modal-header {
+        border-bottom: 1px solid #444;
+      }
+
+      .modal-footer {
+        border-top: 1px solid #444;
+      }
+
+      .modal-body {
+        padding: 2rem;
+      }
+
+      .modal-body .info {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+      }
+
+      .modal-body .info span {
+        font-weight: bold;
+        color: #f39c12;
+      }
+
+      .modal-body h1 {
+        font-size: 2rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .modal-footer .btn {
+        background: #e74c3c;
+        border: none;
+      }
+
+      .modal-footer .btn:hover {
+        background: #c0392b;
+      }
     </style>
   </head>
 
@@ -135,7 +208,7 @@
       <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/user}">
           <img src="/images/user/user.png" alt="User" width="40" height="40" />
-          Hồ Sơ Cá Nhân
+          Trang chủ
         </a>
         <button
           class="navbar-toggler"
@@ -185,24 +258,22 @@
       </div>
     </nav>
 
-    <div class="content container mt-4">
-      <div class="row">
-        <div class="col-md-4 text-center">
-          <div class="card p-4">
+    <div class="content container mt-5">
+      <h3>Chào mừng bạn đến với trang chủ người dùng!</h3>
+      <div class="row equal-height mt-3">
+        <div class="col-md-4 text-center h-100 d-flex flex-column fixed-height">
+          <div class="card p-4 flex-grow-1">
             <img
               src="/images/user/user.png"
               alt="Profile"
               class="profile-img"
             />
-            <!-- <h4>ID: <span th:text="${nguoiDungId}"></span></h4> -->
-
             <h4>
               <i class="fas fa-user"></i>
               <span
                 th:text="|Tên: ${nguoiDung.tenDangNhap} - ID = ${nguoiDungId}|"
               ></span>
             </h4>
-
             <p>
               <i class="fas fa-envelope"></i>
               <span th:text="${nguoiDung.email}">user@example.com</span>
@@ -228,9 +299,15 @@
             </p>
           </div>
         </div>
-        <div class="col-md-8">
-          <div class="card-custom p-4">
-            <h4 class="text-center mb-3">Bài viết của mọi người</h4>
+
+        <div class="col-md-8 h-100 d-flex flex-column fixed-height">
+          <div class="card-custom p-4 flex-grow-1">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <h4 class="text-center mb-3">Bài viết của mọi người</h4>
+              <a th:href="@{/user/baiviet/tatca}" class="btn btn-success"
+                ><i class="fas fa-eye"></i> Xem chi tiết</a
+              >
+            </div>
             <div class="scrollable-table">
               <table>
                 <thead>
@@ -264,17 +341,196 @@
         </div>
       </div>
       <div class="row mt-4">
-        <div class="col-md-4">
-          <a th:href="@{/user/thongtincanhan}" class="btn btn-custom w-100"
+        <div class="col-md-3">
+          <!-- <a th:href="@{/user/thongtincanhan}" class="btn btn-custom w-100"
             ><i class="fas fa-eye"></i>Thông tin cá nhân</a
+          > -->
+          <button
+            type="button"
+            class="btn btn-custom w-100"
+            data-bs-toggle="modal"
+            data-bs-target="#infoModal"
           >
+            <i class="fas fa-user"></i> Thông tin cá nhân
+          </button>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <a
             th:href="@{/user/baiviet/tatcabaiviethientai}"
             class="btn btn-custom w-100"
             ><i class="fas fa-eye"></i>Bài viết của tôi</a
           >
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal hiển thị thông tin cá nhân -->
+    <div
+      class="modal fade"
+      id="infoModal"
+      tabindex="-1"
+      aria-labelledby="infoModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="infoModalLabel">Thông tin cá nhân</h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <h1>Thông Tin Cá Nhân</h1>
+              <p class="info">🆔 ID: <span th:text="${nguoiDung.id}"></span></p>
+              <p class="info">
+                👤 Tên đăng nhập:
+                <span th:text="${nguoiDung.tenDangNhap}"></span>
+              </p>
+              <p class="info">
+                ✉️ Email: <span th:text="${nguoiDung.email}"></span>
+              </p>
+              <p class="info">
+                🎖️ Cấp bậc: <span th:text="${nguoiDung.capBac}"></span>
+              </p>
+              <p class="info">
+                🔑 Vai trò: <span th:text="${nguoiDung.vaiTro}"></span>
+              </p>
+              <!-- <p class="info">
+                📊 Số lần đăng nhập:
+                <span th:text="${nguoiDung.soLanDangNhap}"></span>
+              </p> -->
+              <p class="info">
+                📅 Ngày tạo: <span th:text="${#temporals.format(nguoiDung.ngayTao, 'dd/MM/yyyy')}"></span>
+              </p>
+              <div class="mb-3 mt-3 d-flex justify-content-between">
+                <div class="text-center mt-3">
+                  <a th:href="@{/user/hoso}" class="btn btn-light"
+                    >🏠 Trang Chủ</a
+                  >
+                </div>
+                <div class="text-center mt-3">
+                  <button
+                    type="button"
+                    class="btn btn-warning"
+                    data-bs-toggle="modal"
+                    data-bs-target="#editModal"
+                    data-bs-dismiss="modal"
+                  >
+                    <i class="fas fa-edit"></i>Sửa
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Đóng
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal sửa thông tin cá nhân -->
+    <div
+      class="modal fade"
+      id="editModal"
+      tabindex="-1"
+      aria-labelledby="editModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">
+              Sửa thông tin cá nhân
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="container">
+              <h1>Sửa Thông Tin Cá Nhân</h1>
+              <form
+                th:action="@{/user/sua/{id}(id=${nguoiDung.id})}"
+                th:object="${nguoiDung}"
+                method="post"
+              >
+                <div class="mb-3">
+                  <label for="tenDangNhap" class="form-label"
+                    >Tên đăng nhập</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="tenDangNhap"
+                    th:field="*{tenDangNhap}"
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="email"
+                    th:field="*{email}"
+                  />
+                </div>
+                <!-- <div class="mb-3">
+                  <label for="matKhau" class="form-label">Mật khẩu</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="matKhau"
+                    th:field="*{matKhau}"
+                  />
+                </div> -->
+                <!-- <div class="mb-3">
+                  <label for="vaiTro" class="form-label">Vai trò</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="vaiTro"
+                    th:field="*{vaiTro}"
+                  />
+                </div> -->
+                <div class="mb-3 mt-3 d-flex justify-content-between">
+                  <div class="text-center mt-3">
+                    <a th:href="@{/user/hoso}" class="btn btn-light"
+                      >🏠 Trang Chủ</a
+                    >
+                  </div>
+                  <div class="text-center mt-3">
+                    <button type="submit" class="btn btn-primary">
+                      <i class="fas fa-save"></i> Lưu
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Đóng
+            </button>
+          </div>
         </div>
       </div>
     </div>

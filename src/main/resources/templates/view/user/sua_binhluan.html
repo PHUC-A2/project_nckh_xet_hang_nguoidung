@@ -16,13 +16,22 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.css"
     />
-    <link rel="shortcut icon" href="/images/user/user.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="/images/user/user.png"
+      type="image/x-icon"
+    />
   </head>
   <body>
     <div class="container mt-5">
       <h2 class="mb-4 text-center">Sửa Bình Luận</h2>
-      <form id="editCommentForm" th:action="@{'/user/binhluan/sua/' + ${binhLuan.id}}" method="post">
+      <form
+        id="editCommentForm"
+        th:action="@{'/user/binhluan/sua/' + ${binhLuan.id}}"
+        method="post"
+      >
         <input type="hidden" id="binhLuanId" th:value="${binhLuan.id}" />
+        <input type="hidden" id="baiVietId" th:value="${binhLuan.baiViet.id}" />
         <div class="mb-3">
           <label for="noiDung" class="form-label">Nội Dung</label>
           <textarea
@@ -38,7 +47,7 @@
             <i class="fas fa-save"></i> Lưu
           </button>
           <a
-            th:href="@{'/user/baiviet/tatca#binhluan-' + ${binhLuan.id}}"
+            th:href="@{'/user/baiviet/chitiet/' + ${binhLuan.baiViet.id} + '#binhluan-' + ${binhLuan.id}}"
             class="btn btn-secondary"
           >
             <i class="fas fa-arrow-left"></i> Quay Lại
@@ -59,16 +68,17 @@
           event.preventDefault();
           var form = $(this);
           var binhLuanId = $("#binhLuanId").val();
+          var baiVietId = $("#baiVietId").val();
           $.ajax({
             type: form.attr("method"),
             url: form.attr("action"),
             data: form.serialize(),
             success: function () {
-              window.location.href = `/user/baiviet/tatca#binhluan-${binhLuanId}`;
+              window.location.href = `/user/baiviet/chitiet/${baiVietId}#binhluan-${binhLuanId}`;
             },
             error: function () {
               alert("Có lỗi xảy ra khi lưu bình luận.");
-            }
+            },
           });
         });
       });

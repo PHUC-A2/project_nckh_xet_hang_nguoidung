@@ -117,6 +117,16 @@
         background: linear-gradient(to right, #ff4b2b, #ff416c);
         transform: scale(1.05);
       }
+      .row {
+        display: flex;
+        align-items: stretch;
+      }
+      .img-thumbnail {
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        border: 2px solid white;
+      }
     </style>
   </head>
   <body>
@@ -164,12 +174,21 @@
     </nav>
 
     <div class="content container">
-      <h3>Hãy tương tác cùng mọi người bằng cách đăng bài viết, video, hình ảnh, bình luận... để lên rank nhé!</h3>
+      <h3>
+        Hãy tương tác cùng mọi người bằng cách đăng bài viết, video, hình ảnh,
+        bình luận... để lên rank nhé!
+      </h3>
       <div class="row mt-3">
         <!-- Danh sách bài viết -->
         <div class="col-md-7">
           <div class="card-custom p-4">
-            <h4 class="text-center mb-3">Tất cả bài viết</h4>
+            <div class="d-flex justify-content-between">
+              <h4 class="text-center mb-3">Tất cả bài viết</h4>
+              <a th:href="@{/user/baiviet/tatca}" class="btn btn-success mb-3"
+                ><i class="fas fa-eye"></i>Xem chi tiết</a
+              >
+              <!-- <div class="mb-3 mt-3"></div> -->
+            </div>
             <div class="scrollable-table">
               <table>
                 <thead>
@@ -208,6 +227,7 @@
                 <thead>
                   <tr>
                     <th>Top</th>
+                    <th>Ảnh đại diện</th>
                     <th>Tên Đăng Nhập</th>
                     <th>Điểm</th>
                     <th>Cấp Bậc</th>
@@ -218,7 +238,15 @@
                     th:each="nguoiDung, iterStat : ${danhSachNguoiDung}"
                     th:classappend="${iterStat.count == 1} ? 'rank-1' : (${iterStat.count == 2} ? 'rank-2' : (${iterStat.count == 3} ? 'rank-3' : ''))"
                   >
+                   
                     <td th:text="${iterStat.count}"></td>
+                     <td>
+                      <img
+                        src="/images/user/user.png"
+                        alt="Avatar"
+                        class="img-thumbnail"
+                      />
+                    </td>
                     <td th:text="${nguoiDung.tenDangNhap}"></td>
                     <td
                       th:text="${diemNguoiDungService.tinhTongDiemByNguoiDungId(nguoiDung.id)}"

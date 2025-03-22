@@ -46,7 +46,8 @@ public class BinhLuanController {
         Long binhLuanId = binhLuan.getId(); // Lấy ID của bình luận mới tạo
 
         // Chuyển hướng đến URL chứa ID của bình luận mới tạo
-        return "redirect:/user/baiviet/tatca#binhluan-" + binhLuanId;
+        // return "redirect:/user/baiviet/tatca#binhluan-" + binhLuanId;
+        return "redirect:/user/baiviet/chitiet/" + baiVietId + "#binhluan-" + binhLuanId;
     }
 
     @GetMapping("/sua/{binhLuanId}")
@@ -69,7 +70,9 @@ public class BinhLuanController {
     // Xóa bình luận
     @PostMapping("/xoa/{binhLuanId}")
     public String xoaBinhLuan(@PathVariable Long binhLuanId) {
-        this.binhLuanService.xoaBinhLuan(binhLuanId);
-        return "redirect:/user/baiviet/tatca";
+        BinhLuan binhLuan = binhLuanService.layBinhLuanById(binhLuanId);
+        Long baiVietId = binhLuan.getBaiViet().getId();
+        binhLuanService.xoaBinhLuan(binhLuanId);
+        return "redirect:/user/baiviet/chitiet/" + baiVietId;
     }
 }

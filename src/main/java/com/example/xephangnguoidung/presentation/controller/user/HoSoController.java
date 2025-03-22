@@ -13,7 +13,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/user")
@@ -41,13 +45,14 @@ public class HoSoController {
 
             model.addAttribute("nguoiDung", nguoiDung);
             model.addAttribute("nguoiDungId", nguoiDungId); // Thêm ID vào model
-
+            // model.addAttribute("user", nguoiDung);
             int tongDiem = diemNguoiDungService.tinhTongDiemByNguoiDungId(nguoiDung.getId());
             model.addAttribute("tongDiem", tongDiem);
             return "user/hoso_nguoidung";
         } else {
             return "error";
         }
+
     }
 
     @GetMapping("/thongtincanhan")
@@ -67,6 +72,28 @@ public class HoSoController {
 
         model.addAttribute("user", nguoiDung);
         return "user/thongtin_canhan";
+    }
+
+    // Sửa thông tin người dùng
+    @PostMapping("/sua/{id}")
+    public String suaNguoiDungById(@PathVariable Long id, @ModelAttribute NguoiDung request,
+            RedirectAttributes redirectAttributes) {
+        NguoiDung nguoiDung = nguoiDungService.layNguoiDungById(id);
+        nguoiDung.setTenDangNhap(request.getTenDangNhap());
+        // nguoiDung.setMatKhau(request.getMatKhau()); // không cho đổi mật khẩu vì không băm
+        nguoiDung.setVaiTro(request.getVaiTro());
+        if (request.getEmail() != null) {
+            nguoiDung.setEmail(request.getEmail()); // không cho đổi email vì dùng email đăng nhập
+        }
+
+        // Lưu người dùng trước, sau đó cập nhật cấp bậc
+        nguoiDungService.suaNguoiDung(id, nguoiDung);
+        nguoiDungService.capNhatCapBac(nguoiDung.getId());
+
+        // Thêm thông báo thành công
+        redirectAttributes.addFlashAttribute("successMessage", "Cập nhật người dùng thành công!");
+
+        return "redirect:/user/hoso";
     }
 
 }

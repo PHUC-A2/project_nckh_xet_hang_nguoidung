@@ -1,143 +1,196 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>VIP - Tạo Bài Viết Mới</title>
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
     />
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
     <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/jodit@3.24.7/build/jodit.min.css"
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/jodit@3.24.7/build/jodit.min.css"
     />
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jodit@3.24.7/build/jodit.min.js"></script>
     <style>
-      body,
-      html {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-        font-family: "Poppins", sans-serif;
-        background-color: #eef2f5; /* Màu nền nhẹ nhàng */
-      }
-      .header {
-        background: #0056b3; /* Màu xanh dương đậm */
-        color: white;
-        text-align: center;
-        padding: 15px;
-        font-size: 24px;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-      }
-      .content-container {
-        max-width: 900px;
-        margin: 90px auto 20px auto;
-        padding: 20px;
-        background: white;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      }
-      .jodit-container {
-        min-height: 400px; /* Giữ kích thước đẹp trên mọi màn hình */
-      }
-      .btn-custom {
-        background: #17a2b8; /* Xanh cyan nhẹ */
-        color: white;
-        border-radius: 8px;
-        padding: 12px;
-        width: 100%;
-        margin-top: 10px;
-        font-size: 18px;
-        font-weight: bold;
-        transition: 0.3s;
-      }
-      .btn-custom:hover {
-        background: #138496; /* Màu tối hơn khi hover */
-      }
-      input.form-control,
-      textarea {
-        border-radius: 6px;
-        border: 1px solid #ced4da;
-      }
-      input.form-control:focus,
-      textarea:focus {
-        border-color: #17a2b8;
-        box-shadow: 0 0 6px rgba(23, 162, 184, 0.5);
-      }
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+            background-color: #eef2f5;
+        }
+
+        .header {
+            background: #0056b3;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 24px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .content-container {
+            max-width: 95%; /* Chiếm gần full màn hình */
+            margin: 100px auto 20px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .jodit-container {
+            min-height: 500px; /* Tăng chiều cao editor */
+        }
+
+        .btn-custom {
+            background: #17a2b8;
+            color: white;
+            border-radius: 8px;
+            padding: 12px;
+            width: 100%;
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn-custom:hover {
+            background: #138496;
+        }
+
+        input.form-control,
+        textarea {
+            border-radius: 6px;
+            border: 1px solid #ced4da;
+        }
+
+        input.form-control:focus,
+        textarea:focus {
+            border-color: #17a2b8;
+            box-shadow: 0 0 6px rgba(23, 162, 184, 0.5);
+        }
+
+        .navbar {
+            background: #0056b3;
+            color: white;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1001;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar-brand img {
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        /* Thêm khoảng trắng giữa các video/ảnh */
+        .jodit-container img,
+        .jodit-container video {
+            margin-bottom: 20px;
+        }
     </style>
-  </head>
-  <body>
-    <div class="header">Tạo Bài Viết Mới</div>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container-fluid">
+            <a class="navbar-brand" th:href="@{/user}">
+                <img src="/images/user/user.png" alt="User" width="40" height="40" />
+                MENU
+            </a>
+            <button
+                class="navbar-toggler"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+            >
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/hoso}">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/user/diem/bangxephang}">Bảng xếp hạng</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" th:href="@{/user/baiviet/tao}">Viết bài</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">Đăng xuất</a>
+                    </li>
+                    <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none;"></form>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="content-container">
-      <form th:action="@{/user/baiviet/tao}" method="post">
-        <input
-          type="text"
-          class="form-control mb-3"
-          id="tieuDe"
-          name="tieuDe"
-          placeholder="Tiêu đề bài viết"
-          required
-        />
-        <textarea id="noiDung" name="noiDung"></textarea>
-        <button type="submit" class="btn btn-custom">
-          <i class="fas fa-plus-circle"></i> Đăng Bài
-        </button>
-      </form>
+        <form th:action="@{/user/baiviet/tao}" method="post">
+            <input
+                type="text"
+                class="form-control mb-3"
+                id="tieuDe"
+                name="tieuDe"
+                placeholder="Tiêu đề bài viết"
+                required
+            />
+            <textarea id="noiDung" name="noiDung"></textarea>
+            <button type="submit" class="btn btn-custom">
+                <i class="fas fa-plus-circle"></i> Đăng Bài
+            </button>
+        </form>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var editor = new Jodit("#noiDung", {
-          height: 300,
-          placeholder: "Nhập nội dung tại đây...",
-          toolbarSticky: false,
-          theme: "default",
-          buttons:
-            "bold,italic,underline,strikethrough,|,ul,ol,|,link,align,undo,redo,|,fontsize,font,brush,paragraph,source,image,video",
-          extraButtons: ["image", "video"],
-
-          uploader: {
-            insertImageAsBase64URI: true, // Chèn ảnh trực tiếp dưới dạng Base64
-          },
+        document.addEventListener("DOMContentLoaded", function () {
+            var editor = new Jodit("#noiDung", {
+                height: 500,
+                placeholder: "Nhập nội dung tại đây...",
+                toolbarSticky: false,
+                theme: "default",
+                buttons:
+                    "bold,italic,underline,strikethrough,|,ul,ol,|,link,align,undo,redo,|,fontsize,font,brush,paragraph,source,image,video",
+                extraButtons: ["image", "video"],
+                uploader: {
+                    insertImageAsBase64URI: true,
+                },
+            });
+            editor.events.on("beforeFileUpload", function (files) {
+                if (files.length === 0) return;
+                const file = files[0];
+                const reader = new FileReader();
+                reader.onload = function (event) {
+                    if (file.type.startsWith("image/")) {
+                        editor.s.insertImage(event.target.result);
+                    } else if (file.type.startsWith("video/")) {
+                        const videoTag = `<video controls width="300"><source src="${event.target.result}" type="${file.type}"></video>`;
+                        editor.s.insertHTML(videoTag);
+                    } else {
+                        alert("Chỉ hỗ trợ tải ảnh và video!");
+                    }
+                };
+                reader.readAsDataURL(file);
+                return false;
+            });
+            $(document).ready(function () {
+                $(".comment-box textarea").emojioneArea({ pickerPosition: "top" });
+            });
         });
-
-        // Xử lý tải ảnh/video
-        editor.events.on("beforeFileUpload", function (files) {
-          if (files.length === 0) return;
-
-          const file = files[0];
-          const reader = new FileReader();
-
-          reader.onload = function (event) {
-            if (file.type.startsWith("image/")) {
-              editor.s.insertImage(event.target.result);
-            } else if (file.type.startsWith("video/")) {
-              const videoTag = `<video controls width="300"><source src="${event.target.result}" type="${file.type}"></video>`;
-              editor.s.insertHTML(videoTag);
-            } else {
-              alert("Chỉ hỗ trợ tải ảnh và video!");
-            }
-          };
-
-          reader.readAsDataURL(file);
-          return false; // Ngăn tải file lên server
-        });
-
-        // Emoji hỗ trợ trong comment box
-        $(document).ready(function () {
-          $(".comment-box textarea").emojioneArea({ pickerPosition: "top" });
-        });
-      });
     </script>
-  </body>
+</body>
 </html>

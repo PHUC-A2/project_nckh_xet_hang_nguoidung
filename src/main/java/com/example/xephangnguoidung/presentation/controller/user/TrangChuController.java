@@ -2,6 +2,7 @@ package com.example.xephangnguoidung.presentation.controller.user;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import com.example.xephangnguoidung.application.service.DiemNguoiDungService;
 import com.example.xephangnguoidung.application.service.NguoiDungService;
 import com.example.xephangnguoidung.data.entity.BaiViet;
 import com.example.xephangnguoidung.data.entity.NguoiDung;
+import com.example.xephangnguoidung.data.enums.VaiTro;
 
 @Controller
 public class TrangChuController {
@@ -26,26 +28,30 @@ public class TrangChuController {
         this.baiVietService = baiVietService;
     }
 
-    @GetMapping("")
+    @GetMapping("/")
     public String bangXepHangNguoiDung(Model model) {
         List<NguoiDung> danhSachNguoiDung = nguoiDungService.layTatCaNguoiDung();
         List<BaiViet> danhSachBaiViet = this.baiVietService.layTatCaBaiViet();
-
         if (danhSachNguoiDung.isEmpty()) {
             model.addAttribute("danhSachNguoiDung", Collections.emptyList());
         } else {
+            // Lọc bỏ người dùng có vai trò là ADMIN
+            List<NguoiDung> danhSachNguoiDungUser = danhSachNguoiDung.stream()
+                    .filter(nguoiDung -> nguoiDung.getVaiTro() != VaiTro.ADMIN)
+                    .collect(Collectors.toList());
+
             // Sắp xếp danh sách người dùng theo tổng điểm từ cao đến thấp
-            Collections.sort(danhSachNguoiDung, (nd1, nd2) -> {
+            Collections.sort(danhSachNguoiDungUser, (nd1, nd2) -> {
                 int tongDiem1 = diemNguoiDungService.tinhTongDiemByNguoiDungId(nd1.getId());
                 int tongDiem2 = diemNguoiDungService.tinhTongDiemByNguoiDungId(nd2.getId());
                 return Integer.compare(tongDiem2, tongDiem1);
             });
-            model.addAttribute("danhSachNguoiDung", danhSachNguoiDung);
+            model.addAttribute("danhSachNguoiDung", danhSachNguoiDungUser);
         }
+        model.addAttribute("danhSachBaiViet", danhSachBaiViet);
         // Đảm bảo rằng diemNguoiDungService không bị null trong template
         model.addAttribute("diemNguoiDungService", diemNguoiDungService);
-
-        model.addAttribute("danhSachBaiViet", danhSachBaiViet);
+        // return "user/bang_xep_hang_nguoidung";
         return "user/trang_chu";
     }
 }

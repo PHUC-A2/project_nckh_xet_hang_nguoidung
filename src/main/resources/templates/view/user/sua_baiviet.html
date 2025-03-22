@@ -111,7 +111,7 @@
             width="40"
             height="40"
           />
-          Trang Chủ VIP
+          MENU
         </a>
         <button
           class="navbar-toggler"
@@ -192,7 +192,7 @@
               <button type="submit" class="btn btn-custom mt-3">
                 Lưu Thay Đổi
               </button>
-              <a th:href="@{'/user/baiviet/tatca#baiviet-' + ${baiViet.id}}" class="btn btn-success mt-3 ms-2">
+              <a th:href="@{'/user/baiviet/chitiet/' + ${baiViet.id} + '#baiviet-' + ${baiViet.id}}" class="btn btn-success mt-3 ms-2">
                 Quay lại
               </a>
             </form>
@@ -213,7 +213,7 @@
             url: form.attr("action"),
             data: form.serialize(),
             success: function () {
-              window.location.href = `/user/baiviet/tatca#baiviet-${baiVietId}`;
+              window.location.href = `/user/baiviet/chitiet/${baiVietId}#baiviet-${baiVietId}`;
             },
             error: function () {
               alert("Có lỗi xảy ra khi lưu bài viết.");

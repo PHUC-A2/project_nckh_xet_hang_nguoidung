@@ -84,8 +84,18 @@ public class BaiVietController {
 
     @GetMapping("/chitiet/{id}")
     public String hienThiChiTietBaiViet(@PathVariable Long id, Model model) {
-        BaiViet baiViet = baiVietService.layBaiVietById(id);
-        model.addAttribute("baiViet", baiViet);
+        BaiViet baiViet1 = baiVietService.layBaiVietById(id);
+        List<BaiViet> danhSachBaiViet = this.baiVietService.layTatCaBaiViet();
+        for (BaiViet baiViet : danhSachBaiViet) {
+            int soLuotThich = this.luotThichService.demSoLuotThich(baiViet.getId());
+            int soLuotBinhLuan = this.binhLuanService.demSoLuotBinhLuan(baiViet.getId());
+
+            baiViet.setSoLuotThich(soLuotThich);
+            baiViet.setSoLuotBinhLuan(soLuotBinhLuan);
+        }
+        
+        model.addAttribute("danhSachBaiViet", danhSachBaiViet);
+        model.addAttribute("baiViet", baiViet1);
         return "user/chitiet_baiviet";
     }
 
@@ -96,16 +106,12 @@ public class BaiVietController {
             int soLuotThich = this.luotThichService.demSoLuotThich(baiViet.getId());
             int soLuotBinhLuan = this.binhLuanService.demSoLuotBinhLuan(baiViet.getId());
 
-            System.out.println("Bài viết ID: " + baiViet.getId());
-            System.out.println("Lượt thích: " + soLuotThich);
-            System.out.println("Lượt bình luận: " + soLuotBinhLuan);
-
             baiViet.setSoLuotThich(soLuotThich);
             baiViet.setSoLuotBinhLuan(soLuotBinhLuan);
         }
 
         model.addAttribute("danhSachBaiViet", danhSachBaiViet);
-        return "user/hoatdong_nguoidung";
+        return "user/danhsach_tatca_baiviet";
     }
 
     @GetMapping("/timkiem")
