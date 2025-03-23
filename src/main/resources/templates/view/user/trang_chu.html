@@ -16,8 +16,8 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
+    <!-- <link rel="stylesheet" href="/css/user/trang_chu.css" /> -->
     <style>
-      /* VIP PRO Styling */
       body {
         font-family: "Poppins", sans-serif;
         background: linear-gradient(to right, #141e30, #243b55);
@@ -197,8 +197,8 @@
                     <!-- Tiêu đề mở rộng 2 cột -->
                   </tr>
                 </thead>
-                <tbody th:each="baiViet : ${danhSachBaiViet}">
-                  <tr>
+                <tbody>
+                  <tr th:each="baiViet : ${danhSachBaiViet}">
                     <td>
                       <a
                         th:href="@{/user/baiviet/chitiet/{id}(id=${baiViet.id})}"
@@ -210,6 +210,11 @@
                       <span
                         th:text="' đã đăng vào ngày ' + ${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"
                       ></span>
+                    </td>
+                  </tr>
+                  <tr th:if="${danhSachBaiViet.isEmpty()}">
+                    <td colspan="2" class="text-center text-danger">
+                      Không có bài viết nào
                     </td>
                   </tr>
                 </tbody>
@@ -238,9 +243,8 @@
                     th:each="nguoiDung, iterStat : ${danhSachNguoiDung}"
                     th:classappend="${iterStat.count == 1} ? 'rank-1' : (${iterStat.count == 2} ? 'rank-2' : (${iterStat.count == 3} ? 'rank-3' : ''))"
                   >
-                   
                     <td th:text="${iterStat.count}"></td>
-                     <td>
+                    <td>
                       <img
                         src="/images/user/user.png"
                         alt="Avatar"

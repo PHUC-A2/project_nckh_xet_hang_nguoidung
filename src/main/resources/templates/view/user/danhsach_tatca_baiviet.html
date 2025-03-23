@@ -158,6 +158,18 @@
               <span class="text-warning"> đã đăng bài viết này.</span>
             </p>
           </div>
+          <div
+            th:if="${#lists.isEmpty(danhSachBaiViet)}"
+            class="alert alert-danger alert-dismissible fade show"
+            role="alert"
+          >
+            <strong>Lỗi!</strong> Không có bài viết nào.
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="alert"
+            ></button>
+          </div>
         </div>
       </div>
     </div>

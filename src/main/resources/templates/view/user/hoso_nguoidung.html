@@ -21,14 +21,8 @@
       href="/images/user/user.png"
       type="image/x-icon"
     />
+    <!-- <link rel="stylesheet" href="/css/user/hoso_nguoidung.css"> -->
     <style>
-      .info {
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-      }
-    </style>
-    <style>
-      /* CSS được giữ nguyên */
       body {
         font-family: "Poppins", sans-serif;
         background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
@@ -199,6 +193,10 @@
 
       .modal-footer .btn:hover {
         background: #c0392b;
+      }
+      .info {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
       }
     </style>
   </head>
@@ -405,7 +403,10 @@
                 <span th:text="${nguoiDung.soLanDangNhap}"></span>
               </p> -->
               <p class="info">
-                📅 Ngày tạo: <span th:text="${#temporals.format(nguoiDung.ngayTao, 'dd/MM/yyyy')}"></span>
+                📅 Ngày tạo:
+                <span
+                  th:text="${#temporals.format(nguoiDung.ngayTao, 'dd/MM/yyyy')}"
+                ></span>
               </p>
               <div class="mb-3 mt-3 d-flex justify-content-between">
                 <div class="text-center mt-3">

@@ -1,5 +1,6 @@
 package com.example.xephangnguoidung.data.enums;
 
 public enum VaiTro {
-    ADMIN,USER
+    // ADMIN,USER
+    USER,ADMIN
 }

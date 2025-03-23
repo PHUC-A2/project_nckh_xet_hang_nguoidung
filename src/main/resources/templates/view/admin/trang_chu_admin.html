@@ -225,13 +225,30 @@
     <!-- Nội dung chính -->
     <div class="content">
       <div class="container-fluid">
-        <h1 class="mb-4">Chào mừng, Quản trị viên!</h1>
-        <p>
+        <h1 class="mb-4">Chào mừng đến với trang quản trị viên !</h1>
+        <h3>
           Đây là bảng điều khiển quản trị, nơi bạn có thể quản lý người dùng,
           bài viết, bình luận, lượt thích và các chức năng khác.
-        </p>
+        </h3>
+        <div class="row mt-3">
+          <div class="col-md-12 mb-3">
+            <div class="card bg-info text-dark">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <i class="fas fa-user me-2"></i> Thông tin cá nhân
+                </h5>
+                <div class="card-text">
+                  <h5 th:text="'ID: ' + ${nguoiDung.id}">ID</h5>
+                  <h5 th:text="'Tên đăng nhập: ' + ${nguoiDung.tenDangNhap}">Tên đăng nhập</h5>
+                  <h5 th:text="'Vai trò: ' + ${nguoiDung.vaiTro}">Vai trò</h5>
+                  <h5 th:text="'Ngày tạo: ' + ${#temporals.format(nguoiDung.ngayTao, 'dd/MM/yyyy')}">Ngày tạo</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <!-- Thẻ thống kê -->
-        <div class="row">
+        <div class="row mt-3">
           <div class="col-md-3 mb-3">
             <div class="card bg-primary text-white">
               <div class="card-body">
