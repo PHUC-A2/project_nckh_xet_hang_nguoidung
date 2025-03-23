@@ -1,0 +1,256 @@
++---src
+|   +---main
+|   |   +---java
+|   |   |   \---com
+|   |   |       \---example
+|   |   |           \---xephangnguoidung
+|   |   |               |   XephangnguoidungApplication.java
+|   |   |               |   
+|   |   |               +---application
+|   |   |               |   +---config
+|   |   |               |   |       CustomAuthenticationSuccessHandler.java
+|   |   |               |   |       SecurityConfiguration.java
+|   |   |               |   |       
+|   |   |               |   \---service
+|   |   |               |           BaiVietService.java
+|   |   |               |           BinhLuanService.java
+|   |   |               |           CustomUserDetailsService.java
+|   |   |               |           DiemNguoiDungService.java
+|   |   |               |           LuotThichService.java
+|   |   |               |           NguoiDungService.java
+|   |   |               |           
+|   |   |               +---data
+|   |   |               |   +---entity
+|   |   |               |   |   |   BaiViet.java
+|   |   |               |   |   |   BinhLuan.java
+|   |   |               |   |   |   DiemNguoiDung.java
+|   |   |               |   |   |   LuotThich.java
+|   |   |               |   |   |   NguoiDung.java
+|   |   |               |   |   |   
+|   |   |               |   |   \---dto
+|   |   |               |   |           RegisterDTO.java
+|   |   |               |   |           
+|   |   |               |   +---enums
+|   |   |               |   |       CapBac.java
+|   |   |               |   |       LoaiHoatDong.java
+|   |   |               |   |       VaiTro.java
+|   |   |               |   |       
+|   |   |               |   \---repository
+|   |   |               |           BaiVietRepository.java
+|   |   |               |           BinhLuanRepository.java
+|   |   |               |           DiemNguoiDungRepository.java
+|   |   |               |           LuotThichRepository.java
+|   |   |               |           NguoiDungRepository.java
+|   |   |               |           
+|   |   |               \---presentation
+|   |   |                   \---controller
+|   |   |                       |   CustomErrorController.java
+|   |   |                       |   
+|   |   |                       +---admin
+|   |   |                       |       AdminController.java
+|   |   |                       |       QuanLyBaiVietController.java
+|   |   |                       |       QuanLyBinhLuanController.java
+|   |   |                       |       QuanLyDiemController.java
+|   |   |                       |       QuanLyLuotThichController.java
+|   |   |                       |       QuanLyNguoiDungController.java
+|   |   |                       |       
+|   |   |                       +---auth
+|   |   |                       |       AuthController.java
+|   |   |                       |       
+|   |   |                       \---user
+|   |   |                               BaiVietController.java
+|   |   |                               BinhLuanController.java
+|   |   |                               HoSoController.java
+|   |   |                               LuotThichController.java
+|   |   |                               TrangChuController.java
+|   |   |                               XepHangController.java
+|   |   |                               
+|   |   \---resources
+|   |       |   application.properties
+|   |       |   
+|   |       +---static
+|   |       |   +---css
+|   |       |   |   +---admin
+|   |       |   |   \---user
+|   |       |   |           hoso_nguoidung.css
+|   |       |   |           trang_chu.css
+|   |       |   |           
+|   |       |   +---images
+|   |       |   |   +---admin
+|   |       |   |   |       admin.png
+|   |       |   |   |       
+|   |       |   |   +---avatar
+|   |       |   |   |       ico.png
+|   |       |   |   |       login.png
+|   |       |   |   |       register.png
+|   |       |   |   |       
+|   |       |   |   \---user
+|   |       |   |           user.png
+|   |       |   |           
+|   |       |   \---js
+|   |       |       +---admin
+|   |       |       |       trang_chu.js
+|   |       |       |       
+|   |       |       \---user
+|   |       |               trang_chu.js
+|   |       |               
+|   |       \---templates
+|   |           \---view
+|   |               |   error.html
+|   |               |   
+|   |               +---admin
+|   |               |       bang_xep_hang_nguoidung.html
+|   |               |       chitiet_baiviet.html
+|   |               |       quanly_baiviet.html
+|   |               |       quanly_binhluan.html
+|   |               |       quanly_luotthich.html
+|   |               |       quanly_nguoidung.html
+|   |               |       sua_baiviet.html
+|   |               |       trang_chu_admin.html
+|   |               |       
+|   |               +---auth
+|   |               |       login.html
+|   |               |       register.html
+|   |               |       
+|   |               \---user
+|   |                       bang_xep_hang_nguoidung.html
+|   |                       chitiet_baiviet.html
+|   |                       danhsach_chitiet_baiviet.html
+|   |                       danhsach_tatca_baiviet.html
+|   |                       hoso_nguoidung.html
+|   |                       sua_baiviet.html
+|   |                       sua_binhluan.html
+|   |                       tao_baiviet.html
+|   |                       trang_chu.html
+|   |                       
+|   \---test
+|       \---java
+|           \---com
+|               \---example
+|                   \---xephangnguoidung
+|                           XephangnguoidungApplicationTests.java
+|                           
+\---target
+    +---classes
+    |   |   application.properties
+    |   |   
+    |   +---com
+    |   |   \---example
+    |   |       \---xephangnguoidung
+    |   |           |   XephangnguoidungApplication.class
+    |   |           |   
+    |   |           +---application
+    |   |           |   +---config
+    |   |           |   |       CustomAuthenticationSuccessHandler.class
+    |   |           |   |       SecurityConfiguration.class
+    |   |           |   |       
+    |   |           |   \---service
+    |   |           |           BaiVietService.class
+    |   |           |           BinhLuanService.class
+    |   |           |           CustomUserDetailsService.class
+    |   |           |           DiemNguoiDungService.class
+    |   |           |           LuotThichService.class
+    |   |           |           NguoiDungService.class
+    |   |           |           
+    |   |           +---data
+    |   |           |   +---entity
+    |   |           |   |   |   BaiViet.class
+    |   |           |   |   |   BinhLuan.class
+    |   |           |   |   |   DiemNguoiDung.class
+    |   |           |   |   |   LuotThich.class
+    |   |           |   |   |   NguoiDung.class
+    |   |           |   |   |   
+    |   |           |   |   \---dto
+    |   |           |   |           RegisterDTO.class
+    |   |           |   |           
+    |   |           |   +---enums
+    |   |           |   |       CapBac.class
+    |   |           |   |       LoaiHoatDong.class
+    |   |           |   |       VaiTro.class
+    |   |           |   |       
+    |   |           |   \---repository
+    |   |           |           BaiVietRepository.class
+    |   |           |           BinhLuanRepository.class
+    |   |           |           DiemNguoiDungRepository.class
+    |   |           |           LuotThichRepository.class
+    |   |           |           NguoiDungRepository.class
+    |   |           |           
+    |   |           \---presentation
+    |   |               \---controller
+    |   |                   |   CustomErrorController.class
+    |   |                   |   
+    |   |                   +---admin
+    |   |                   |       AdminController.class
+    |   |                   |       QuanLyBaiVietController.class
+    |   |                   |       QuanLyBinhLuanController.class
+    |   |                   |       QuanLyDiemController.class
+    |   |                   |       QuanLyLuotThichController.class
+    |   |                   |       QuanLyNguoiDungController.class
+    |   |                   |       
+    |   |                   +---auth
+    |   |                   |       AuthController.class
+    |   |                   |       
+    |   |                   \---user
+    |   |                           BaiVietController.class
+    |   |                           BinhLuanController.class
+    |   |                           HoSoController.class
+    |   |                           LuotThichController.class
+    |   |                           TrangChuController.class
+    |   |                           XepHangController.class
+    |   |                           
+    |   +---static
+    |   |   +---css
+    |   |   |   \---user
+    |   |   |           hoso_nguoidung.css
+    |   |   |           trang_chu.css
+    |   |   |           
+    |   |   +---images
+    |   |   |   +---admin
+    |   |   |   |       admin.png
+    |   |   |   |       
+    |   |   |   +---avatar
+    |   |   |   |       ico.png
+    |   |   |   |       login.png
+    |   |   |   |       register.png
+    |   |   |   |       
+    |   |   |   \---user
+    |   |   |           user.png
+    |   |   |           
+    |   |   \---js
+    |   |       +---admin
+    |   |       |       trang_chu.js
+    |   |       |       
+    |   |       \---user
+    |   |               trang_chu.js
+    |   |               
+    |   \---templates
+    |       \---view
+    |           |   error.html
+    |           |   
+    |           +---admin
+    |           |       bang_xep_hang_nguoidung.html
+    |           |       chitiet_baiviet.html
+    |           |       quanly_baiviet.html
+    |           |       quanly_binhluan.html
+    |           |       quanly_luotthich.html
+    |           |       quanly_nguoidung.html
+    |           |       sua_baiviet.html
+    |           |       trang_chu_admin.html
+    |           |       
+    |           +---auth
+    |           |       login.html
+    |           |       register.html
+    |           |       
+    |           \---user
+    |                   bang_xep_hang_nguoidung.html
+    |                   chitiet_baiviet.html
+    |                   danhsach_chitiet_baiviet.html
+    |                   danhsach_tatca_baiviet.html
+    |                   hoso_nguoidung.html
+    |                   sua_baiviet.html
+    |                   sua_binhluan.html
+    |                   tao_baiviet.html
+    |                   trang_chu.html
+    |                   
+    +---generated-sources
+    |   \---annotations
