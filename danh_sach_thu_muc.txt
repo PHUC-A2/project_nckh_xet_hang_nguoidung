@@ -3,11 +3,12 @@ Volume serial number is BA18-5D13
 D:.
 |   .gitattributes
 |   .gitignore
+|   danh_sach_thu_muc.txt
+|   filesql.sql
 |   mvnw
 |   mvnw.cmd
 |   pom.xml
 |   README.md
-|   structure.txt
 |   
 +---.idea
 |       vcs.xml
@@ -176,7 +177,6 @@ D:.
 |   |   |               \---presentation
 |   |   |                   \---controller
 |   |   |                       |   CustomErrorController.java
-|   |   |                       |   HelloController.java
 |   |   |                       |   
 |   |   |                       +---admin
 |   |   |                       |       AdminController.java
@@ -204,6 +204,9 @@ D:.
 |   |       |   +---css
 |   |       |   |   +---admin
 |   |       |   |   \---user
+|   |       |   |           hoso_nguoidung.css
+|   |       |   |           trang_chu.css
+|   |       |   |           
 |   |       |   +---images
 |   |       |   |   +---admin
 |   |       |   |   |       admin.png
@@ -226,7 +229,6 @@ D:.
 |   |       \---templates
 |   |           \---view
 |   |               |   error.html
-|   |               |   hello.html
 |   |               |   
 |   |               +---admin
 |   |               |       bang_xep_hang_nguoidung.html
@@ -246,11 +248,11 @@ D:.
 |   |                       bang_xep_hang_nguoidung.html
 |   |                       chitiet_baiviet.html
 |   |                       danhsach_chitiet_baiviet.html
-|   |                       hoatdong_nguoidung.html
+|   |                       danhsach_tatca_baiviet.html
 |   |                       hoso_nguoidung.html
 |   |                       sua_baiviet.html
 |   |                       sua_binhluan.html
-|   |                       thongtin_canhan.html
+|   |                       tao_baiviet.html
 |   |                       trang_chu.html
 |   |                       
 |   \---test
@@ -308,7 +310,6 @@ D:.
     |   |           \---presentation
     |   |               \---controller
     |   |                   |   CustomErrorController.class
-    |   |                   |   HelloController.class
     |   |                   |   
     |   |                   +---admin
     |   |                   |       AdminController.class
@@ -330,6 +331,11 @@ D:.
     |   |                           XepHangController.class
     |   |                           
     |   +---static
+    |   |   +---css
+    |   |   |   \---user
+    |   |   |           hoso_nguoidung.css
+    |   |   |           trang_chu.css
+    |   |   |           
     |   |   +---images
     |   |   |   +---admin
     |   |   |   |       admin.png
@@ -352,7 +358,6 @@ D:.
     |   \---templates
     |       \---view
     |           |   error.html
-    |           |   hello.html
     |           |   
     |           +---admin
     |           |       bang_xep_hang_nguoidung.html
@@ -372,11 +377,11 @@ D:.
     |                   bang_xep_hang_nguoidung.html
     |                   chitiet_baiviet.html
     |                   danhsach_chitiet_baiviet.html
-    |                   hoatdong_nguoidung.html
+    |                   danhsach_tatca_baiviet.html
     |                   hoso_nguoidung.html
     |                   sua_baiviet.html
     |                   sua_binhluan.html
-    |                   thongtin_canhan.html
+    |                   tao_baiviet.html
     |                   trang_chu.html
     |                   
     +---generated-sources
