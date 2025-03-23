@@ -121,7 +121,7 @@ public class BaiVietController {
         model.addAttribute("danhSachBaiViet", danhSachBaiViet);
         model.addAttribute("formatter", formatter);
         model.addAttribute("baiViet", new BaiViet());
-        return "user/hoatdong_nguoidung";
+        return "user/trang_chu";
     }
 
     // lấy tất cả bài viết thuộc về USER hiện tại

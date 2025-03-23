@@ -21,19 +21,24 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="shortcut icon" href="/images/user/user.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="/images/user/user.png"
+      type="image/x-icon"
+    />
     <style>
       body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(to right, #1a2a6c, #b21f24, #eb8f07);
-        color: #e0e0e0;
+        background: #f8f9fa; /* Màu nền sáng */
+        color: #343a40; /* Màu chữ tối */
         min-height: 100vh;
         display: flex;
         flex-direction: column;
       }
 
       .navbar {
-        background: rgba(0, 0, 0, 0.8);
+        background: #ffffff; /* Nền trắng cho navbar */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
       }
 
       .navbar-brand img {
@@ -48,11 +53,10 @@
       }
 
       .card {
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
+        background: #ffffff; /* Nền trắng cho card */
+        border: 1px solid #e0e0e0; /* Viền xám nhạt */
         border-radius: 10px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         transition: all 0.3s;
       }
 
@@ -61,10 +65,11 @@
       }
 
       .card-header {
-        background: rgba(255, 255, 255, 0.15);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        background: #007bff; /* Nền xanh dương cho header */
+        border-bottom: 1px solid #e0e0e0;
         padding: 1rem 1.5rem;
         font-weight: 600;
+        color: #ffffff; /* Màu chữ trắng */
       }
 
       .card-body {
@@ -72,45 +77,64 @@
       }
 
       .btn-custom {
-        background: linear-gradient(to right, #ff416c, #ff4b2b);
+        background: #007bff; /* Màu xanh dương */
         color: white;
         border: none;
         transition: all 0.3s;
       }
 
       .btn-custom:hover {
-        background: linear-gradient(to right, #ff4b2b, #ff416c);
+        background: #0056b3; /* Màu xanh dương đậm hơn khi hover */
         transform: scale(1.05);
       }
 
       .form-label {
-        color: #e0e0e0;
+        color: #343a40; /* Màu chữ tối */
       }
 
       .form-control {
-        background-color: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        color: #e0e0e0;
+        background-color: #ffffff; /* Nền trắng cho input */
+        border: 1px solid #e0e0e0; /* Viền xám nhạt */
+        color: #343a40; /* Màu chữ tối */
       }
 
       .form-control:focus {
-        background-color: rgba(255, 255, 255, 0.2);
-        border: 1px solid #ff416c;
-        color: #e0e0e0;
+        background-color: #ffffff; /* Nền trắng cho input khi focus */
+        border: 1px solid #007bff; /* Viền xanh dương khi focus */
+        color: #343a40; /* Màu chữ tối */
         box-shadow: none;
+      }
+      .footer {
+        background: #343a40;
+        color: white;
+        padding: 1rem 0;
+        text-align: center;
+        margin-top: auto;
+      }
+      .footer h3 {
+        margin-bottom: 1rem;
+      }
+      .footer ul {
+        padding: 0;
+        list-style: none;
+      }
+      .footer ul li {
+        margin-bottom: 0.5rem;
+      }
+      .footer ul li a {
+        color: #ffc107;
+        text-decoration: none;
+      }
+      .footer ul li a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/user}">
-          <img
-            src="/images/user/user.png"
-            alt="User"
-            width="40"
-            height="40"
-          />
+          <img src="/images/user/user.png" alt="User" width="40" height="40" />
           MENU
         </a>
         <button
@@ -134,18 +158,15 @@
                 <i class="fas fa-home me-1"></i> Trang Chủ
               </a>
             </li>
-            
+
             <li class="nav-item">
               <a class="nav-link" th:href="@{/user/diem/bangxephang}">
                 <i class="fas fa-trophy me-1"></i> Bảng Xếp Hạng
               </a>
             </li>
-            
+
             <li class="nav-item">
-              <a
-                class="nav-link"
-                th:href="@{/user/baiviet/tao}"
-              >
+              <a class="nav-link" th:href="@{/user/baiviet/tao}">
                 <i class="fas fa-file-alt me-1"></i> Viết Bài
               </a>
             </li>
@@ -174,15 +195,31 @@
         <div class="card">
           <div class="card-header">Sửa Bài Viết</div>
           <div class="card-body">
-            <form id="editPostForm" th:action="@{/user/baiviet/sua/{id}(id=${baiViet.id})}" th:object="${baiViet}" method="post">
+            <form
+              id="editPostForm"
+              th:action="@{/user/baiviet/sua/{id}(id=${baiViet.id})}"
+              th:object="${baiViet}"
+              method="post"
+            >
               <input type="hidden" id="baiVietId" th:value="${baiViet.id}" />
               <div class="mb-3">
                 <label for="tieuDe" class="form-label">Tiêu Đề</label>
-                <input type="text" class="form-control" id="tieuDe" th:field="*{tieuDe}" required />
+                <input
+                  type="text"
+                  class="form-control"
+                  id="tieuDe"
+                  th:field="*{tieuDe}"
+                  required
+                />
               </div>
               <div class="mb-3">
                 <label for="noiDung" class="form-label">Nội Dung</label>
-                <textarea class="form-control" id="noiDung" th:field="*{noiDung}" required></textarea>
+                <textarea
+                  class="form-control"
+                  id="noiDung"
+                  th:field="*{noiDung}"
+                  required
+                ></textarea>
                 <script>
                   const editor = new Jodit("#noiDung", {
                     height: 300,
@@ -192,7 +229,10 @@
               <button type="submit" class="btn btn-custom mt-3">
                 Lưu Thay Đổi
               </button>
-              <a th:href="@{'/user/baiviet/chitiet/' + ${baiViet.id} + '#baiviet-' + ${baiViet.id}}" class="btn btn-success mt-3 ms-2">
+              <a
+                th:href="@{'/user/baiviet/chitiet/' + ${baiViet.id} + '#baiviet-' + ${baiViet.id}}"
+                class="btn btn-success mt-3 ms-2"
+              >
                 Quay lại
               </a>
             </form>
@@ -200,7 +240,28 @@
         </div>
       </div>
     </div>
-
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 Trang web của bạn. Mọi quyền được bảo lưu.</p>
+        <div>
+          <h3>Tài liệu tham khảo</h3>
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://github.com">Github</a>
+            </li>
+            <li>
+              <a href="https://chatgpt.com">ChatGPT</a>
+            </li>
+            <li>
+              <a href="https://spring.io">Sping Boot</a>
+            </li>
+            <li>
+              <a href="https://thymeleaf.org">Thymeleaf</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(document).ready(function () {
@@ -217,7 +278,7 @@
             },
             error: function () {
               alert("Có lỗi xảy ra khi lưu bài viết.");
-            }
+            },
           });
         });
       });

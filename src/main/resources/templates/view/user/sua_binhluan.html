@@ -21,10 +21,62 @@
       href="/images/user/user.png"
       type="image/x-icon"
     />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+      }
+      .container {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+      }
+      .form-label {
+        color: #ffc107;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #ff6b6b, #ff4757);
+        border: none;
+      }
+      .btn-secondary {
+        background: linear-gradient(135deg, #1c1c1c, #2b2b2b);
+        border: none;
+      }
+      .footer {
+        background: #343a40;
+        color: white;
+        padding: 1rem 0;
+        text-align: center;
+        margin-top: auto;
+      }
+      .footer h3 {
+        margin-bottom: 1rem;
+      }
+      .footer ul {
+        padding: 0;
+        list-style: none;
+      }
+      .footer ul li {
+        margin-bottom: 0.5rem;
+      }
+      .footer ul li a {
+        color: #ffc107;
+        text-decoration: none;
+      }
+      .footer ul li a:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
     <div class="container mt-5">
-      <h2 class="mb-4 text-center">Sửa Bình Luận</h2>
+      <h2 class="mb-4 text-center text-warning">Sửa Bình Luận</h2>
       <form
         id="editCommentForm"
         th:action="@{'/user/binhluan/sua/' + ${binhLuan.id}}"
@@ -55,6 +107,28 @@
         </div>
       </form>
     </div>
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 Trang web của bạn. Mọi quyền được bảo lưu.</p>
+        <div>
+          <h3>Tài liệu tham khảo</h3>
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://github.com">Github</a>
+            </li>
+            <li>
+              <a href="https://chatgpt.com">ChatGPT</a>
+            </li>
+            <li>
+              <a href="https://spring.io">Spring Boot</a>
+            </li>
+            <li>
+              <a href="https://thymeleaf.org">Thymeleaf</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.js"></script>
     <script>

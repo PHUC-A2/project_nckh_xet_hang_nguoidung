@@ -1,5 +1,6 @@
 package com.example.xephangnguoidung.presentation.controller.user;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.xephangnguoidung.application.service.BaiVietService;
 import com.example.xephangnguoidung.application.service.DiemNguoiDungService;
@@ -29,9 +31,18 @@ public class TrangChuController {
     }
 
     @GetMapping("/")
-    public String bangXepHangNguoiDung(Model model) {
-        List<NguoiDung> danhSachNguoiDung = nguoiDungService.layTatCaNguoiDung();
-        List<BaiViet> danhSachBaiViet = this.baiVietService.layTatCaBaiViet();
+    public String bangXepHangNguoiDung(@RequestParam(value = "keyword", required = false) String keyword, Model model) {
+        List<NguoiDung> danhSachNguoiDung;
+        List<BaiViet> danhSachBaiViet;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            danhSachBaiViet = baiVietService.timKiemBaiViet(keyword);
+            danhSachNguoiDung = nguoiDungService.timKiemNguoiDung(keyword);
+        } else {
+            danhSachBaiViet = baiVietService.layTatCaBaiViet();
+            danhSachNguoiDung = nguoiDungService.layTatCaNguoiDung();
+        }
+
         if (danhSachNguoiDung.isEmpty()) {
             model.addAttribute("danhSachNguoiDung", Collections.emptyList());
         } else {
@@ -48,10 +59,13 @@ public class TrangChuController {
             });
             model.addAttribute("danhSachNguoiDung", danhSachNguoiDungUser);
         }
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         model.addAttribute("danhSachBaiViet", danhSachBaiViet);
+        model.addAttribute("formatter", formatter);
+        model.addAttribute("baiViet", new BaiViet());
         // Đảm bảo rằng diemNguoiDungService không bị null trong template
         model.addAttribute("diemNguoiDungService", diemNguoiDungService);
-        // return "user/bang_xep_hang_nguoidung";
         return "user/trang_chu";
     }
 }

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -33,26 +34,63 @@ public class HoSoController {
         this.baiVietService = baiVietService;
     }
 
+    // @GetMapping("/hoso")
+    // public String getHoSo(@AuthenticationPrincipal UserDetails userDetails, Model
+    // model) {
+    // String username = userDetails.getUsername();
+    // NguoiDung nguoiDung = this.nguoiDungService.getNguoiDungByEmail(username);
+    // List<BaiViet> danhSachBaiViet = this.baiVietService.layTatCaBaiViet();
+    // model.addAttribute("danhSachBaiViet", danhSachBaiViet);
+    // if (nguoiDung != null) {
+    // Long nguoiDungId = nguoiDung.getId();
+    // System.out.println("ID Nguoi Dung: " + nguoiDungId); // Kiểm tra ID trên
+    // console
+
+    // model.addAttribute("nguoiDung", nguoiDung);
+    // model.addAttribute("nguoiDungId", nguoiDungId); // Thêm ID vào model
+    // // model.addAttribute("user", nguoiDung);
+    // int tongDiem =
+    // diemNguoiDungService.tinhTongDiemByNguoiDungId(nguoiDung.getId());
+    // model.addAttribute("tongDiem", tongDiem);
+    // return "user/hoso_nguoidung";
+    // } else {
+    // return "error";
+    // }
+
+    // }
+
     @GetMapping("/hoso")
-    public String getHoSo(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String getHoSo(@AuthenticationPrincipal UserDetails userDetails,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            Model model) {
         String username = userDetails.getUsername();
         NguoiDung nguoiDung = this.nguoiDungService.getNguoiDungByEmail(username);
-        List<BaiViet> danhSachBaiViet = this.baiVietService.layTatCaBaiViet();
+        List<BaiViet> danhSachBaiViet;
+        List<NguoiDung> danhSachNguoiDung;
+
+        if (keyword != null && !keyword.isEmpty()) {
+            danhSachBaiViet = baiVietService.timKiemBaiViet(keyword);
+            danhSachNguoiDung = nguoiDungService.timKiemNguoiDung(keyword);
+        } else {
+            danhSachBaiViet = baiVietService.layTatCaBaiViet();
+            danhSachNguoiDung = nguoiDungService.layTatCaNguoiDung();
+        }
+
         model.addAttribute("danhSachBaiViet", danhSachBaiViet);
+        model.addAttribute("danhSachNguoiDung", danhSachNguoiDung);
+
         if (nguoiDung != null) {
             Long nguoiDungId = nguoiDung.getId();
             System.out.println("ID Nguoi Dung: " + nguoiDungId); // Kiểm tra ID trên console
 
             model.addAttribute("nguoiDung", nguoiDung);
             model.addAttribute("nguoiDungId", nguoiDungId); // Thêm ID vào model
-            // model.addAttribute("user", nguoiDung);
             int tongDiem = diemNguoiDungService.tinhTongDiemByNguoiDungId(nguoiDung.getId());
             model.addAttribute("tongDiem", tongDiem);
             return "user/hoso_nguoidung";
         } else {
             return "error";
         }
-
     }
 
     @GetMapping("/thongtincanhan")
@@ -80,7 +118,8 @@ public class HoSoController {
             RedirectAttributes redirectAttributes) {
         NguoiDung nguoiDung = nguoiDungService.layNguoiDungById(id);
         nguoiDung.setTenDangNhap(request.getTenDangNhap());
-        // nguoiDung.setMatKhau(request.getMatKhau()); // không cho đổi mật khẩu vì không băm
+        // nguoiDung.setMatKhau(request.getMatKhau()); // không cho đổi mật khẩu vì
+        // không băm
         nguoiDung.setVaiTro(request.getVaiTro());
         if (request.getEmail() != null) {
             nguoiDung.setEmail(request.getEmail()); // không cho đổi email vì dùng email đăng nhập

@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hồ Sơ Cá Nhân - VIP PRO</title>
+    <title>Trang chủ</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
@@ -16,12 +16,13 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
+    <link rel="shortcut icon" href="/images/user/user.png" type="image/x-icon">
     <!-- <link rel="stylesheet" href="/css/user/trang_chu.css" /> -->
     <style>
       body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(to right, #141e30, #243b55);
-        color: white;
+        background: #f8f9fa; /* Màu nền sáng */
+        color: #343a40; /* Màu chữ tối */
         min-height: 100vh;
         display: flex;
         flex-direction: column;
@@ -34,11 +35,10 @@
       }
 
       .card-custom {
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
+        background: #ffffff; /* Nền trắng cho card */
+        border: 1px solid #e0e0e0; /* Viền xám nhạt */
         border-radius: 10px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         transition: all 0.3s;
       }
 
@@ -50,7 +50,7 @@
         max-height: 300px; /* Adjusted height for 5 items */
         overflow-y: auto; /* Add scrollbar when content exceeds height */
         border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid #e0e0e0;
         padding: 10px;
       }
 
@@ -61,7 +61,7 @@
       }
 
       .scrollable-table th {
-        background: #ff4757;
+        background: #007bff;
         color: white;
         padding: 10px;
         border-radius: 5px;
@@ -72,7 +72,7 @@
       }
 
       .scrollable-table tr:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(0, 123, 255, 0.1);
         transform: scale(1.02);
       }
 
@@ -91,50 +91,113 @@
         font-weight: bold;
       }
 
+      .navbar {
+        background-color: #343a40; /* Màu nền navbar */
+      }
+
       .navbar-brand {
         font-size: 1.5rem;
         font-weight: bold;
+        color: #ffffff; /* Màu chữ navbar brand */
       }
 
       .navbar-nav .nav-link {
         font-size: 1.1rem;
         margin-right: 1rem;
         transition: color 0.3s;
+        color: #ffffff; /* Màu chữ nav link */
       }
 
       .navbar-nav .nav-link:hover {
-        color: #ff4757;
+        color: #007bff;
       }
 
       .btn-custom {
-        background: linear-gradient(to right, #ff416c, #ff4b2b);
+        background: #007bff; /* Màu xanh dương */
         color: white;
         border: none;
         transition: all 0.3s;
       }
 
       .btn-custom:hover {
-        background: linear-gradient(to right, #ff4b2b, #ff416c);
+        background: #0056b3; /* Màu xanh dương đậm hơn khi hover */
         transform: scale(1.05);
       }
+
       .row {
         display: flex;
         align-items: stretch;
       }
+
       .img-thumbnail {
         border-radius: 50%;
         width: 60px;
         height: 60px;
-        border: 2px solid white;
+        border: 2px solid #007bff;
+      }
+      .search-bar {
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+        border: 1px solid #dfe1e5; /* Viền xám nhạt */
+        border-radius: 24px; /* Bo tròn viền */
+        padding: 8px 16px; /* Khoảng cách bên trong */
+        width: 500px; /* Chiều rộng thanh tìm kiếm */
+        background-color: #f8f9fa; /* Nền xám nhạt */
+      }
+
+      .search-bar i {
+        margin-left: 10px; /* Khoảng cách giữa biểu tượng và input */
+        color: #9aa0a6; /* Màu biểu tượng */
+      }
+
+      .search-bar input {
+        border: none;
+        outline: none;
+        flex-grow: 1;
+        background-color: transparent; /* Nền trong suốt */
+        font-size: 16px;
+      }
+
+      .footer {
+        background: #343a40;
+        color: white;
+        padding: 1rem 0;
+        text-align: center;
+        margin-top: auto;
+      }
+      .footer h3 {
+        margin-bottom: 1rem;
+      }
+      .footer ul {
+        padding: 0;
+        list-style: none;
+      }
+      .footer ul li {
+        margin-bottom: 0.5rem;
+      }
+      .footer ul li a {
+        color: #ffc107;
+        text-decoration: none;
+      }
+      .footer ul li a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
   <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light">
       <div class="container">
-        <p class="navbar-brand" href="#">Xếp hạng người dùng</p>
-
+        <form class="navbar-brand search-bar" action="/" method="get">
+          <input type="text" name="keyword" placeholder="Tìm kiếm" />
+          <button
+            type="submit"
+            style="background: none; border: none; cursor: pointer"
+          >
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
         <button
           class="navbar-toggler"
           type="button"
@@ -143,15 +206,28 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div
           class="collapse navbar-collapse justify-content-end"
           id="navbarNav"
         >
+          <!-- <form class="d-flex me-2">
+            <input
+              class="form-control me-2"
+              type="search"
+              placeholder="Tìm kiếm"
+              aria-label="Tìm kiếm"
+            />
+            <button class="btn btn-outline-success" type="submit">
+              <i class="fas fa-search" style="cursor: pointer"></i>
+            </button>
+          </form> -->
+
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" th:href="@{/user/hoso}"
-                ><i class="fas fa-home me-1"></i> Trang Chủ</a
-              >
+              <a class="nav-link active" th:href="@{/user/hoso}">
+                <i class="fas fa-home me-1"></i> Trang Chủ
+              </a>
             </li>
             <li class="nav-item">
               <a class="nav-link" th:href="@{/user/baiviet/tao}">
@@ -182,19 +258,24 @@
         <!-- Danh sách bài viết -->
         <div class="col-md-7">
           <div class="card-custom p-4">
-            <div class="d-flex justify-content-between">
+            <!-- <div class="d-flex justify-content-between">
               <h4 class="text-center mb-3">Tất cả bài viết</h4>
-              <a th:href="@{/user/baiviet/tatca}" class="btn btn-success mb-3"
+              <a th:href="@{/user/baiviet/tatca}" class="btn btn-custom mb-3"
                 ><i class="fas fa-eye"></i>Xem chi tiết</a
               >
-              <!-- <div class="mb-3 mt-3"></div> -->
-            </div>
+            </div> -->
             <div class="scrollable-table">
               <table>
                 <thead>
                   <tr>
-                    <th colspan="2">Các bài viết</th>
-                    <!-- Tiêu đề mở rộng 2 cột -->
+                    <th>Các bài viết</th>
+                    <th class="text-end">
+                      <a
+                        th:href="@{/user/baiviet/tatca}"
+                        class="btn btn-link text-warning text-decoration-none"
+                        ><i class="fas fa-eye"></i>Xem chi tiết</a
+                      >
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -269,6 +350,29 @@
         </div>
       </div>
     </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 Trang web của bạn. Mọi quyền được bảo lưu.</p>
+        <div>
+          <h3>Tài liệu tham khảo</h3>
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://github.com">Github</a>
+            </li>
+            <li>
+              <a href="https://chatgpt.com">ChatGPT</a>
+            </li>
+            <li>
+              <a href="https://spring.io">Sping Boot</a>
+            </li>
+            <li>
+              <a href="https://thymeleaf.org">Thymeleaf</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>

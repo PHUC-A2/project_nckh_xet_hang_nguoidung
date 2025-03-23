@@ -28,15 +28,16 @@
     <style>
       body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(to right, #1a2a6c, #b21f24, #eb8f07);
-        color: #e0e0e0;
+        background: #ffffff; /* Màu nền trắng */
+        color: #333333; /* Màu chữ tối */
         min-height: 100vh;
         display: flex;
         flex-direction: column;
       }
 
       .navbar {
-        background: rgba(0, 0, 0, 0.8);
+        background: #007bff; /* Nền xanh dương cho navbar */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
       }
 
       .navbar-brand img {
@@ -51,11 +52,10 @@
       }
 
       .card {
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        border-radius: 10px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        background: #ffffff; /* Nền trắng cho card */
+        border: 1px solid #e0e0e0; /* Viền xám nhạt */
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         transition: all 0.3s;
       }
 
@@ -64,25 +64,28 @@
       }
 
       .card-header {
-        background: rgba(255, 255, 255, 0.15);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        background: #007bff; /* Nền xanh dương cho header */
+        border-bottom: 1px solid #e0e0e0;
         padding: 1rem 1.5rem;
         font-weight: 600;
+        color: #ffffff; /* Màu chữ trắng */
       }
 
       .card-body {
         padding: 2rem;
       }
 
-      .btn-custom {
-        background: linear-gradient(to right, #ff416c, #ff4b2b);
+      .btn-custom,
+      .btn-primary {
+        background: #007bff; /* Màu xanh dương */
         color: white;
         border: none;
         transition: all 0.3s;
       }
 
-      .btn-custom:hover {
-        background: linear-gradient(to right, #ff4b2b, #ff416c);
+      .btn-custom:hover,
+      .btn-primary:hover {
+        background: #0056b3; /* Màu xanh dương đậm hơn khi hover */
         transform: scale(1.05);
       }
 
@@ -91,13 +94,13 @@
       }
 
       .article-content strong {
-        color: #ff416c;
+        color: inherit; /* Giữ nguyên màu sắc của chữ in đậm */
       }
 
       .comment-box {
         display: flex;
         align-items: center;
-        background: #e9ecef;
+        background: #f0f0f0; /* Nền xám nhạt cho comment box */
         padding: 5px;
         border-radius: 20px;
         width: 100%;
@@ -126,6 +129,20 @@
         word-wrap: break-word;
         word-break: break-all;
       }
+
+      .btn-warning,
+      .btn-danger {
+        color: white;
+      }
+
+      .btn-warning {
+        background-color: #ffc107;
+      }
+
+      .btn-danger {
+        background-color: #dc3545;
+      }
+
     </style>
   </head>
   <body>
@@ -156,13 +173,13 @@
                 <i class="fas fa-home me-1"></i> Trang Chủ
               </a>
             </li>
-            
+
             <li class="nav-item">
               <a class="nav-link" th:href="@{/user/diem/bangxephang}">
                 <i class="fas fa-trophy me-1"></i> Bảng Xếp Hạng
               </a>
             </li>
-           
+
             <li class="nav-item">
               <a class="nav-link" th:href="@{/user/baiviet/tao}">
                 <i class="fas fa-file-alt me-1"></i> Viết Bài
@@ -211,13 +228,6 @@
             <div th:utext="${baiViet.noiDung}">Nội dung bài viết...</div>
             <div class="d-flex justify-content-between align-items-center mt-3">
               <div>
-                <!-- <a
-                  th:href="@{'/user/luotthich/' + ${baiViet.id} + '#baiviet-' + ${baiViet.id}}"
-                  class="btn btn-outline-primary btn-sm"
-                >
-                  <i class="fas fa-thumbs-up"></i>
-                  <span th:text="${baiViet.soLuotThich}"></span>
-                </a> -->
                 <a
                   th:href="@{'/user/luotthich/' + ${baiViet.id} + '#baiviet-' + ${baiViet.id}}"
                   class="btn btn-outline-primary btn-sm"
@@ -319,7 +329,6 @@
         </div>
       </div>
     </div>
-    <hr class="mb-4" />
     <script>
       $(document).ready(function () {
         $(".comment-box textarea").each(function () {

@@ -25,15 +25,16 @@
     <style>
       body {
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
-        color: white;
+        background: #f8f9fafe; /* Màu nền sáng */
+        color: #343a40; /* Màu chữ tối */
         min-height: 100vh;
         display: flex;
         flex-direction: column;
       }
 
       .navbar {
-        background: rgba(0, 0, 0, 0.8);
+        background: #ffffff; /* Nền trắng cho navbar */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
       }
 
       .navbar-brand img {
@@ -48,16 +49,11 @@
       }
 
       .card {
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
+        background: #ffffff; /* Nền trắng cho card */
+        border: 1px solid #e0e0e0; /* Viền xám nhạt */
         border-radius: 10px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         transition: all 0.3s;
-      }
-      .card,
-      .card-custom {
-        min-height: 100%;
       }
 
       .card:hover {
@@ -70,48 +66,30 @@
         border-radius: 50%;
         object-fit: cover;
         margin-bottom: 1rem;
-        border: 3px solid #fff;
+        border: 3px solid #343a40;
       }
 
       .btn-custom {
-        background: linear-gradient(to right, #ff416c, #ff4b2b);
+        background: #007bff; /* Màu xanh dương */
         color: white;
         border: none;
         transition: all 0.3s;
       }
 
       .btn-custom:hover {
-        background: linear-gradient(to right, #ff4b2b, #ff416c);
+        background: #0056b3; /* Màu xanh dương đậm hơn khi hover */
         transform: scale(1.05);
       }
+
       h4 {
-        color: bisque;
-      }
-
-      .content {
-        padding: 2rem;
-        flex-grow: 1;
-        padding-top: 50px;
-      }
-
-      .card-custom {
-        background: rgba(255, 255, 255, 0.1);
-        border: none;
-        border-radius: 10px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s;
-      }
-
-      .card-custom:hover {
-        transform: translateY(-5px);
+        color: #343a40; /* Màu chữ tối */
       }
 
       .scrollable-table {
         max-height: 300px; /* Adjusted height for 5 items */
         overflow-y: auto; /* Add scrollbar when content exceeds height */
         border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid #e0e0e0;
         padding: 10px;
       }
 
@@ -122,7 +100,7 @@
       }
 
       .scrollable-table th {
-        background: #ff4757;
+        background: #007bff;
         color: white;
         padding: 10px;
         border-radius: 5px;
@@ -131,6 +109,7 @@
       .scrollable-table td {
         padding: 10px;
       }
+
       .row {
         display: flex;
         align-items: stretch;
@@ -154,17 +133,17 @@
 
       /* Modal styling */
       .modal-content {
-        background: #2c3e50;
-        color: white;
+        background: #ffffff;
+        color: #343a40;
         border-radius: 10px;
       }
 
       .modal-header {
-        border-bottom: 1px solid #444;
+        border-bottom: 1px solid #e0e0e0;
       }
 
       .modal-footer {
-        border-top: 1px solid #444;
+        border-top: 1px solid #e0e0e0;
       }
 
       .modal-body {
@@ -178,7 +157,7 @@
 
       .modal-body .info span {
         font-weight: bold;
-        color: #f39c12;
+        color: #007bff;
       }
 
       .modal-body h1 {
@@ -187,27 +166,84 @@
       }
 
       .modal-footer .btn {
-        background: #e74c3c;
+        background: #007bff;
         border: none;
       }
 
       .modal-footer .btn:hover {
-        background: #c0392b;
+        background: #0056b3;
       }
+
       .info {
         font-size: 1.1rem;
         margin-bottom: 0.5rem;
+      }
+      .search-bar {
+        margin-left: 20px;
+        display: flex;
+        align-items: center;
+        border: 1px solid #dfe1e5; /* Viền xám nhạt */
+        border-radius: 24px; /* Bo tròn viền */
+        padding: 8px 16px; /* Khoảng cách bên trong */
+        width: 500px; /* Chiều rộng thanh tìm kiếm */
+        background-color: #f8f9fa; /* Nền xám nhạt */
+      }
+
+      .search-bar i {
+        margin-left: 10px; /* Khoảng cách giữa biểu tượng và input */
+        color: #9aa0a6; /* Màu biểu tượng */
+      }
+
+      .search-bar input {
+        border: none;
+        outline: none;
+        flex-grow: 1;
+        background-color: transparent; /* Nền trong suốt */
+        font-size: 16px;
+      }
+      .footer {
+        background: #343a40;
+        color: white;
+        padding: 1rem 0;
+        text-align: center;
+        margin-top: auto;
+      }
+      .footer h3 {
+        margin-bottom: 1rem;
+      }
+      .footer ul {
+        padding: 0;
+        list-style: none;
+      }
+      .footer ul li {
+        margin-bottom: 0.5rem;
+      }
+      .footer ul li a {
+        color: #ffc107;
+        text-decoration: none;
+      }
+      .footer ul li a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
       <div class="container-fluid">
         <a class="navbar-brand" th:href="@{/user}">
           <img src="/images/user/user.png" alt="User" width="40" height="40" />
           Trang chủ
         </a>
+        <form class="navbar-brand search-bar" action="/user/hoso" method="get">
+          <input type="text" name="keyword" placeholder="Tìm kiếm" />
+          <button
+            type="submit"
+            style="background: none; border: none; cursor: pointer"
+          >
+            <i class="fas fa-search"></i>
+          </button>
+        </form>
         <button
           class="navbar-toggler"
           type="button"
@@ -234,7 +270,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link" th:href="@{/user/baiviet/tao}"
-                ><i class="fas fa-file-alt me-1"></i> Viết bài</a
+                ><i class="fas fa-pencil-alt me-1"></i> Viết Bài</a
               >
             </li>
             <li class="nav-item">
@@ -302,15 +338,25 @@
           <div class="card-custom p-4 flex-grow-1">
             <div class="d-flex justify-content-between align-items-center mb-3">
               <h4 class="text-center mb-3">Bài viết của mọi người</h4>
-              <a th:href="@{/user/baiviet/tatca}" class="btn btn-success"
-                ><i class="fas fa-eye"></i> Xem chi tiết</a
+              <a
+                th:href="@{/user/baiviet/tao}"
+                class="btn btn-custom text-decoration-none"
+                ><i class="fas fa-pencil-alt"></i> Viết bài</a
               >
             </div>
             <div class="scrollable-table">
               <table>
                 <thead>
                   <tr>
-                    <th colspan="2">Tiêu đề bài viết</th>
+                    <th>Tiêu đề bài viết</th>
+                    <th class="text-end">
+                      <a
+                        th:href="@{/user/baiviet/tatca}"
+                        class="btn btn-link text-white text-decoration-none"
+                      >
+                        <i class="fas fa-eye"></i> Xem chi tiết
+                      </a>
+                    </th>
                   </tr>
                 </thead>
                 <tbody th:each="baiViet : ${danhSachBaiViet}">
@@ -535,7 +581,28 @@
         </div>
       </div>
     </div>
-
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2025 Trang web của bạn. Mọi quyền được bảo lưu.</p>
+        <div>
+          <h3>Tài liệu tham khảo</h3>
+          <ul class="list-unstyled">
+            <li>
+              <a href="https://github.com">Github</a>
+            </li>
+            <li>
+              <a href="https://chatgpt.com">ChatGPT</a>
+            </li>
+            <li>
+              <a href="https://spring.io">Sping Boot</a>
+            </li>
+            <li>
+              <a href="https://thymeleaf.org">Thymeleaf</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
