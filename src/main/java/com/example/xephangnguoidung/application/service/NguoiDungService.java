@@ -103,15 +103,15 @@ public class NguoiDungService {
 
         // 3. Xác định cấp bậc
         CapBac capBacMoi;
-        if (tongDiem >= 10000) {
+        if (tongDiem >= 2000) {
             capBacMoi = CapBac.VIP;
-        } else if (tongDiem >= 5000) {
-            capBacMoi = CapBac.KIM_CUONG;
-        } else if (tongDiem >= 2000) {
-            capBacMoi = CapBac.BACH_KIM;
         } else if (tongDiem >= 1000) {
+            capBacMoi = CapBac.KIM_CUONG;
+        } else if (tongDiem >= 700) {
+            capBacMoi = CapBac.BACH_KIM;
+        } else if (tongDiem >= 300) {
             capBacMoi = CapBac.VANG;
-        } else if (tongDiem >= 500) {
+        } else if (tongDiem >= 100) {
             capBacMoi = CapBac.BAC;
         } else {
             capBacMoi = CapBac.DONG;
