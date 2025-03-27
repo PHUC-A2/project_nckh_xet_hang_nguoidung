@@ -16,7 +16,11 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
       rel="stylesheet"
     />
-    <link rel="shortcut icon" href="/images/user/user.png" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="/images/user/user.png"
+      type="image/x-icon"
+    />
     <!-- <link rel="stylesheet" href="/css/user/trang_chu.css" /> -->
     <style>
       body {
@@ -34,12 +38,19 @@
         padding-top: 50px;
       }
 
+      .row {
+        display: flex;
+        align-items: stretch; /* Đảm bảo các cột có chiều cao bằng nhau */
+      }
+
       .card-custom {
-        background: #ffffff; /* Nền trắng cho card */
-        border: 1px solid #e0e0e0; /* Viền xám nhạt */
+        background: #ffffff;
+        border: 1px solid #e0e0e0;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         transition: all 0.3s;
+        display: flex; /* Thêm flexbox vào card-custom */
+        flex-direction: column; /* Sắp xếp các phần tử bên trong theo chiều dọc */
       }
 
       .card-custom:hover {
@@ -47,12 +58,15 @@
       }
 
       .scrollable-table {
-        max-height: 300px; /* Adjusted height for 5 items */
-        overflow-y: auto; /* Add scrollbar when content exceeds height */
+        max-height: 300px; /* Chiều cao tối đa cho bảng */
+        overflow-y: auto;
         border-radius: 10px;
         border: 1px solid #e0e0e0;
         padding: 10px;
+        flex-grow: 1; /* Cho phép bảng mở rộng để lấp đầy card-custom */
       }
+
+      /* Các CSS khác giữ nguyên */
 
       .scrollable-table table {
         width: 100%;
@@ -264,11 +278,12 @@
                 ><i class="fas fa-eye"></i>Xem chi tiết</a
               >
             </div> -->
+            <h4 class="text-center mb-3">Các bài viết phổ biến</h4>
             <div class="scrollable-table">
               <table>
                 <thead>
                   <tr>
-                    <th>Các bài viết</th>
+                    <th>Bài viết</th>
                     <th class="text-end">
                       <a
                         th:href="@{/user/baiviet/tatca}"
