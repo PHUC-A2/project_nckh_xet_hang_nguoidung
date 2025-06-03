@@ -64,7 +64,7 @@ public class BinhLuanController {
         BinhLuan binhLuan = binhLuanService.layBinhLuanById(binhLuanId);
         binhLuan.setNoiDung(noiDung);
         binhLuanService.capNhatBinhLuan(binhLuan);
-        return "redirect:/user/baiviet/tatca";
+        return "redirect:/user/baiviet/chitiet/" + binhLuan.getBaiViet().getId();
     }
 
     // Xóa bình luận

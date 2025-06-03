@@ -1,162 +1,792 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sửa Bình Luận</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.css"
-    />
-    <link
-      rel="shortcut icon"
-      href="/images/user/user.png"
-      type="image/x-icon"
-    />
-    <style>
-      body {
-        font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        color: white;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sửa Bình Luận</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="shortcut icon" href="/images/user/user.png" type="image/x-icon" />
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-dark: #4338ca;
+      --secondary-color: #0ea5e9;
+      --accent-color: #f59e0b;
+      --background-start: #1e1b4b;
+      --background-end: #312e81;
+      --card-bg: rgba(30, 27, 75, 0.65);
+      --text-primary: #ffffff;
+      --text-secondary: #e2e8f0;
+      --success-color: #22c55e;
+      --error-color: #ef4444;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--background-start), var(--background-end));
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.6;
+    }
+
+    .page-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .edit-form-container {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      max-width: 800px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
       }
-      .container {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border-radius: 20px;
-        padding: 2rem;
-        box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
-      .form-label {
-        color: #ffc107;
+    }
+
+    .page-title {
+      color: var(--text-primary);
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .form-label {
+      color: var(--secondary-color);
+      font-weight: 500;
+      margin-bottom: 0.75rem;
+      font-size: 1.1rem;
+    }
+
+    .form-control {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: var(--text-primary);
+      padding: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--secondary-color);
+      box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15);
+      color: var(--text-primary);
+    }
+
+    .emojionearea {
+      border-radius: 12px !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      background: rgba(255, 255, 255, 0.05) !important;
+    }
+
+    .emojionearea .emojionearea-editor {
+      color: var(--text-primary) !important;
+      min-height: 150px !important;
+    }
+
+    .emojionearea .emojionearea-button {
+      opacity: 0.7;
+    }
+
+    .emojionearea .emojionearea-button:hover {
+      opacity: 1;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
+      border: none;
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-primary);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+      justify-content: space-between;
+    }
+
+    .footer {
+      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      padding: 2rem 0;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .footer h3 {
+      color: var(--secondary-color);
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      font-weight: 600;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-link:hover {
+      color: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .copyright {
+      text-align: center;
+      color: var(--text-secondary);
+      margin-top: 2rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Toast Notification */
+    .toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .toast {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
       }
-      .btn-primary {
-        background: linear-gradient(135deg, #ff6b6b, #ff4757);
-        border: none;
+
+      to {
+        transform: translateX(0);
+        opacity: 1;
       }
-      .btn-secondary {
-        background: linear-gradient(135deg, #1c1c1c, #2b2b2b);
-        border: none;
+    }
+
+    /* Icon Picker Styles */
+    .icon-picker-container {
+      margin-bottom: 1.5rem;
+    }
+
+    .icon-picker-button {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      color: var(--text-primary);
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .icon-picker-button:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--secondary-color);
+    }
+
+    .icon-picker-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1050;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .icon-picker-content {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      width: 90%;
+      max-width: 800px;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .icon-picker-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      position: sticky;
+      top: 0;
+      background: var(--card-bg);
+      padding: 1rem;
+      z-index: 1;
+      backdrop-filter: blur(10px);
+    }
+
+    .icon-picker-search {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .icon-categories {
+      display: flex;
+      gap: 0.5rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      margin-bottom: 1rem;
+      position: sticky;
+      top: 80px;
+      background: var(--card-bg);
+      z-index: 1;
+      backdrop-filter: blur(10px);
+    }
+
+    .category-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .category-btn:hover,
+    .category-btn.active {
+      background: var(--secondary-color);
+      border-color: var(--secondary-color);
+    }
+
+    .icon-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .icon-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      background: rgba(255, 255, 255, 0.05);
+      position: relative;
+    }
+
+    .icon-item:hover {
+      background: var(--secondary-color);
+      transform: scale(1.1);
+    }
+
+    .icon-item i {
+      font-size: 1.25rem;
+    }
+
+    .icon-tooltip {
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+    }
+
+    .icon-item:hover .icon-tooltip {
+      opacity: 1;
+      visibility: visible;
+      bottom: calc(100% + 5px);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      .page-container {
+        padding: 1rem;
       }
-      .footer {
-        background: #343a40;
-        color: white;
-        padding: 1rem 0;
-        text-align: center;
-        margin-top: auto;
+
+      .edit-form-container {
+        padding: 1.5rem;
       }
-      .footer h3 {
-        margin-bottom: 1rem;
+
+      .button-group {
+        flex-direction: column-reverse;
       }
-      .footer ul {
-        padding: 0;
-        list-style: none;
+
+      .btn {
+        width: 100%;
+        justify-content: center;
       }
-      .footer ul li {
-        margin-bottom: 0.5rem;
+
+      .icon-picker-content {
+        width: 95%;
+        padding: 1rem;
+        max-height: 90vh;
       }
-      .footer ul li a {
-        color: #ffc107;
-        text-decoration: none;
+
+      .icon-picker-grid {
+        grid-template-columns: repeat(auto-fill, minmax(35px, 1fr));
+        gap: 0.75rem;
       }
-      .footer ul li a:hover {
-        text-decoration: underline;
+
+      .icon-categories {
+        top: 60px;
       }
-    </style>
-  </head>
-  <body>
-    <div class="container mt-5">
-      <h2 class="mb-4 text-center text-warning">Sửa Bình Luận</h2>
-      <form
-        id="editCommentForm"
-        th:action="@{'/user/binhluan/sua/' + ${binhLuan.id}}"
-        method="post"
-      >
+    }
+  </style>
+</head>
+
+<body>
+  <div class="page-container">
+    <div class="edit-form-container">
+      <h2 class="page-title">
+        <i class="fas fa-edit me-2"></i>Sửa Bình Luận
+      </h2>
+      <form id="editCommentForm" th:action="@{'/user/binhluan/sua/' + ${binhLuan.id}}" method="post">
         <input type="hidden" id="binhLuanId" th:value="${binhLuan.id}" />
         <input type="hidden" id="baiVietId" th:value="${binhLuan.baiViet.id}" />
-        <div class="mb-3">
-          <label for="noiDung" class="form-label">Nội Dung</label>
-          <textarea
-            class="form-control"
-            id="noiDung"
-            name="noiDung"
-            required
-            th:text="${binhLuan.noiDung}"
-          ></textarea>
-        </div>
-        <div class="d-flex justify-content-between">
-          <button type="submit" class="btn btn-primary">
-            <i class="fas fa-save"></i> Lưu
+
+        <div class="icon-picker-container">
+          <button type="button" class="icon-picker-button" id="openIconPicker">
+            <i class="fas fa-icons"></i>
+            <span>Chèn Icon</span>
           </button>
-          <a
-            th:href="@{'/user/baiviet/chitiet/' + ${binhLuan.baiViet.id} + '#binhluan-' + ${binhLuan.id}}"
-            class="btn btn-secondary"
-          >
-            <i class="fas fa-arrow-left"></i> Quay Lại
+        </div>
+
+        <div class="mb-4">
+          <label for="noiDung" class="form-label">
+            <i class="fas fa-comment-dots me-2"></i>Nội Dung
+          </label>
+          <textarea class="form-control" id="noiDung" name="noiDung" required th:text="${binhLuan.noiDung}"></textarea>
+        </div>
+
+        <div class="button-group">
+          <a th:href="@{'/user/baiviet/chitiet/' + ${binhLuan.baiViet.id} + '#binhluan-' + ${binhLuan.id}}"
+            class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            <span>Quay Lại</span>
           </a>
+          <button type="submit" class="btn btn-primary">
+            <i class="fas fa-save"></i>
+            <span>Lưu Thay Đổi</span>
+          </button>
         </div>
       </form>
     </div>
-    <footer class="footer">
-      <div class="container">
-        <p>&copy; 2025 Trang web của bạn. Mọi quyền được bảo lưu.</p>
-        <div>
-          <h3>Tài liệu tham khảo</h3>
-          <ul class="list-unstyled">
-            <li>
-              <a href="https://github.com">Github</a>
-            </li>
-            <li>
-              <a href="https://chatgpt.com">ChatGPT</a>
-            </li>
-            <li>
-              <a href="https://spring.io">Spring Boot</a>
-            </li>
-            <li>
-              <a href="https://thymeleaf.org">Thymeleaf</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </footer>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("#noiDung").emojioneArea({
-          pickerPosition: "bottom",
-          tonesStyle: "bullet",
-        });
+  </div>
 
-        $("#editCommentForm").on("submit", function (event) {
-          event.preventDefault();
-          var form = $(this);
-          var binhLuanId = $("#binhLuanId").val();
-          var baiVietId = $("#baiVietId").val();
-          $.ajax({
-            type: form.attr("method"),
-            url: form.attr("action"),
-            data: form.serialize(),
-            success: function () {
+  <!-- Icon Picker Modal -->
+  <div class="icon-picker-modal" id="iconPickerModal">
+    <div class="icon-picker-content">
+      <div class="icon-picker-header">
+        <h3>Chọn Icon</h3>
+        <button class="icon-picker-close" id="closeIconPicker">&times;</button>
+      </div>
+      <input type="text" class="icon-picker-search" id="iconSearch" placeholder="Tìm kiếm icon..." />
+      <div class="icon-categories" id="iconCategories">
+        <!-- Categories will be added here -->
+      </div>
+      <div class="icon-picker-grid" id="iconGrid"></div>
+    </div>
+  </div>
+
+  <div class="toast-container"></div>
+
+  <footer class="footer">
+    <div class="footer-content">
+      <h3 class="text-center">Tài liệu tham khảo</h3>
+      <div class="footer-links">
+        <a href="https://github.com" class="footer-link">
+          <i class="fab fa-github"></i>
+          <span>Github</span>
+        </a>
+        <a href="https://spring.io" class="footer-link">
+          <i class="fas fa-leaf"></i>
+          <span>Spring Boot</span>
+        </a>
+        <a href="https://thymeleaf.org" class="footer-link">
+          <i class="fas fa-code"></i>
+          <span>Thymeleaf</span>
+        </a>
+      </div>
+      <div class="copyright">
+        &copy; 2025 Blog. Mọi quyền được bảo lưu.
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      // Khởi tạo emoji picker với cấu hình nâng cao
+      const emojiArea = $("#noiDung").emojioneArea({
+        pickerPosition: "top",
+        tonesStyle: "bullet",
+        searchPosition: "bottom",
+        filtersPosition: "top",
+        saveEmojisAs: "unicode",
+        shortcuts: false,
+        autocomplete: false,
+        buttonTitle: "Sử dụng phím Tab để mở bảng emoji",
+        tones: true,
+        search: true,
+        searchPlaceholder: "Tìm kiếm...",
+        recentEmojis: true,
+        filters: {
+          recent: {
+            icon: "clock3",
+            title: "Gần đây"
+          },
+          smileys_people: {
+            icon: "yum",
+            title: "Biểu cảm & Con người"
+          },
+          animals_nature: {
+            icon: "hamster",
+            title: "Động vật & Thiên nhiên"
+          },
+          food_drink: {
+            icon: "pizza",
+            title: "Đồ ăn & Thức uống"
+          },
+          activity: {
+            icon: "basketball",
+            title: "Hoạt động"
+          },
+          travel_places: {
+            icon: "rocket",
+            title: "Du lịch & Địa điểm"
+          },
+          objects: {
+            icon: "bulb",
+            title: "Đồ vật"
+          },
+          symbols: {
+            icon: "heart",
+            title: "Biểu tượng"
+          },
+          flags: {
+            icon: "flag_vn",
+            title: "Cờ"
+          }
+        },
+        events: {
+          ready: function () {
+            // Thêm nút chọn màu da
+            const skinTones = [
+              { code: '1f3fb', name: 'Sáng' },
+              { code: '1f3fc', name: 'Hơi sáng' },
+              { code: '1f3fd', name: 'Trung bình' },
+              { code: '1f3fe', name: 'Hơi tối' },
+              { code: '1f3ff', name: 'Tối' }
+            ];
+
+            const toneButtons = skinTones.map(tone =>
+              `<span class="emojionearea-tone" data-tone="${tone.code}" title="${tone.name}"></span>`
+            ).join('');
+
+            const toneSelector = $(`
+              <div class="emojionearea-tones-panel">
+                <span class="emojionearea-tone -no-tone" data-tone="0" title="Mặc định"></span>
+                ${toneButtons}
+              </div>
+            `);
+
+            this.picker.find('.emojionearea-filter').after(toneSelector);
+          }
+        }
+      });
+
+      // Icon Picker
+      const iconPickerModal = $("#iconPickerModal");
+      const iconGrid = $("#iconGrid");
+      const iconSearch = $("#iconSearch");
+
+      // Icon Categories
+      const iconCategories = {
+        'regular': {
+          name: 'Cơ bản',
+          prefix: 'far'
+        },
+        'solid': {
+          name: 'Đặc',
+          prefix: 'fas'
+        },
+        'brands': {
+          name: 'Thương hiệu',
+          prefix: 'fab'
+        },
+        'weather': {
+          name: 'Thời tiết',
+          prefix: 'fas',
+          icons: ['cloud', 'sun', 'moon', 'star', 'wind', 'snowflake', 'umbrella', 'bolt', 'rainbow']
+        },
+        'emotions': {
+          name: 'Cảm xúc',
+          prefix: 'fas',
+          icons: ['smile', 'laugh', 'sad', 'angry', 'meh', 'heart', 'thumbs-up', 'thumbs-down']
+        },
+        'actions': {
+          name: 'Hành động',
+          prefix: 'fas',
+          icons: ['edit', 'trash', 'save', 'share', 'download', 'upload', 'print', 'search', 'sync']
+        },
+        'media': {
+          name: 'Media',
+          prefix: 'fas',
+          icons: ['play', 'pause', 'stop', 'volume-up', 'image', 'video', 'music', 'camera', 'microphone']
+        },
+        'communication': {
+          name: 'Liên lạc',
+          prefix: 'fas',
+          icons: ['envelope', 'phone', 'comment', 'comments', 'bell', 'paper-plane', 'inbox']
+        },
+        'devices': {
+          name: 'Thiết bị',
+          prefix: 'fas',
+          icons: ['mobile', 'tablet', 'laptop', 'desktop', 'tv', 'keyboard', 'mouse', 'printer']
+        },
+        'files': {
+          name: 'Tập tin',
+          prefix: 'fas',
+          icons: ['file', 'folder', 'copy', 'paste', 'cut', 'save', 'download', 'upload']
+        },
+        'social': {
+          name: 'Mạng xã hội',
+          prefix: 'fab',
+          icons: ['facebook', 'twitter', 'instagram', 'youtube', 'linkedin', 'github', 'google']
+        }
+      };
+
+      // Render categories
+      const categoriesContainer = $('#iconCategories');
+      Object.keys(iconCategories).forEach(category => {
+        const btn = $(`<button class="category-btn" data-category="${category}">
+          ${iconCategories[category].name}
+        </button>`);
+        categoriesContainer.append(btn);
+      });
+
+      // Set first category as active
+      $('.category-btn').first().addClass('active');
+
+      // Handle category click
+      $('.category-btn').click(function () {
+        $('.category-btn').removeClass('active');
+        $(this).addClass('active');
+        const category = $(this).data('category');
+        renderIconsForCategory(category);
+      });
+
+      function renderIconsForCategory(category) {
+        const { prefix, icons } = iconCategories[category];
+        const searchTerm = $('#iconSearch').val().toLowerCase();
+
+        let filteredIcons = icons;
+        if (searchTerm) {
+          filteredIcons = icons.filter(icon => icon.toLowerCase().includes(searchTerm));
+        }
+
+        iconGrid.empty();
+
+        if (filteredIcons.length === 0) {
+          iconGrid.html('<div class="no-results">Không tìm thấy icon phù hợp</div>');
+          return;
+        }
+
+        filteredIcons.forEach(icon => {
+          const iconItem = $(`
+            <div class="icon-item" data-icon="${icon}" data-prefix="${prefix}">
+              <i class="${prefix} fa-${icon}"></i>
+              <span class="icon-tooltip">${icon}</span>
+            </div>
+          `);
+          iconGrid.append(iconItem);
+        });
+      }
+
+      // Initial render
+      renderIconsForCategory('regular');
+
+      // Search functionality
+      $('#iconSearch').on('input', function () {
+        const activeCategory = $('.category-btn.active').data('category');
+        renderIconsForCategory(activeCategory);
+      });
+
+      // Icon selection
+      $(document).on('click', '.icon-item', function () {
+        const icon = $(this).data('icon');
+        const prefix = $(this).data('prefix');
+        const iconHtml = `<i class="${prefix} fa-${icon}"></i>`;
+        emojiArea[0].emojioneArea.editor.focus();
+        document.execCommand('insertHTML', false, iconHtml);
+        iconPickerModal.hide();
+      });
+
+      // Mở modal chọn icon
+      $("#openIconPicker").click(function () {
+        iconPickerModal.css('display', 'flex');
+      });
+
+      // Đóng modal
+      $("#closeIconPicker").click(function () {
+        iconPickerModal.hide();
+      });
+
+      // Đóng modal khi click ngoài
+      iconPickerModal.click(function (e) {
+        if (e.target === this) {
+          $(this).hide();
+        }
+      });
+
+      // Xử lý form submit
+      $("#editCommentForm").on("submit", function (event) {
+        event.preventDefault();
+        var form = $(this);
+        var binhLuanId = $("#binhLuanId").val();
+        var baiVietId = $("#baiVietId").val();
+
+        // Hiển thị loading state
+        const submitBtn = form.find('button[type="submit"]');
+        const originalText = submitBtn.html();
+        submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Đang lưu...');
+        submitBtn.prop('disabled', true);
+
+        $.ajax({
+          type: form.attr("method"),
+          url: form.attr("action"),
+          data: form.serialize(),
+          success: function () {
+            showToast('Đã lưu bình luận thành công!', 'success');
+            setTimeout(() => {
               window.location.href = `/user/baiviet/chitiet/${baiVietId}#binhluan-${binhLuanId}`;
-            },
-            error: function () {
-              alert("Có lỗi xảy ra khi lưu bình luận.");
-            },
-          });
+            }, 1000);
+          },
+          error: function () {
+            showToast('Có lỗi xảy ra khi lưu bình luận.', 'error');
+            submitBtn.html(originalText);
+            submitBtn.prop('disabled', false);
+          }
         });
       });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+
+      // Hàm hiển thị toast notification
+      function showToast(message, type = 'success') {
+        const toast = $(`
+          <div class="toast" role="alert">
+            <div class="d-flex align-items-center">
+              <i class="fas fa-${type === 'success' ? 'check-circle text-success' : 'exclamation-circle text-danger'} me-2"></i>
+              <div>${message}</div>
+            </div>
+          </div>
+        `);
+
+        $('.toast-container').append(toast);
+
+        setTimeout(() => {
+          toast.fadeOut(300, function () {
+            $(this).remove();
+          });
+        }, 3000);
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

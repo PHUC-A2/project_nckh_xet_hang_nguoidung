@@ -1,608 +1,622 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trang chủ</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="shortcut icon"
-      href="/images/user/user.png"
-      type="image/x-icon"
-    />
-    <!-- <link rel="stylesheet" href="/css/user/hoso_nguoidung.css"> -->
-    <style>
-      body {
-        font-family: "Poppins", sans-serif;
-        background: #f8f9fafe; /* Màu nền sáng */
-        color: #343a40; /* Màu chữ tối */
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-      }
 
-      .navbar {
-        background: #ffffff; /* Nền trắng cho navbar */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Trang chủ</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="shortcut icon" href="/images/user/user.png" type="image/x-icon" />
+  <!-- <link rel="stylesheet" href="/css/user/hoso_nguoidung.css"> -->
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --accent-color: #f59e0b;
+      --text-color: #1f2937;
+      --light-bg: #f8f9fa;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
 
-      .navbar-brand img {
-        border-radius: 50%;
-        margin-right: 10px;
-      }
+    body {
+      font-family: "Poppins", sans-serif;
+      background: var(--light-bg);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-      .content {
-        padding: 2rem;
-        flex-grow: 1;
-        padding-top: 100px;
-      }
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--card-shadow);
+    }
 
-      .card {
-        background: #ffffff; /* Nền trắng cho card */
-        border: 1px solid #e0e0e0; /* Viền xám nhạt */
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s;
-      }
+    .navbar-brand img {
+      border-radius: 12px;
+      transition: transform 0.3s;
+    }
 
-      .card:hover {
-        transform: translateY(-5px);
-      }
+    .navbar-brand:hover img {
+      transform: scale(1.1);
+    }
 
-      .profile-img {
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-bottom: 1rem;
-        border: 3px solid #343a40;
-      }
+    .search-bar {
+      position: relative;
+      margin: 0.5rem 1rem;
+      max-width: 500px;
+      width: 100%;
+      flex-grow: 1;
+    }
 
-      .btn-custom {
-        background: #007bff; /* Màu xanh dương */
-        color: white;
-        border: none;
-        transition: all 0.3s;
-      }
+    .search-bar input {
+      width: 100%;
+      padding: 12px 45px 12px 20px;
+      border: 2px solid #e5e7eb;
+      border-radius: 24px;
+      font-size: 16px;
+      transition: all 0.3s;
+      background-color: #f8f9fa;
+    }
 
-      .btn-custom:hover {
-        background: #0056b3; /* Màu xanh dương đậm hơn khi hover */
-        transform: scale(1.05);
-      }
+    .search-bar input:focus {
+      border-color: var(--primary-color);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      outline: none;
+      background-color: white;
+    }
 
-      h4 {
-        color: #343a40; /* Màu chữ tối */
-      }
+    .search-bar button {
+      position: absolute;
+      right: 5px;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
 
-      .scrollable-table {
-        max-height: 300px; /* Adjusted height for 5 items */
-        overflow-y: auto; /* Add scrollbar when content exceeds height */
-        border-radius: 10px;
-        border: 1px solid #e0e0e0;
-        padding: 10px;
-      }
+    .search-bar button:hover {
+      background-color: var(--secondary-color);
+      transform: translateY(-50%) scale(1.05);
+    }
 
-      .scrollable-table table {
-        width: 100%;
-        text-align: left;
-        font-weight: bold;
-      }
+    .search-bar .search-icon {
+      font-size: 14px;
+    }
 
-      .scrollable-table th {
-        background: #007bff;
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
+    @media (max-width: 768px) {
+      .search-bar {
+        margin: 0.5rem 0;
+        order: 3;
+        flex-basis: 100%;
       }
+    }
 
-      .scrollable-table td {
-        padding: 10px;
-      }
+    .nav-link {
+      padding: 8px 16px;
+      margin: 0 4px;
+      border-radius: 8px;
+      transition: all 0.3s;
+      font-weight: 500;
+    }
 
+    .nav-link:hover {
+      background: var(--primary-color);
+      color: white !important;
+    }
+
+    .content {
+      padding: 2rem;
+      flex-grow: 1;
+      padding-top: 100px;
+    }
+
+    /* Add height matching styles */
+    @media (min-width: 992px) {
       .row {
-        display: flex;
-        align-items: stretch;
-      }
-
-      .equal-height {
         display: flex;
         flex-wrap: wrap;
       }
 
-      .equal-height > div {
-        flex: 1;
+      .row>[class*='col-'] {
         display: flex;
         flex-direction: column;
+      }
+
+      .profile-card,
+      .posts-card {
         height: 100%;
-      }
-
-      .fixed-height {
-        height: 500px; /* Set a fixed height for the columns */
-      }
-
-      /* Modal styling */
-      .modal-content {
-        background: #ffffff;
-        color: #343a40;
-        border-radius: 10px;
-      }
-
-      .modal-header {
-        border-bottom: 1px solid #e0e0e0;
-      }
-
-      .modal-footer {
-        border-top: 1px solid #e0e0e0;
-      }
-
-      .modal-body {
-        padding: 2rem;
-      }
-
-      .modal-body .info {
-        font-size: 1.2rem;
-        margin-bottom: 1rem;
-      }
-
-      .modal-body .info span {
-        font-weight: bold;
-        color: #007bff;
-      }
-
-      .modal-body h1 {
-        font-size: 2rem;
-        margin-bottom: 1.5rem;
-      }
-
-      .modal-footer .btn {
-        background: #007bff;
-        border: none;
-      }
-
-      .modal-footer .btn:hover {
-        background: #0056b3;
-      }
-
-      .info {
-        font-size: 1.1rem;
-        margin-bottom: 0.5rem;
-      }
-      .search-bar {
-        margin-left: 20px;
         display: flex;
-        align-items: center;
-        border: 1px solid #dfe1e5; /* Viền xám nhạt */
-        border-radius: 24px; /* Bo tròn viền */
-        padding: 8px 16px; /* Khoảng cách bên trong */
-        width: 500px; /* Chiều rộng thanh tìm kiếm */
-        background-color: #f8f9fa; /* Nền xám nhạt */
+        flex-direction: column;
       }
 
-      .search-bar i {
-        margin-left: 10px; /* Khoảng cách giữa biểu tượng và input */
-        color: #9aa0a6; /* Màu biểu tượng */
+      .posts-list {
+        flex: 1;
+        min-height: 0;
+      }
+    }
+
+    .profile-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s;
+      overflow: hidden;
+    }
+
+    .profile-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .profile-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      padding: 2rem;
+      color: white;
+      text-align: center;
+    }
+
+    .profile-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 4px solid white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      margin-bottom: 1rem;
+    }
+
+    .profile-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .stat-item {
+      text-align: center;
+      padding: 1rem;
+      background: var(--light-bg);
+      border-radius: 12px;
+      transition: all 0.3s;
+    }
+
+    .stat-item:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    .posts-card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      height: 100%;
+    }
+
+    .posts-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .btn-custom {
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all 0.3s;
+    }
+
+    .btn-custom:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .posts-list {
+      max-height: 500px;
+      overflow-y: auto;
+      padding: 1rem;
+    }
+
+    .post-item {
+      padding: 1rem;
+      border-bottom: 1px solid #e5e7eb;
+      transition: all 0.3s;
+    }
+
+    .post-item:hover {
+      background: var(--light-bg);
+      border-radius: 8px;
+    }
+
+    .post-title {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .post-title:hover {
+      color: var(--primary-color);
+    }
+
+    .post-meta {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-top: 0.5rem;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 1rem;
+      border-radius: 12px;
+      border: none;
+      background: var(--light-bg);
+      color: var(--text-color);
+      font-weight: 500;
+      transition: all 0.3s;
+      text-align: center;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .action-btn:hover {
+      background: var(--primary-color);
+      color: white;
+      transform: translateY(-3px);
+    }
+
+    .modal-content {
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      border: none;
+    }
+
+    .modal-body {
+      padding: 2rem;
+    }
+
+    .info-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      background: var(--light-bg);
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .info-item i {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+
+    .footer {
+      background: var(--text-color);
+      color: white;
+      padding: 2rem 0;
+      margin-top: auto;
+    }
+
+    .footer h3 {
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+    }
+
+    .footer-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+    }
+
+    .footer-link {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-link:hover {
+      color: var(--accent-color);
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--light-bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--secondary-color);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
       }
 
-      .search-bar input {
-        border: none;
-        outline: none;
-        flex-grow: 1;
-        background-color: transparent; /* Nền trong suốt */
-        font-size: 16px;
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
-      .footer {
-        background: #343a40;
-        color: white;
-        padding: 1rem 0;
-        text-align: center;
-        margin-top: auto;
-      }
-      .footer h3 {
-        margin-bottom: 1rem;
-      }
-      .footer ul {
-        padding: 0;
-        list-style: none;
-      }
-      .footer ul li {
-        margin-bottom: 0.5rem;
-      }
-      .footer ul li a {
-        color: #ffc107;
-        text-decoration: none;
-      }
-      .footer ul li a:hover {
-        text-decoration: underline;
-      }
-    </style>
-  </head>
+    }
 
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/user}">
-          <img src="/images/user/user.png" alt="User" width="40" height="40" />
-          Trang chủ
-        </a>
-        <form class="navbar-brand search-bar" action="/user/hoso" method="get">
-          <input type="text" name="keyword" placeholder="Tìm kiếm" />
-          <button
-            type="submit"
-            style="background: none; border: none; cursor: pointer"
-          >
-            <i class="fas fa-search"></i>
-          </button>
-        </form>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
-        >
-          <span class="navbar-toggler-icon"></span>
+    .animate-fade-in {
+      animation: fadeIn 0.5s ease-out;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/user/hoso}">
+        <img src="/images/user/user.png" alt="User" width="40" height="40" />
+        <span class="ms-2 fw-bold">BLOG</span>
+      </a>
+
+      <form class="search-bar" action="/user/hoso" method="get">
+        <input type="text" name="keyword" placeholder="Tìm kiếm bài viết..." th:value="${param.keyword}"
+          autocomplete="off" aria-label="Tìm kiếm" />
+        <button type="submit" aria-label="Tìm kiếm">
+          <i class="fas fa-search search-icon"></i>
         </button>
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarContent"
-        >
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" th:href="@{/user/hoso}"
-                ><i class="fas fa-home me-1"></i> Trang Chủ</a
-              >
-            </li>
+      </form>
 
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/diem/bangxephang}">
-                <i class="fas fa-bolt me-1"></i> Bảng Xếp Hạng
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/baiviet/tao}"
-                ><i class="fas fa-pencil-alt me-1"></i> Viết Bài</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="javascript:void(0);"
-                onclick="document.getElementById('logoutForm').submit();"
-                ><i class="fas fa-sign-out-alt me-1"></i> Đăng Xuất</a
-              >
-            </li>
-            <form
-              id="logoutForm"
-              th:action="@{/logout}"
-              method="post"
-              style="display: none"
-            ></form>
-          </ul>
-        </div>
-      </div>
-    </nav>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-    <div class="content container mt-5">
-      <h3>Chào mừng bạn đến với trang chủ người dùng!</h3>
-      <div class="row equal-height mt-3">
-        <div class="col-md-4 text-center h-100 d-flex flex-column fixed-height">
-          <div class="card p-4 flex-grow-1">
-            <img
-              src="/images/user/user.png"
-              alt="Profile"
-              class="profile-img"
-            />
-            <h4>
-              <i class="fas fa-user"></i>
-              <span
-                th:text="|Tên: ${nguoiDung.tenDangNhap} - ID = ${nguoiDungId}|"
-              ></span>
-            </h4>
-            <p>
-              <i class="fas fa-envelope"></i>
-              <span th:text="${nguoiDung.email}">user@example.com</span>
-            </p>
-            <p>
-              <i class="fas fa-star"></i> Điểm:
-              <span th:text="${tongDiem}">150</span>
-            </p>
-            <p>
-              <i class="fas fa-user-tag"></i> Vai Trò:
-              <span th:text="${nguoiDung.vaiTro}">USER</span>
-            </p>
-            <p>
-              <i class="fas fa-level-up-alt"></i> Cấp Bậc:
-              <span th:text="${nguoiDung.capBac}">DONG</span>
-            </p>
-            <p>
-              <i class="fas fa-calendar-alt"></i> Ngày Tạo:
-              <span
-                th:text="${#temporals.format(nguoiDung.ngayTao, 'dd/MM/yyyy')}"
-                >2025-03-12</span
-              >
-            </p>
-          </div>
-        </div>
-
-        <div class="col-md-8 h-100 d-flex flex-column fixed-height">
-          <div class="card-custom p-4 flex-grow-1">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-              <h4 class="text-center mb-3">Bài viết của mọi người</h4>
-              <a
-                th:href="@{/user/baiviet/tao}"
-                class="btn btn-custom text-decoration-none"
-                ><i class="fas fa-pencil-alt"></i> Viết bài</a
-              >
-            </div>
-            <div class="scrollable-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Tiêu đề bài viết</th>
-                    <th class="text-end">
-                      <a
-                        th:href="@{/user/baiviet/tatca}"
-                        class="btn btn-link text-white text-decoration-none"
-                      >
-                        <i class="fas fa-eye"></i> Xem chi tiết
-                      </a>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody th:each="baiViet : ${danhSachBaiViet}">
-                  <tr>
-                    <td>
-                      <a
-                        th:href="@{/user/baiviet/chitiet/{id}(id=${baiViet.id})}"
-                        th:text="${baiViet.tieuDe}"
-                      ></a>
-                    </td>
-                    <td>
-                      <span
-                        class="text-dark"
-                        th:text="${baiViet.nguoiDung.tenDangNhap} + ' '"
-                      ></span>
-                      <span
-                        class="text-warning"
-                        th:text="' đã đăng vào ngày ' + ${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"
-                      ></span>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="row mt-4">
-        <div class="col-md-3">
-          <!-- <a th:href="@{/user/thongtincanhan}" class="btn btn-custom w-100"
-            ><i class="fas fa-eye"></i>Thông tin cá nhân</a
-          > -->
-          <button
-            type="button"
-            class="btn btn-custom w-100"
-            data-bs-toggle="modal"
-            data-bs-target="#infoModal"
-          >
-            <i class="fas fa-user"></i> Thông tin cá nhân
-          </button>
-        </div>
-        <div class="col-md-3">
-          <a
-            th:href="@{/user/baiviet/tatcabaiviethientai}"
-            class="btn btn-custom w-100"
-            ><i class="fas fa-eye"></i>Bài viết của tôi</a
-          >
-        </div>
+      <div class="collapse navbar-collapse" id="navbarContent">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/user/hoso}">
+              <i class="fas fa-home"></i>
+              <span class="ms-1">Trang Chủ</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/diem/bangxephang}">
+              <i class="fas fa-trophy"></i>
+              <span class="ms-1">Bảng Xếp Hạng</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/baiviet/tao}">
+              <i class="fas fa-pen"></i>
+              <span class="ms-1">Viết Bài</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+              <i class="fas fa-sign-out-alt"></i>
+              <span class="ms-1">Đăng Xuất</span>
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
+  </nav>
 
-    <!-- Modal hiển thị thông tin cá nhân -->
-    <div
-      class="modal fade"
-      id="infoModal"
-      tabindex="-1"
-      aria-labelledby="infoModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="infoModalLabel">Thông tin cá nhân</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
+  <div class="content container">
+    <div class="row g-4">
+      <div class="col-lg-4">
+        <div class="profile-card animate-fade-in">
+          <div class="profile-header">
+            <img src="/images/user/user.png" alt="Profile" class="profile-img" />
+            <h4 class="mb-0" th:text="${nguoiDung.tenDangNhap}">Username</h4>
+            <p class="mb-0" th:text="${nguoiDung.email}">email@example.com</p>
           </div>
-          <div class="modal-body">
-            <div class="container">
-              <h1>Thông Tin Cá Nhân</h1>
-              <p class="info">🆔 ID: <span th:text="${nguoiDung.id}"></span></p>
-              <p class="info">
-                👤 Tên đăng nhập:
-                <span th:text="${nguoiDung.tenDangNhap}"></span>
-              </p>
-              <p class="info">
-                ✉️ Email: <span th:text="${nguoiDung.email}"></span>
-              </p>
-              <p class="info">
-                🎖️ Cấp bậc: <span th:text="${nguoiDung.capBac}"></span>
-              </p>
-              <p class="info">
-                🔑 Vai trò: <span th:text="${nguoiDung.vaiTro}"></span>
-              </p>
-              <!-- <p class="info">
-                📊 Số lần đăng nhập:
-                <span th:text="${nguoiDung.soLanDangNhap}"></span>
-              </p> -->
-              <p class="info">
-                📅 Ngày tạo:
-                <span
-                  th:text="${#temporals.format(nguoiDung.ngayTao, 'dd/MM/yyyy')}"
-                ></span>
-              </p>
-              <div class="mb-3 mt-3 d-flex justify-content-between">
-                <div class="text-center mt-3">
-                  <a th:href="@{/user/hoso}" class="btn btn-light"
-                    >🏠 Trang Chủ</a
-                  >
-                </div>
-                <div class="text-center mt-3">
-                  <button
-                    type="button"
-                    class="btn btn-warning"
-                    data-bs-toggle="modal"
-                    data-bs-target="#editModal"
-                    data-bs-dismiss="modal"
-                  >
-                    <i class="fas fa-edit"></i>Sửa
-                  </button>
-                </div>
+
+          <div class="profile-stats">
+            <div class="stat-item">
+              <i class="fas fa-star mb-2"></i>
+              <h5 class="mb-0" th:text="${tongDiem}">0</h5>
+              <p class="mb-0">Điểm</p>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-medal mb-2"></i>
+              <h5 class="mb-0" th:text="${nguoiDung.capBac}">BRONZE</h5>
+              <p class="mb-0">Cấp Bậc</p>
+            </div>
+            <div class="stat-item">
+              <i class="fas fa-user-tag mb-2"></i>
+              <h5 class="mb-0" th:text="${nguoiDung.vaiTro}">USER</h5>
+              <p class="mb-0">Vai Trò</p>
+            </div>
+          </div>
+
+          <div class="p-3">
+            <div class="action-buttons">
+              <button class="action-btn" data-bs-toggle="modal" data-bs-target="#infoModal">
+                <i class="fas fa-user"></i>
+                <span>Thông tin</span>
+              </button>
+              <a th:href="@{/user/baiviet/tatcabaiviethientai}" class="action-btn">
+                <i class="fas fa-file-alt"></i>
+                <span>Bài viết</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-8">
+        <div class="posts-card animate-fade-in">
+          <div class="posts-header">
+            <h4 class="mb-0">Bài viết mới nhất</h4>
+            <a th:href="@{/user/baiviet/tao}" class="btn btn-custom">
+              <i class="fas fa-plus"></i>
+              <span class="ms-1">Viết bài</span>
+            </a>
+          </div>
+
+          <div class="posts-list">
+            <div th:each="baiViet : ${danhSachBaiViet}" class="post-item">
+              <a th:href="@{/user/baiviet/chitiet/{id}(id=${baiViet.id})}" th:text="${baiViet.tieuDe}"
+                class="post-title">
+              </a>
+              <div class="post-meta">
+                <i class="fas fa-user me-1"></i>
+                <span th:text="${baiViet.nguoiDung.tenDangNhap}"></span>
+                <i class="fas fa-calendar-alt ms-3 me-1"></i>
+                <span th:text="${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"></span>
               </div>
             </div>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Đóng
-            </button>
-          </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- Modal sửa thông tin cá nhân -->
-    <div
-      class="modal fade"
-      id="editModal"
-      tabindex="-1"
-      aria-labelledby="editModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="editModalLabel">
-              Sửa thông tin cá nhân
-            </h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">
-            <div class="container">
-              <h1>Sửa Thông Tin Cá Nhân</h1>
-              <form
-                th:action="@{/user/sua/{id}(id=${nguoiDung.id})}"
-                th:object="${nguoiDung}"
-                method="post"
-              >
-                <div class="mb-3">
-                  <label for="tenDangNhap" class="form-label"
-                    >Tên đăng nhập</label
-                  >
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="tenDangNhap"
-                    th:field="*{tenDangNhap}"
-                  />
-                </div>
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    id="email"
-                    th:field="*{email}"
-                  />
-                </div>
-                <!-- <div class="mb-3">
-                  <label for="matKhau" class="form-label">Mật khẩu</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="matKhau"
-                    th:field="*{matKhau}"
-                  />
-                </div> -->
-                <!-- <div class="mb-3">
-                  <label for="vaiTro" class="form-label">Vai trò</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="vaiTro"
-                    th:field="*{vaiTro}"
-                  />
-                </div> -->
-                <div class="mb-3 mt-3 d-flex justify-content-between">
-                  <div class="text-center mt-3">
-                    <a th:href="@{/user/hoso}" class="btn btn-light"
-                      >🏠 Trang Chủ</a
-                    >
-                  </div>
-                  <div class="text-center mt-3">
-                    <button type="submit" class="btn btn-primary">
-                      <i class="fas fa-save"></i> Lưu
-                    </button>
-                  </div>
-                </div>
-              </form>
+  <!-- Modal Thông tin cá nhân -->
+  <div class="modal fade" id="infoModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Thông tin cá nhân</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="info-item">
+            <i class="fas fa-id-card"></i>
+            <div>
+              <small class="text-muted">ID</small>
+              <p class="mb-0" th:text="${nguoiDung.id}"></p>
             </div>
           </div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Đóng
+          <div class="info-item">
+            <i class="fas fa-user"></i>
+            <div>
+              <small class="text-muted">Tên đăng nhập</small>
+              <p class="mb-0" th:text="${nguoiDung.tenDangNhap}"></p>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <small class="text-muted">Email</small>
+              <p class="mb-0" th:text="${nguoiDung.email}"></p>
+            </div>
+          </div>
+          <div class="info-item">
+            <i class="fas fa-calendar-alt"></i>
+            <div>
+              <small class="text-muted">Ngày tạo</small>
+              <p class="mb-0" th:text="${#temporals.format(nguoiDung.ngayTao, 'dd/MM/yyyy')}"></p>
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end mt-4">
+            <button class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#editModal" data-bs-dismiss="modal">
+              <i class="fas fa-edit me-1"></i>
+              Chỉnh sửa
             </button>
           </div>
         </div>
       </div>
     </div>
-    <footer class="footer">
-      <div class="container">
-        <p>&copy; 2025 Trang web của bạn. Mọi quyền được bảo lưu.</p>
-        <div>
-          <h3>Tài liệu tham khảo</h3>
-          <ul class="list-unstyled">
-            <li>
-              <a href="https://github.com">Github</a>
-            </li>
-            <li>
-              <a href="https://chatgpt.com">ChatGPT</a>
-            </li>
-            <li>
-              <a href="https://spring.io">Sping Boot</a>
-            </li>
-            <li>
-              <a href="https://thymeleaf.org">Thymeleaf</a>
-            </li>
-          </ul>
+  </div>
+
+  <!-- Modal Chỉnh sửa thông tin -->
+  <div class="modal fade" id="editModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Chỉnh sửa thông tin</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form th:action="@{/user/sua/{id}(id=${nguoiDung.id})}" th:object="${nguoiDung}" method="post">
+            <div class="mb-3">
+              <label class="form-label">Tên đăng nhập</label>
+              <input type="text" class="form-control" th:field="*{tenDangNhap}" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" th:field="*{email}" />
+            </div>
+            <div class="d-flex justify-content-end gap-2">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+              <button type="submit" class="btn btn-custom">
+                <i class="fas fa-save me-1"></i>
+                Lưu thay đổi
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <div>
+          <h3>Tài liệu tham khảo</h3>
+          <div class="d-flex flex-column gap-2">
+            <a href="https://github.com" class="footer-link">
+              <i class="fab fa-github"></i>
+              <span>Github</span>
+            </a>
+            <a href="https://spring.io" class="footer-link">
+              <i class="fas fa-leaf"></i>
+              <span>Spring Boot</span>
+            </a>
+            <a href="https://thymeleaf.org" class="footer-link">
+              <i class="fas fa-code"></i>
+              <span>Thymeleaf</span>
+            </a>
+          </div>
+        </div>
+      </div>
+      <hr class="my-4" />
+      <p class="text-center mb-0">&copy; 2025 Blog. Mọi quyền được bảo lưu.</p>
+    </div>
+  </footer>
+
+  <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none"></form>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

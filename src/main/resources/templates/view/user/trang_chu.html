@@ -1,394 +1,443 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Trang chủ</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="shortcut icon"
-      href="/images/user/user.png"
-      type="image/x-icon"
-    />
-    <!-- <link rel="stylesheet" href="/css/user/trang_chu.css" /> -->
-    <style>
-      body {
-        font-family: "Poppins", sans-serif;
-        background: #f8f9fa; /* Màu nền sáng */
-        color: #343a40; /* Màu chữ tối */
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RankingHub - Nền tảng xếp hạng hàng đầu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="shortcut icon" href="/images/user/user.png" type="image/x-icon" />
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1d4ed8;
+      --accent-color: #f59e0b;
+      --text-color: #1f2937;
+      --bg-color: #f3f4f6;
+      --card-bg: #ffffff;
+      --max-width: 100%;
+      --overflow-x: hidden;
+      --overflow-y: auto;
+      --min-height: 100vh;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-size: 0.95rem;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
+      padding: 0.8rem 0;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white !important;
+    }
+
+    .nav-link {
+      color: rgba(255, 255, 255, 0.9) !important;
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .search-bar {
+      max-width: 300px;
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 1.5rem;
+      padding: 0.4rem 1rem;
+      margin: 0 1rem;
+    }
+
+    .search-bar input {
+      color: white;
+      font-size: 0.9rem;
+    }
+
+    .search-bar input::placeholder {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .content {
+      padding: 2rem 0;
+      flex: 1;
+      min-height: calc(100vh - 300px);
+      /* Adjust for navbar and footer */
+    }
+
+    .card-custom {
+      background: var(--card-bg);
+      border: none;
+      border-radius: 1rem;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: all 0.3s ease;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-custom:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-custom h4 {
+      color: var(--primary-color);
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+
+    .scrollable-table {
+      max-height: 600px;
+      /* Increased height */
+      overflow-y: auto;
+      border-radius: 0.8rem;
+      background: rgba(255, 255, 255, 0.95);
+      padding: 0.8rem;
+      flex: 1;
+    }
+
+    .scrollable-table::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .scrollable-table::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .scrollable-table::-webkit-scrollbar-thumb {
+      background: var(--primary-color);
+      border-radius: 10px;
+    }
+
+    .scrollable-table table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 0.5rem;
+    }
+
+    .scrollable-table thead {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+      background: var(--card-bg);
+    }
+
+    .scrollable-table th {
+      background: var(--primary-color);
+      color: white;
+      padding: 0.8rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+    }
+
+    .scrollable-table td {
+      padding: 0.8rem;
+      font-size: 0.9rem;
+      background: white;
+    }
+
+    .img-thumbnail {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      border: 3px solid var(--accent-color);
+      padding: 2px;
+    }
+
+    .rank-1 {
+      color: #fbbf24;
+    }
+
+    .rank-2 {
+      color: #94a3b8;
+    }
+
+    .rank-3 {
+      color: #b45309;
+    }
+
+    .footer {
+      background: linear-gradient(145deg, var(--primary-color), var(--secondary-color));
+      color: white;
+      padding: 2rem 0;
+      margin-top: auto;
+      font-size: 0.9rem;
+    }
+
+    .footer h3 {
+      font-weight: 600;
+      color: var(--accent-color);
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+    }
+
+    .footer a {
+      color: rgba(255, 255, 255, 0.8);
+      transition: all 0.3s ease;
+      display: block;
+      padding: 0.3rem 0;
+      font-size: 0.9rem;
+    }
+
+    .footer a:hover {
+      color: var(--accent-color);
+      transform: translateX(5px);
+    }
+
+    .badge {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      border-radius: 1rem;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+
+    .welcome-section h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-section p {
+      font-size: 1rem;
+      color: #6b7280;
+    }
+
+    @media (max-width: 768px) {
+      .search-bar {
+        width: 100%;
+        max-width: none;
+        margin: 0.5rem 0;
       }
 
       .content {
-        padding: 2rem;
-        flex-grow: 1;
-        padding-top: 50px;
-      }
-
-      .row {
-        display: flex;
-        align-items: stretch; /* Đảm bảo các cột có chiều cao bằng nhau */
-      }
-
-      .card-custom {
-        background: #ffffff;
-        border: 1px solid #e0e0e0;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s;
-        display: flex; /* Thêm flexbox vào card-custom */
-        flex-direction: column; /* Sắp xếp các phần tử bên trong theo chiều dọc */
-      }
-
-      .card-custom:hover {
-        transform: translateY(-5px);
-      }
-
-      .scrollable-table {
-        max-height: 300px; /* Chiều cao tối đa cho bảng */
-        overflow-y: auto;
-        border-radius: 10px;
-        border: 1px solid #e0e0e0;
-        padding: 10px;
-        flex-grow: 1; /* Cho phép bảng mở rộng để lấp đầy card-custom */
-      }
-
-      /* Các CSS khác giữ nguyên */
-
-      .scrollable-table table {
-        width: 100%;
-        text-align: left;
-        font-weight: bold;
-      }
-
-      .scrollable-table th {
-        background: #007bff;
-        color: white;
-        padding: 10px;
-        border-radius: 5px;
-      }
-
-      .scrollable-table td {
-        padding: 10px;
-      }
-
-      .scrollable-table tr:hover {
-        background: rgba(0, 123, 255, 0.1);
-        transform: scale(1.02);
-      }
-
-      .rank-1 {
-        color: gold;
-        font-weight: bold;
-      }
-
-      .rank-2 {
-        color: silver;
-        font-weight: bold;
-      }
-
-      .rank-3 {
-        color: #cd7f32;
-        font-weight: bold;
-      }
-
-      .navbar {
-        background-color: #343a40; /* Màu nền navbar */
+        padding: 1rem;
       }
 
       .navbar-brand {
+        font-size: 1.3rem;
+      }
+
+      .welcome-section h2 {
         font-size: 1.5rem;
-        font-weight: bold;
-        color: #ffffff; /* Màu chữ navbar brand */
       }
 
-      .navbar-nav .nav-link {
-        font-size: 1.1rem;
-        margin-right: 1rem;
-        transition: color 0.3s;
-        color: #ffffff; /* Màu chữ nav link */
+      .scrollable-table {
+        max-height: 400px;
       }
+    }
+  </style>
+</head>
 
-      .navbar-nav .nav-link:hover {
-        color: #007bff;
-      }
+<body>
+  <!-- Rest of the HTML remains the same but will use the updated styles -->
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <i class="fas fa-ranking-star me-2"></i>
+        RankingHub
+      </a>
 
-      .btn-custom {
-        background: #007bff; /* Màu xanh dương */
-        color: white;
-        border: none;
-        transition: all 0.3s;
-      }
-
-      .btn-custom:hover {
-        background: #0056b3; /* Màu xanh dương đậm hơn khi hover */
-        transform: scale(1.05);
-      }
-
-      .row {
-        display: flex;
-        align-items: stretch;
-      }
-
-      .img-thumbnail {
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        border: 2px solid #007bff;
-      }
-      .search-bar {
-        margin-left: 20px;
-        display: flex;
-        align-items: center;
-        border: 1px solid #dfe1e5; /* Viền xám nhạt */
-        border-radius: 24px; /* Bo tròn viền */
-        padding: 8px 16px; /* Khoảng cách bên trong */
-        width: 500px; /* Chiều rộng thanh tìm kiếm */
-        background-color: #f8f9fa; /* Nền xám nhạt */
-      }
-
-      .search-bar i {
-        margin-left: 10px; /* Khoảng cách giữa biểu tượng và input */
-        color: #9aa0a6; /* Màu biểu tượng */
-      }
-
-      .search-bar input {
-        border: none;
-        outline: none;
-        flex-grow: 1;
-        background-color: transparent; /* Nền trong suốt */
-        font-size: 16px;
-      }
-
-      .footer {
-        background: #343a40;
-        color: white;
-        padding: 1rem 0;
-        text-align: center;
-        margin-top: auto;
-      }
-      .footer h3 {
-        margin-bottom: 1rem;
-      }
-      .footer ul {
-        padding: 0;
-        list-style: none;
-      }
-      .footer ul li {
-        margin-bottom: 0.5rem;
-      }
-      .footer ul li a {
-        color: #ffc107;
-        text-decoration: none;
-      }
-      .footer ul li a:hover {
-        text-decoration: underline;
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-      <div class="container">
-        <form class="navbar-brand search-bar" action="/" method="get">
-          <input type="text" name="keyword" placeholder="Tìm kiếm" />
-          <button
-            type="submit"
-            style="background: none; border: none; cursor: pointer"
-          >
-            <i class="fas fa-search"></i>
-          </button>
-        </form>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
-          <span class="navbar-toggler-icon"></span>
+      <form class="search-bar d-flex align-items-center" action="/" method="get">
+        <input type="text" name="keyword" placeholder="Tìm kiếm..." class="bg-transparent border-0 text-white w-100" />
+        <button type="submit" style="background: none; border: none; cursor: pointer">
+          <i class="fas fa-search text-white"></i>
         </button>
+      </form>
 
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
-        >
-          <!-- <form class="d-flex me-2">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Tìm kiếm"
-              aria-label="Tìm kiếm"
-            />
-            <button class="btn btn-outline-success" type="submit">
-              <i class="fas fa-search" style="cursor: pointer"></i>
-            </button>
-          </form> -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" th:href="@{/user/hoso}">
-                <i class="fas fa-home me-1"></i> Trang Chủ
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/baiviet/tao}">
-                <i class="fas fa-pencil-alt"></i> Viết bài
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/register}">
-                <i class="fas fa-user-plus"></i> Đăng ký
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/login}">
-                <i class="fas fa-sign-in-alt"></i> Đăng nhập
-              </a>
-            </li>
-          </ul>
-        </div>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/hoso}">
+              <i class="fas fa-home me-1"></i> Trang Chủ
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/baiviet/tao}">
+              <i class="fas fa-pencil-alt me-1"></i> Viết bài
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/register}">
+              <i class="fas fa-user-plus me-1"></i> Đăng ký
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/login}">
+              <i class="fas fa-sign-in-alt me-1"></i> Đăng nhập
+            </a>
+          </li>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <div class="content container">
-      <h3>
-        Hãy tương tác cùng mọi người bằng cách đăng bài viết, video, hình ảnh,
-        bình luận... để lên rank nhé!
-      </h3>
-      <div class="row mt-3">
-        <!-- Danh sách bài viết -->
-        <div class="col-md-7">
-          <div class="card-custom p-4">
-            <!-- <div class="d-flex justify-content-between">
-              <h4 class="text-center mb-3">Tất cả bài viết</h4>
-              <a th:href="@{/user/baiviet/tatca}" class="btn btn-custom mb-3"
-                ><i class="fas fa-eye"></i>Xem chi tiết</a
-              >
-            </div> -->
-            <h4 class="text-center mb-3">Các bài viết phổ biến</h4>
-            <div class="scrollable-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Bài viết</th>
-                    <th class="text-end">
-                      <a
-                        th:href="@{/user/baiviet/tatca}"
-                        class="btn btn-link text-warning text-decoration-none"
-                        ><i class="fas fa-eye"></i>Xem chi tiết</a
-                      >
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr th:each="baiViet : ${danhSachBaiViet}">
-                    <td>
-                      <a
-                        th:href="@{/user/baiviet/chitiet/{id}(id=${baiViet.id})}"
-                        th:text="${baiViet.tieuDe}"
-                      ></a>
-                    </td>
-                    <td>
-                      <span th:text="${baiViet.nguoiDung.tenDangNhap}"></span>
-                      <span
-                        th:text="' đã đăng vào ngày ' + ${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"
-                      ></span>
-                    </td>
-                  </tr>
-                  <tr th:if="${danhSachBaiViet.isEmpty()}">
-                    <td colspan="2" class="text-center text-danger">
-                      Không có bài viết nào
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+  <div class="content container">
+    <div class="welcome-section text-center mb-4">
+      <h2 class="fw-bold" style="color: var(--primary-color);">
+        Chào mừng đến với RankingHub
+      </h2>
+      <p class="lead">
+        Hãy tương tác cùng mọi người bằng cách đăng bài viết, video, hình ảnh, bình luận để nâng cao thứ hạng của bạn!
+      </p>
+    </div>
+
+    <div class="row g-4">
+      <!-- Danh sách bài viết -->
+      <div class="col-lg-7">
+        <div class="card-custom p-3">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4><i class="fas fa-newspaper me-2"></i>Bài viết nổi bật</h4>
+            <a th:href="@{/user/baiviet/tatca}" class="btn btn-primary">
+              <i class="fas fa-eye me-1"></i>Xem tất cả
+            </a>
+          </div>
+
+          <div class="scrollable-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Bài viết</th>
+                  <th>Thông tin</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="baiViet : ${danhSachBaiViet}">
+                  <td>
+                    <a th:href="@{/user/baiviet/chitiet/{id}(id=${baiViet.id})}" th:text="${baiViet.tieuDe}"
+                      class="text-decoration-none fw-bold"></a>
+                  </td>
+                  <td>
+                    <i class="fas fa-user-circle me-1"></i>
+                    <span th:text="${baiViet.nguoiDung.tenDangNhap}" class="fw-bold"></span>
+                    <small class="text-muted ms-2">
+                      <i class="far fa-clock me-1"></i>
+                      <span th:text="${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"></span>
+                    </small>
+                  </td>
+                </tr>
+                <tr th:if="${danhSachBaiViet.isEmpty()}">
+                  <td colspan="2" class="text-center py-3">
+                    <i class="fas fa-inbox fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">Chưa có bài viết nào</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
+      </div>
 
-        <!-- Bảng xếp hạng -->
-        <div class="col-md-5">
-          <div class="card-custom p-4">
-            <h4 class="text-center mb-3">🏆 Bảng Xếp Hạng</h4>
-            <div class="scrollable-table">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Top</th>
-                    <th>Ảnh đại diện</th>
-                    <th>Tên Đăng Nhập</th>
-                    <th>Điểm</th>
-                    <th>Cấp Bậc</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    th:each="nguoiDung, iterStat : ${danhSachNguoiDung}"
-                    th:classappend="${iterStat.count == 1} ? 'rank-1' : (${iterStat.count == 2} ? 'rank-2' : (${iterStat.count == 3} ? 'rank-3' : ''))"
-                  >
-                    <td th:text="${iterStat.count}"></td>
-                    <td>
-                      <img
-                        src="/images/user/user.png"
-                        alt="Avatar"
-                        class="img-thumbnail"
-                      />
-                    </td>
-                    <td th:text="${nguoiDung.tenDangNhap}"></td>
-                    <td
-                      th:text="${diemNguoiDungService.tinhTongDiemByNguoiDungId(nguoiDung.id)}"
-                    ></td>
-                    <td th:text="${nguoiDung.capBac}"></td>
-                  </tr>
-                  <tr th:if="${danhSachNguoiDung.isEmpty()}">
-                    <td colspan="4" class="text-center text-danger">
-                      Không có người dùng nào
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
+      <!-- Bảng xếp hạng -->
+      <div class="col-lg-5">
+        <div class="card-custom p-3">
+          <h4 class="text-center mb-3">
+            <i class="fas fa-trophy text-warning me-2"></i>
+            Bảng Xếp Hạng
+          </h4>
+
+          <div class="scrollable-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Hạng</th>
+                  <th>Thành viên</th>
+                  <th>Điểm</th>
+                  <th>Cấp bậc</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="nguoiDung, iterStat : ${danhSachNguoiDung}"
+                  th:classappend="${iterStat.count == 1} ? 'rank-1' : (${iterStat.count == 2} ? 'rank-2' : (${iterStat.count == 3} ? 'rank-3' : ''))">
+                  <td class="text-center">
+                    <span th:if="${iterStat.count == 1}"><i class="fas fa-crown text-warning"></i></span>
+                    <span th:if="${iterStat.count == 2}"><i class="fas fa-medal text-secondary"></i></span>
+                    <span th:if="${iterStat.count == 3}"><i class="fas fa-award text-bronze"></i></span>
+                    <span th:if="${iterStat.count > 3}" th:text="${iterStat.count}"></span>
+                  </td>
+                  <td>
+                    <div class="d-flex align-items-center">
+                      <img src="/images/user/user.png" alt="Avatar" class="img-thumbnail me-2" />
+                      <span th:text="${nguoiDung.tenDangNhap}" class="fw-bold"></span>
+                    </div>
+                  </td>
+                  <td class="fw-bold" th:text="${diemNguoiDungService.tinhTongDiemByNguoiDungId(nguoiDung.id)}"></td>
+                  <td>
+                    <span class="badge bg-primary" th:text="${nguoiDung.capBac}"></span>
+                  </td>
+                </tr>
+                <tr th:if="${danhSachNguoiDung.isEmpty()}">
+                  <td colspan="4" class="text-center py-3">
+                    <i class="fas fa-users-slash fa-2x text-muted mb-2"></i>
+                    <p class="text-muted mb-0">Chưa có người dùng nào</p>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <footer class="footer">
-      <div class="container">
-        <p>&copy; 2025 Trang web của bạn. Mọi quyền được bảo lưu.</p>
-        <div>
+  <footer class="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Về RankingHub</h3>
+          <p class="mb-3">Nền tảng xếp hạng và chia sẻ nội dung hàng đầu Việt Nam</p>
+          <p class="mb-0">&copy; 2025 RankingHub. Mọi quyền được bảo lưu.</p>
+        </div>
+        <div class="col-md-6">
           <h3>Tài liệu tham khảo</h3>
-          <ul class="list-unstyled">
-            <li>
-              <a href="https://github.com">Github</a>
-            </li>
-            <li>
-              <a href="https://chatgpt.com">ChatGPT</a>
-            </li>
-            <li>
-              <a href="https://spring.io">Sping Boot</a>
-            </li>
-            <li>
-              <a href="https://thymeleaf.org">Thymeleaf</a>
-            </li>
+          <ul class="list-unstyled mb-0">
+            <li><a href="https://github.com"><i class="fab fa-github me-2"></i>Github</a></li>
+            <li><a href="https://chatgpt.com"><i class="fas fa-robot me-2"></i>ChatGPT</a></li>
+            <li><a href="https://spring.io"><i class="fas fa-leaf me-2"></i>Spring Boot</a></li>
+            <li><a href="https://thymeleaf.org"><i class="fas fa-code me-2"></i>Thymeleaf</a></li>
           </ul>
         </div>
       </div>
-    </footer>
+    </div>
+  </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

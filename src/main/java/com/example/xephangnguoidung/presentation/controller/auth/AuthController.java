@@ -15,7 +15,7 @@ import com.example.xephangnguoidung.data.enums.VaiTro;
 @Controller
 public class AuthController {
 
-    private NguoiDungService nguoiDungService;
+    private final NguoiDungService nguoiDungService;
     private final PasswordEncoder passwordEncoder;
 
     public AuthController(NguoiDungService nguoiDungService, PasswordEncoder passwordEncoder) {
@@ -64,7 +64,7 @@ public class AuthController {
 
     // Đăng nhập
     @GetMapping("/login")
-    public String getLogin(Model model) {
+    public String getLogin() {
         // model.addAttribute("loginError", false);
         return "auth/login"; // Trả về trang đăng nhập
     }

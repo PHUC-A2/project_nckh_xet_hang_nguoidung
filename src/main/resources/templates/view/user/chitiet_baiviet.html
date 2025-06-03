@@ -1,341 +1,641 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta name="_csrf" th:content="${_csrf.token}" />
-    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chi Tiết Bài Viết</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.css"
-    />
-    <link
-      rel="shortcut icon"
-      href="/images/user/user.png"
-      type="image/x-icon"
-    />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.js"></script>
-    <style>
-      body {
-        font-family: "Poppins", sans-serif;
-        background: #ffffff; /* Màu nền trắng */
-        color: #333333; /* Màu chữ tối */
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
+
+<head>
+  <meta name="_csrf" th:content="${_csrf.token}" />
+  <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chi Tiết Bài Viết</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.css" />
+  <link rel="shortcut icon" href="/images/user/user.png" type="image/x-icon" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/emojionearea/3.4.1/emojionearea.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --accent-color: #f59e0b;
+      --text-color: #1f2937;
+      --light-bg: #f3f4f6;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--light-bg);
+      color: var(--text-color);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      line-height: 1.6;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    .navbar {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--card-shadow);
+      padding: 0.5rem 0;
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--primary-color);
+    }
+
+    .navbar-brand img {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: var(--text-color) !important;
+      padding: 0.5rem;
+      margin: 0 0.1rem;
+      border-radius: 8px;
+      transition: all 0.3s;
+      font-size: 0.9rem;
+    }
+
+    .nav-link:hover {
+      background: var(--primary-color);
+      color: white !important;
+    }
+
+    .content {
+      padding: 1rem;
+      flex-grow: 1;
+      padding-top: 80px;
+    }
+
+    .card {
+      background: white;
+      border: none;
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      transition: transform 0.3s ease;
+      margin: 0 -0.5rem;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+    }
+
+    .card-header {
+      padding: 1rem;
+      font-size: 1.1rem;
+    }
+
+    .card-body {
+      padding: 1rem;
+    }
+
+    .article-content {
+      font-size: 1rem;
+      line-height: 1.6;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      -ms-word-break: break-all;
+      word-break: break-word;
+    }
+
+    .article-content h2 {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn-custom {
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+
+    .btn-primary {
+      background: var(--primary-color);
+      border: none;
+    }
+
+    .btn-warning {
+      background: var(--accent-color);
+      border: none;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      border: none;
+    }
+
+    .comment-box {
+      padding: 0.8rem;
+      margin-top: 1.5rem;
+    }
+
+    .comment-box textarea {
+      padding: 0.8rem;
+      min-height: 80px;
+      font-size: 0.9rem;
+    }
+
+    .comment-section {
+      margin-top: 2rem;
+    }
+
+    .comment-section .d-flex {
+      padding: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .comment-section img {
+      width: 36px;
+      height: 36px;
+    }
+
+    .comment-section h6 {
+      font-size: 0.9rem;
+    }
+
+    .comment-section p {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .comment-section .btn-sm {
+      padding: 0.25rem 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    .emojionearea {
+      border-radius: 8px !important;
+      border-color: #e5e7eb !important;
+    }
+
+    .social-actions {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .social-actions .btn {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    /* Make all images responsive */
+    .article-content img {
+      max-width: 100% !important;
+      height: auto !important;
+      display: block;
+      margin: 1rem auto;
+    }
+
+    /* Make videos responsive */
+    .article-content iframe,
+    .article-content video,
+    .article-content embed,
+    .article-content object {
+      max-width: 100% !important;
+      height: auto !important;
+      display: block;
+      margin: 1rem auto;
+    }
+
+    /* Video wrapper for aspect ratio */
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%;
+      /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      max-width: 100%;
+    }
+
+    .video-wrapper iframe,
+    .video-wrapper video,
+    .video-wrapper embed,
+    .video-wrapper object {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    /* Tables responsive */
+    .article-content table {
+      max-width: 100% !important;
+      width: 100% !important;
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Code blocks */
+    .article-content pre {
+      max-width: 100%;
+      overflow-x: auto;
+      padding: 1rem;
+      background: #f8f9fa;
+      border-radius: 4px;
+    }
+
+    /* User avatar styling */
+    .comment-avatar {
+      width: 48px;
+      height: 48px;
+      min-width: 48px;
+      /* Prevent shrinking */
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--primary-color);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Comment container styling */
+    .comment-container {
+      display: flex;
+      gap: 1rem;
+      background: white;
+      padding: 1rem;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      align-items: flex-start;
+      /* Align items to top */
+    }
+
+    .comment-content {
+      flex-grow: 1;
+      min-width: 0;
+      /* Prevent content from pushing container wider */
+    }
+
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .comment-author {
+      color: var(--primary-color);
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .comment-date {
+      color: #6b7280;
+      font-size: 0.875rem;
+    }
+
+    .comment-text {
+      margin-bottom: 0.75rem;
+      word-break: break-word;
+    }
+
+    .comment-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
       }
 
-      .navbar {
-        background: #007bff; /* Nền xanh dương cho navbar */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
+      .navbar-toggler {
+        padding: 0.25rem 0.5rem;
+        font-size: 1rem;
+      }
+
+      .navbar-nav {
+        padding: 0.5rem 0;
+      }
+
+      .comment-avatar {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+      }
+
+      .comment-container {
+        padding: 0.75rem;
+        gap: 0.75rem;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .navbar-brand {
+        font-size: 1.1rem;
       }
 
       .navbar-brand img {
-        border-radius: 50%;
-        margin-right: 10px;
+        width: 28px;
+        height: 28px;
+      }
+
+      .nav-link {
+        font-size: 0.85rem;
+        padding: 0.4rem;
       }
 
       .content {
-        padding: 2rem;
-        flex-grow: 1;
-        padding-top: 80px;
-      }
-
-      .card {
-        background: #ffffff; /* Nền trắng cho card */
-        border: 1px solid #e0e0e0; /* Viền xám nhạt */
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        transition: all 0.3s;
-      }
-
-      .card:hover {
-        transform: translateY(-5px);
+        padding: 0.5rem;
+        padding-top: 70px;
       }
 
       .card-header {
-        background: #007bff; /* Nền xanh dương cho header */
-        border-bottom: 1px solid #e0e0e0;
-        padding: 1rem 1.5rem;
-        font-weight: 600;
-        color: #ffffff; /* Màu chữ trắng */
+        padding: 0.8rem;
       }
 
       .card-body {
-        padding: 2rem;
+        padding: 0.8rem;
       }
 
-      .btn-custom,
-      .btn-primary {
-        background: #007bff; /* Màu xanh dương */
-        color: white;
-        border: none;
-        transition: all 0.3s;
+      .social-actions {
+        gap: 0.3rem;
       }
 
-      .btn-custom:hover,
-      .btn-primary:hover {
-        background: #0056b3; /* Màu xanh dương đậm hơn khi hover */
-        transform: scale(1.05);
+      .social-actions .btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.85rem;
       }
 
-      .article-content {
-        line-height: 1.8;
+      .comment-avatar {
+        width: 36px;
+        height: 36px;
+        min-width: 36px;
       }
 
-      .article-content strong {
-        color: inherit; /* Giữ nguyên màu sắc của chữ in đậm */
+      .comment-container {
+        padding: 0.5rem;
+        gap: 0.5rem;
       }
 
-      .comment-box {
-        display: flex;
-        align-items: center;
-        background: #f0f0f0; /* Nền xám nhạt cho comment box */
-        padding: 5px;
-        border-radius: 20px;
-        width: 100%;
+      .comment-actions {
+        flex-wrap: wrap;
       }
+    }
+  </style>
+</head>
 
-      .comment-box textarea {
-        height: 30px;
-        border: none;
-        background: transparent;
-        color: #343a40;
-        flex-grow: 1;
-        resize: none;
-        padding: 5px 10px;
-        font-size: 14px;
-        width: 100%;
-      }
-
-      .comment-box button {
-        border: none;
-        background: none;
-        color: #007bff;
-        font-size: 16px;
-      }
-
-      .comment-section p {
-        word-wrap: break-word;
-        word-break: break-all;
-      }
-
-      .btn-warning,
-      .btn-danger {
-        color: white;
-      }
-
-      .btn-warning {
-        background-color: #ffc107;
-      }
-
-      .btn-danger {
-        background-color: #dc3545;
-      }
-
-    </style>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/user}">
-          <img src="/images/user/user.png" alt="User" width="40" height="40" />
-          MENU
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarNav"
-        >
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/hoso}">
-                <i class="fas fa-home me-1"></i> Trang Chủ
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/diem/bangxephang}">
-                <i class="fas fa-trophy me-1"></i> Bảng Xếp Hạng
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/baiviet/tao}">
-                <i class="fas fa-file-alt me-1"></i> Viết Bài
-              </a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="javascript:void(0);"
-                onclick="document.getElementById('logoutForm').submit();"
-                ><i class="fas fa-sign-out-alt me-1"></i> Đăng Xuất</a
-              >
-            </li>
-
-            <form
-              id="logoutForm"
-              th:action="@{/logout}"
-              method="post"
-              style="display: none"
-            ></form>
-          </ul>
-        </div>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" th:href="@{/user/hoso}">
+        <img src="/images/user/user.png" alt="User" width="40" height="40" />
+        BLOG
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/hoso}">
+              <i class="fas fa-home me-1"></i> Trang Chủ
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/diem/bangxephang}">
+              <i class="fas fa-trophy me-1"></i> Bảng Xếp Hạng
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/baiviet/tao}">
+              <i class="fas fa-pen me-1"></i> Viết Bài
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+              <i class="fas fa-sign-out-alt me-1"></i> Đăng Xuất
+            </a>
+          </li>
+          <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none"></form>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <div class="content">
-      <div class="container-fluid">
-        <div class="card">
-          <div class="card-header">Chi Tiết Bài Viết</div>
-          <div class="card-body article-content">
-            <h2 th:text="${baiViet.tieuDe}">Tiêu Đề Bài Viết</h2>
-            <p>
-              <strong>Ngày Đăng:</strong>
-              <span
-                th:text="${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"
-                >01/01/2025</span
-              >
-            </p>
-            <p>
-              <strong>Người Đăng:</strong>
-              <span th:text="${baiViet.nguoiDung.tenDangNhap}"
-                >Tên Người Đăng</span
-              >
-            </p>
-            <hr />
-            <div th:utext="${baiViet.noiDung}">Nội dung bài viết...</div>
-            <div class="d-flex justify-content-between align-items-center mt-3">
-              <div>
-                <a
-                  th:href="@{'/user/luotthich/' + ${baiViet.id} + '#baiviet-' + ${baiViet.id}}"
-                  class="btn btn-outline-primary btn-sm"
-                >
-                  <i class="fas fa-thumbs-up"></i>
-                  <span th:text="${baiViet.soLuotThich}"></span>
-                </a>
-                <span class="btn btn-outline-primary btn-sm">
-                  <i class="fas fa-comment"></i>
-                  <span th:text="${baiViet.soLuotBinhLuan}"></span>
-                </span>
+  <div class="content">
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <h2 class="mb-0" th:text="${baiViet.tieuDe}">Tiêu Đề Bài Viết</h2>
+          <div class="d-flex align-items-center mt-2">
+            <img src="/images/user/user.png" alt="Author" width="32" height="32" class="rounded-circle me-2">
+            <span th:text="${baiViet.nguoiDung.tenDangNhap}" class="me-3">Tên Người Đăng</span>
+            <small class="text-light">
+              <i class="far fa-calendar-alt me-1"></i>
+              <span th:text="${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}">01/01/2025</span>
+            </small>
+          </div>
+        </div>
+        <div class="card-body article-content">
+          <div th:utext="${baiViet.noiDung}" class="mb-4">Nội dung bài viết...</div>
 
-                <a
-                  th:href="@{/user/baiviet/sua/{id}(id=${baiViet.id})}"
-                  class="btn btn-warning btn-sm"
-                >
-                  <i class="fas fa-edit"></i> Sửa
-                </a>
-                <form
-                  th:action="@{/user/baiviet/xoa/{id}(id=${baiViet.id})}"
-                  method="post"
-                  style="display: inline"
-                >
-                  <button class="btn btn-danger btn-sm">
-                    <i class="fas fa-trash"></i> Xóa
-                  </button>
-                </form>
-              </div>
-              <small
-                class="text-muted"
-                th:text="'Bài viết được đăng vào ngày: ' + ${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"
-              >
-                01/01/2025
-              </small>
+          <div class="social-actions">
+            <a th:href="@{'/user/luotthich/' + ${baiViet.id} + '#baiviet-' + ${baiViet.id}}"
+              class="btn btn-outline-primary">
+              <i class="fas fa-thumbs-up"></i>
+              <span th:text="${baiViet.soLuotThich}"></span>
+            </a>
+            <span class="btn btn-outline-primary">
+              <i class="fas fa-comment"></i>
+              <span th:text="${baiViet.soLuotBinhLuan}"></span>
+            </span>
+            <div class="ms-auto">
+              <a th:href="@{/user/baiviet/sua/{id}(id=${baiViet.id})}" class="btn btn-warning">
+                <i class="fas fa-edit"></i> Sửa
+              </a>
+              <form th:action="@{/user/baiviet/xoa/{id}(id=${baiViet.id})}" method="post" style="display: inline">
+                <button class="btn btn-danger">
+                  <i class="fas fa-trash"></i> Xóa
+                </button>
+              </form>
             </div>
-            <div class="comment-section mt-3">
-              <div
-                th:each="binhLuan : ${baiViet.binhLuans}"
-                class="d-flex mb-2"
-                th:id="'binhluan-' + ${binhLuan.id}"
-              >
-                <img
-                  src="/images/user/user.png"
-                  alt="Commenter"
-                  width="40"
-                  height="40"
-                  class="rounded-circle me-2"
-                />
-                <div>
-                  <h6 class="mb-0" th:text="${binhLuan.nguoiDung.tenDangNhap}">
-                    Tên Người Dùng
-                  </h6>
-                  <small
-                    class="text-muted"
-                    th:text="${#temporals.format(binhLuan.ngayDang, 'dd/MM/yyyy')}"
-                    >01/01/2025 12:00</small
-                  >
-                  <p th:text="${binhLuan.noiDung}">Nội dung bình luận...</p>
-                  <div>
-                    <a
-                      class="btn btn-warning btn-sm"
-                      th:href="@{'/user/binhluan/sua/' + ${binhLuan.id}}"
-                    >
-                      <i class="fas fa-pencil-alt"></i> Sửa
-                    </a>
-                    <form
-                      th:action="@{'/user/binhluan/xoa/' + ${binhLuan.id}}"
-                      method="post"
-                      style="display: inline"
-                    >
-                      <input type="hidden" name="_method" value="delete" />
-                      <button type="submit" class="btn btn-danger btn-sm">
-                        <i class="fas fa-trash"></i> Xóa
-                      </button>
-                    </form>
-                  </div>
+          </div>
+
+          <div class="comment-section">
+            <h4 class="mb-4">Bình luận</h4>
+            <div th:each="binhLuan : ${baiViet.binhLuans}" class="comment-container"
+              th:id="'binhluan-' + ${binhLuan.id}">
+              <img src="/images/user/user.png" alt="Commenter" class="comment-avatar">
+              <div class="comment-content">
+                <div class="comment-header">
+                  <h6 class="comment-author" th:text="${binhLuan.nguoiDung.tenDangNhap}">Tên Người Dùng</h6>
+                  <small class="comment-date"
+                    th:text="${#temporals.format(binhLuan.ngayDang, 'dd/MM/yyyy')}">01/01/2025</small>
+                </div>
+                <p class="comment-text" th:text="${binhLuan.noiDung}">Nội dung bình luận...</p>
+                <div class="comment-actions">
+                  <a class="btn btn-sm btn-warning" th:href="@{'/user/binhluan/sua/' + ${binhLuan.id}}">
+                    <i class="fas fa-pencil-alt"></i> Sửa
+                  </a>
+                  <form th:action="@{'/user/binhluan/xoa/' + ${binhLuan.id}}" method="post" style="display: inline">
+                    <input type="hidden" name="_method" value="delete" />
+                    <button type="submit" class="btn btn-sm btn-danger">
+                      <i class="fas fa-trash"></i> Xóa
+                    </button>
+                  </form>
                 </div>
               </div>
-              <div class="comment-box">
-                <form th:action="@{/user/binhluan/tao}" method="post">
-                  <input
-                    type="hidden"
-                    name="baiVietId"
-                    th:value="${baiViet.id}"
-                  />
-                  <textarea
-                    class="bg bg-light"
-                    name="noiDung"
-                    placeholder="Viết bình luận..."
-                    required
-                  ></textarea>
-                  <button type="submit">
-                    <i class="far fa-paper-plane"></i> Gửi
-                  </button>
-                </form>
-              </div>
+            </div>
+
+            <div class="comment-box">
+              <form th:action="@{/user/binhluan/tao}" method="post">
+                <input type="hidden" name="baiVietId" th:value="${baiViet.id}" />
+                <textarea name="noiDung" placeholder="Viết bình luận của bạn..." required></textarea>
+                <button type="submit" class="btn btn-primary">
+                  <i class="far fa-paper-plane me-2"></i>Gửi bình luận
+                </button>
+              </form>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <script>
-      $(document).ready(function () {
-        $(".comment-box textarea").each(function () {
-          $(this).emojioneArea({ pickerPosition: "top" });
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      // Get article ID from the current URL
+      const articleId = window.location.pathname.split('/').pop();
+      const POLLING_INTERVAL = 5000; // 5 seconds
+
+      // Handle comment form submission
+      $('.comment-box form').submit(function (e) {
+        e.preventDefault();
+        const form = $(this);
+
+        $.ajax({
+          url: form.attr('action'),
+          method: 'POST',
+          data: form.serialize(),
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+          },
+          success: function (response) {
+            // Clear form
+            form[0].reset();
+            $('.emojionearea-editor').empty();
+
+            // Refresh the page to show new comment
+            window.location.reload();
+          },
+          error: function () {
+            alert('Có lỗi xảy ra khi đăng bình luận. Vui lòng thử lại.');
+          }
         });
       });
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-  </body>
+
+      // Handle like button click
+      $(document).on('click', '.social-actions .btn-outline-primary', function (e) {
+        if ($(this).find('.fa-thumbs-up').length) {
+          e.preventDefault();
+          const likeBtn = $(this);
+          const likeUrl = likeBtn.attr('href');
+
+          $.ajax({
+            url: likeUrl,
+            method: 'GET',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="_csrf"]').attr('content')
+            },
+            success: function (response) {
+              // Refresh the page fragment containing updated like count
+              $.get(window.location.pathname, function (data) {
+                const newLikeCount = $(data).find('.fa-thumbs-up').next('span').text();
+                likeBtn.find('span').text(newLikeCount);
+
+                // Toggle active state
+                likeBtn.toggleClass('active');
+                if (likeBtn.hasClass('active')) {
+                  likeBtn.removeClass('btn-outline-primary').addClass('btn-primary');
+                } else {
+                  likeBtn.removeClass('btn-primary').addClass('btn-outline-primary');
+                }
+              });
+            }
+          });
+        }
+      });
+
+      // Function to update counts and comments
+      function updateCounts() {
+        if (!document.hidden) { // Only update if page is visible
+          $.get(window.location.pathname, function (data) {
+            // Update like count
+            const newLikeCount = $(data).find('.fa-thumbs-up').next('span').text();
+            $('.fa-thumbs-up').next('span').text(newLikeCount);
+
+            // Update comment count
+            const newCommentCount = $(data).find('.fa-comment').next('span').text();
+            $('.fa-comment').next('span').text(newCommentCount);
+
+            // Update only the comments list, not the entire comment section
+            const newComments = $(data).find('.comment-container');
+            const commentSection = $('.comment-section');
+
+            // Remove old comments but keep the title and form
+            commentSection.find('.comment-container').remove();
+
+            // Insert new comments after the title
+            commentSection.find('h4').after(newComments);
+          });
+        }
+      }
+
+      // Initialize emoji picker
+      function initializeEmojiPicker() {
+        $("textarea[name='noiDung']").emojioneArea({
+          pickerPosition: "top",
+          placeholder: "Viết bình luận của bạn...",
+        });
+      }
+
+      // Make videos responsive
+      function makeVideosResponsive() {
+        $('.article-content iframe, .article-content video').each(function () {
+          if (!$(this).parent().hasClass('video-wrapper')) {
+            $(this).wrap('<div class="video-wrapper"></div>');
+          }
+        });
+      }
+
+      // Call on page load
+      makeVideosResponsive();
+      initializeEmojiPicker();
+
+      // Handle dynamic content updates
+      $('.article-content').on('DOMNodeInserted', function () {
+        makeVideosResponsive();
+      });
+
+      // Start polling for updates
+      setInterval(updateCounts, POLLING_INTERVAL);
+
+      // Handle page visibility changes
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) {
+          updateCounts(); // Update immediately when page becomes visible
+        }
+      });
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

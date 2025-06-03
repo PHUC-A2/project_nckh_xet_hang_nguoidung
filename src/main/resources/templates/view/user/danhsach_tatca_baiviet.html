@@ -4,219 +4,269 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Danh sách bài viết</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
+      :root {
+        --primary-color: #2563eb;
+        --secondary-color: #1e40af;
+        --text-color: #1f2937;
+        --light-bg: #f3f4f6;
+      }
+
       body {
-        background: #f8f9fa; /* Màu nền sáng */
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        color: #343a40; /* Màu chữ tối */
-      }
-
-      .card-custom {
-        background-color: #ffffff; /* Nền trắng cho card */
-        border-radius: 18px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-        padding: 3.5rem;
-        margin: 3rem auto;
-        max-width: 950px;
-      }
-
-      .list-group-item {
-        background: #ffffff; /* Nền trắng cho list item */
-        border: 1px solid rgba(0, 0, 0, 0.1);
-        border-radius: 15px;
-        margin-bottom: 2rem;
-        padding: 2.5rem;
-        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-      }
-
-      .list-group-item:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-      }
-
-      .text-decoration-none {
-        color: #007bff; /* Màu xanh dương */
-        font-weight: 600;
-        transition: color 0.3s ease-in-out;
-        font-size: 1.1rem;
-      }
-
-      .text-decoration-none:hover {
-        color: #0056b3; /* Màu xanh dương đậm hơn khi hover */
-      }
-
-      .mb-1 strong {
-        color: #343a40; /* Màu chữ tối */
-        font-weight: 700;
-        font-size: 1.1rem;
-      }
-
-      .small-date {
-        color: #6c757d; /* Màu chữ xám */
-        font-size: 0.95rem;
-      }
-
-      h4.text-center.mb-3 {
-        color: #007bff; /* Màu xanh dương */
-        font-weight: 700;
-        margin-bottom: 3rem;
-        font-size: 1.5rem;
+        background: var(--light-bg);
+        font-family: 'Roboto', sans-serif;
+        color: var(--text-color);
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
       }
 
       .navbar {
-        background: #ffffff; /* Nền trắng cho navbar */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng nhẹ */
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        padding: 1rem 0;
+      }
+
+      .navbar-brand {
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: var(--primary-color);
       }
 
       .navbar-brand img {
-        border-radius: 50%;
-        margin-right: 10px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s;
       }
+
+      .navbar-brand:hover img {
+        transform: scale(1.05);
+      }
+
+      .nav-link {
+        font-weight: 500;
+        color: var(--text-color) !important;
+        padding: 0.5rem 1rem;
+        margin: 0 0.2rem;
+        border-radius: 8px;
+        transition: all 0.3s;
+      }
+
+      .nav-link:hover {
+        background: var(--primary-color);
+        color: white !important;
+      }
+
+      .card-custom {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 24px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        padding: 2rem;
+        margin: 4rem auto;
+        max-width: 1100px;
+        backdrop-filter: blur(10px);
+      }
+
+      .list-group-item {
+        background: white;
+        border: none;
+        border-radius: 16px;
+        margin-bottom: 1.5rem;
+        padding: 2rem;
+        transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+      }
+
+      .list-group-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+      }
+
+      .text-decoration-none {
+        color: var(--primary-color);
+        font-weight: 600;
+        font-size: 1.2rem;
+        transition: all 0.3s;
+      }
+
+      .text-decoration-none:hover {
+        color: var(--secondary-color);
+        text-decoration: underline !important;
+      }
+
+      h4.text-center.mb-3 {
+        color: var(--primary-color);
+        font-weight: 700;
+        font-size: 2rem;
+        margin-bottom: 2rem !important;
+        position: relative;
+        padding-bottom: 1rem;
+      }
+
+      h4.text-center.mb-3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100px;
+        height: 4px;
+        background: var(--primary-color);
+        border-radius: 2px;
+      }
+
+      .small-date {
+        color: #64748b;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+
+      .alert {
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        font-weight: 500;
+      }
+
       .footer {
-        background: #343a40;
+        background: #1f2937;
         color: white;
-        padding: 1rem 0;
-        text-align: center;
+        padding: 3rem 0;
         margin-top: auto;
       }
+
       .footer h3 {
-        margin-bottom: 1rem;
+        color: #f3f4f6;
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1.5rem;
       }
-      .footer ul {
-        padding: 0;
-        list-style: none;
-      }
+
       .footer ul li {
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.8rem;
       }
+
       .footer ul li a {
-        color: #ffc107;
+        color: #60a5fa;
         text-decoration: none;
+        transition: all 0.3s;
+        font-weight: 500;
       }
+
       .footer ul li a:hover {
+        color: #93c5fd;
         text-decoration: underline;
+      }
+
+      .footer p {
+        opacity: 0.8;
+        font-size: 0.9rem;
+      }
+
+      @media (max-width: 768px) {
+        .card-custom {
+          margin: 2rem 1rem;
+          padding: 1.5rem;
+        }
+        
+        .list-group-item {
+          padding: 1.5rem;
+        }
       }
     </style>
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-light fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/user}">
-          <img src="/images/user/user.png" alt="User" width="40" height="40" />
+      <div class="container">
+        <a class="navbar-brand d-flex align-items-center" th:href="@{/user}">
+          <img src="/images/user/user.png" alt="User" width="40" height="40" class="me-2"/>
           MENU
         </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
-        >
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarContent"
-        >
+        <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link active" th:href="@{/user/hoso}"
-                ><i class="fas fa-home me-1"></i> Trang Chủ</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/diem/bangxephang}">
-                <i class="fas fa-bolt me-1"></i> Bảng Xếp Hạng
+              <a class="nav-link active" th:href="@{/user/hoso}">
+                <i class="fas fa-home me-1"></i> Trang Chủ
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" th:href="@{/user/baiviet/tao}"
-                ><i class="fas fa-file-alt me-1"></i> Viết bài</a
-              >
+              <a class="nav-link" th:href="@{/user/diem/bangxephang}">
+                <i class="fas fa-trophy me-1"></i> Bảng Xếp Hạng
+              </a>
             </li>
             <li class="nav-item">
-              <a
-                class="nav-link"
-                href="javascript:void(0);"
-                onclick="document.getElementById('logoutForm').submit();"
-                ><i class="fas fa-sign-out-alt me-1"></i> Đăng Xuất</a
-              >
+              <a class="nav-link" th:href="@{/user/baiviet/tao}">
+                <i class="fas fa-pen-to-square me-1"></i> Viết bài
+              </a>
             </li>
-            <form
-              id="logoutForm"
-              th:action="@{/logout}"
-              method="post"
-              style="display: none"
-            ></form>
+            <li class="nav-item">
+              <a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+                <i class="fas fa-right-from-bracket me-1"></i> Đăng Xuất
+              </a>
+            </li>
+            <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none"></form>
           </ul>
         </div>
       </div>
     </nav>
-    <div class="col-md-12 mt-5">
+
+    <div class="container">
       <div class="card-custom">
         <h4 class="text-center mb-3">Danh sách bài viết</h4>
         <div class="list-group">
-          <div
-            th:each="baiViet : ${danhSachBaiViet}"
-            class="list-group-item list-group-item-action flex-column align-items-start"
-          >
-            <div class="d-flex w-100 justify-content-between">
+          <div th:each="baiViet : ${danhSachBaiViet}" 
+               class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between align-items-center">
               <h5 class="mb-1">
-                <a
-                  th:href="@{/user/baiviet/chitiet/{id}(id=${baiViet.id})}"
-                  th:text="'Bài viết: ' + ${baiViet.tieuDe}"
-                  class="text-decoration-none"
-                ></a>
+                <a th:href="@{/user/baiviet/chitiet/{id}(id=${baiViet.id})}" 
+                   th:text="'Bài viết: ' + ${baiViet.tieuDe}"
+                   class="text-decoration-none"></a>
               </h5>
-              <small
-                class="small-date"
-                th:text="'Ngày đăng: ' + ${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"
-              ></small>
+              <small class="small-date">
+                <i class="far fa-calendar-alt me-1"></i>
+                <span th:text="${#temporals.format(baiViet.ngayDang, 'dd/MM/yyyy')}"></span>
+              </small>
             </div>
-            <p class="mb-1">
-              <strong
-                th:text="'Người đăng: ' + ${baiViet.nguoiDung.tenDangNhap}"
-              ></strong>
-              <span class="text-warning"> đã đăng bài viết này.</span>
+            <p class="mb-1 mt-2">
+              <i class="fas fa-user-edit me-1"></i>
+              <strong th:text="${baiViet.nguoiDung.tenDangNhap}"></strong>
+              <span class="text-warning"> đã đăng bài viết này</span>
             </p>
           </div>
-          <div
-            th:if="${#lists.isEmpty(danhSachBaiViet)}"
-            class="alert alert-danger alert-dismissible fade show"
-            role="alert"
-          >
+          <div th:if="${#lists.isEmpty(danhSachBaiViet)}" 
+               class="alert alert-danger alert-dismissible fade show" 
+               role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>
             <strong>Lỗi!</strong> Không có bài viết nào.
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="alert"
-            ></button>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
           </div>
         </div>
       </div>
     </div>
+
     <footer class="footer">
       <div class="container">
-        <p>&copy; 2025 Trang web của bạn. Mọi quyền được bảo lưu.</p>
-        <div>
-          <h3>Tài liệu tham khảo</h3>
-          <ul class="list-unstyled">
-            <li>
-              <a href="https://github.com">Github</a>
-            </li>
-            <li>
-              <a href="https://chatgpt.com">ChatGPT</a>
-            </li>
-            <li>
-              <a href="https://spring.io">Sping Boot</a>
-            </li>
-            <li>
-              <a href="https://thymeleaf.org">Thymeleaf</a>
-            </li>
-          </ul>
+        <div class="row">
+          <div class="col-md-6">
+            <h3>Về chúng tôi</h3>
+            <p>Chúng tôi là nền tảng chia sẻ kiến thức và kết nối cộng đồng.</p>
+            <p>&copy; 2025 Trang web của bạn. Mọi quyền được bảo lưu.</p>
+          </div>
+          <div class="col-md-6">
+            <h3>Tài liệu tham khảo</h3>
+            <ul class="list-unstyled">
+              <li><a href="https://github.com"><i class="fab fa-github me-2"></i>Github</a></li>
+              <li><a href="https://chatgpt.com"><i class="fas fa-robot me-2"></i>ChatGPT</a></li>
+              <li><a href="https://spring.io"><i class="fas fa-leaf me-2"></i>Spring Boot</a></li>
+              <li><a href="https://thymeleaf.org"><i class="fas fa-code me-2"></i>Thymeleaf</a></li>
+            </ul>
+          </div>
         </div>
       </div>
     </footer>

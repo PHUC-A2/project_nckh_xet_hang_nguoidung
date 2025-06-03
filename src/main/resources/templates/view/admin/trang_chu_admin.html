@@ -1,312 +1,724 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bảng Điều Khiển Quản Trị</title>
-    <!-- Bootstrap 5 CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- Font Awesome -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link
-      rel="shortcut icon"
-      href="/images/admin/admin.png"
-      type="image/x-icon"
-    />
-    <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(to right, #1c2b30, #6b919e, #bbc2c5);
-      }
-      /* Navbar */
-      .navbar-brand img {
-        border-radius: 50%;
-        margin-right: 8px;
-      }
-      /* Sidebar cố định */
-      .sidebar {
-        position: fixed;
-        top: 56px; /* chiều cao của navbar */
-        left: 0;
-        width: 250px;
-        height: calc(100vh - 56px);
-        background-color: #343a40;
-        padding: 1rem;
-        overflow-y: auto;
-      }
-      .sidebar h5 {
-        color: #fff;
-        margin-bottom: 1.5rem;
-      }
-      .sidebar .nav-link {
-        color: #adb5bd;
-        font-size: 1.1em;
-        margin: 0.5rem 0;
-        transition: background 0.3s, color 0.3s;
-      }
-      .sidebar .nav-link:hover {
-        background-color: #495057;
-        color: #fff;
-        border-radius: 4px;
-      }
-      /* Nội dung chính */
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bảng Điều Khiển Quản Trị</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="shortcut icon" href="/images/admin/admin.png" type="image/x-icon" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #4f46e5;
+      --primary-dark: #4338ca;
+      --secondary-color: #0ea5e9;
+      --accent-color: #f59e0b;
+      --background-start: #1e1b4b;
+      --background-end: #312e81;
+      --card-bg: rgba(30, 27, 75, 0.65);
+      --text-primary: #ffffff;
+      --text-secondary: #e2e8f0;
+      --success-color: #22c55e;
+      --warning-color: #eab308;
+      --danger-color: #ef4444;
+      --info-color: #3b82f6;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, var(--background-start), var(--background-end));
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .navbar-brand {
+      font-weight: 600;
+    }
+
+    .navbar-brand img {
+      border-radius: 12px;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .navbar-brand:hover img {
+      transform: scale(1.1);
+    }
+
+    .nav-link {
+      color: var(--text-secondary) !important;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .nav-link:hover,
+    .nav-link.active {
+      background: var(--primary-color);
+      color: white !important;
+      transform: translateY(-2px);
+    }
+
+    .sidebar {
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      border-right: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .sidebar .nav-link {
+      margin: 0.5rem 0;
+      padding: 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .sidebar .nav-link:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateX(5px);
+    }
+
+    .sidebar .nav-link.active {
+      background: var(--primary-color);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+    }
+
+    .content {
+      margin-left: 250px;
+      padding: 2rem;
+      padding-top: 80px;
+      flex: 1;
+    }
+
+    .admin-info-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .admin-info-card img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid var(--primary-color);
+      padding: 3px;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+    }
+
+    .stat-card.primary::before {
+      background: var(--primary-color);
+      box-shadow: 0 0 20px var(--primary-color);
+    }
+
+    .stat-card.warning::before {
+      background: var(--warning-color);
+      box-shadow: 0 0 20px var(--warning-color);
+    }
+
+    .stat-card.info::before {
+      background: var(--info-color);
+      box-shadow: 0 0 20px var(--info-color);
+    }
+
+    .stat-card.success::before {
+      background: var(--success-color);
+      box-shadow: 0 0 20px var(--success-color);
+    }
+
+    .stat-icon {
+      font-size: 3rem;
+      opacity: 0.2;
+      position: absolute;
+      right: 1rem;
+      bottom: 1rem;
+    }
+
+    .chart-container {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .chart-container h5 {
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+
+    .activity-timeline {
+      position: relative;
+      padding: 1.5rem;
+    }
+
+    .activity-item {
+      position: relative;
+      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      margin-bottom: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .activity-item:hover {
+      transform: translateX(5px);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .activity-item::before {
+      content: '';
+      position: absolute;
+      left: -20px;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary-color);
+      transform: translateY(-50%);
+      box-shadow: 0 0 10px var(--primary-color);
+    }
+
+    .activity-time {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .export-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+
+    .export-btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      border: none;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-primary);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .export-btn:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .export-btn.pdf {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+
+    .export-btn.excel {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    footer {
+      background: rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 2rem 0;
+      margin-top: auto;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .footer-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--primary-color);
+      transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
       .content {
-        margin-left: 250px;
-        padding: 2rem;
-        padding-top: 80px;
+        margin-left: 0;
+        padding: 1rem;
       }
-      /* Card thống kê */
-      .card {
-        border: none;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        transition: transform 0.3s;
-      }
-      .card:hover {
-        transform: translateY(-5px);
-      }
-      .card .card-body {
-        padding: 1.5rem;
-      }
-      .card .card-title {
-        font-size: 1.25rem;
-        margin-bottom: 0.75rem;
-      }
-      .card-text {
-        font-size: 2rem;
-        font-weight: bold;
-      }
-      @media (max-width: 768px) {
-        .content {
-          margin-left: 0;
-        }
-        .sidebar {
-          display: none;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <!-- Navbar cố định ở trên cùng -->
-    <nav
-      class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top shadow-sm"
-    >
-      <div class="container-fluid">
-        <a class="navbar-brand" th:href="@{/admin}">
-          <img
-            src="/images/admin/admin.png"
-            alt="Admin"
-            width="40"
-            height="40"
-          />
-          Bảng Điều Khiển Quản Trị
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarContent"
-          aria-controls="navbarContent"
-          aria-expanded="false"
-          aria-label="Chuyển đổi"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div
-          class="collapse navbar-collapse justify-content-end"
-          id="navbarContent"
-        >
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a class="nav-link active" th:href="@{/admin}">Trang Chủ</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                th:href="@{/admin/nguoidung/laytatcanguoidung}"
-                >QL người dùng</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/admin/diem/bangxephang}"
-                >QL BXH người dùng</a
-              >
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/admin/baiviet}">QL Bài viết</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/admin/binhluan}">QL Bình luận</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" th:href="@{/admin/luotthich}"
-                >QL Lượt thích</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                href="javascript:void(0);"
-                onclick="document.getElementById('logoutForm').submit();"
-                >Đăng Xuất</a
-              >
-            </li>
 
-            <form
-              id="logoutForm"
-              th:action="@{/logout}"
-              method="post"
-              style="display: none"
-            ></form>
-          </ul>
-        </div>
+      .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+      }
+
+      .stat-card {
+        margin-bottom: 1rem;
+      }
+
+      .chart-container {
+        margin-bottom: 1rem;
+      }
+
+      .footer-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand d-flex align-items-center" th:href="@{/admin}">
+        <img src="/images/admin/admin.png" alt="Admin" width="40" height="40" class="me-2" />
+        <span>Dashboard</span>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarContent">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/admin}">
+              <i class="fas fa-home me-1"></i>
+              <span>Trang Chủ</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/nguoidung/laytatcanguoidung}">
+              <i class="fas fa-users me-1"></i>
+              <span>Người Dùng</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/diem/bangxephang}">
+              <i class="fas fa-trophy me-1"></i>
+              <span>BXH</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/baiviet}">
+              <i class="fas fa-file-alt me-1"></i>
+              <span>Bài Viết</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+              <i class="fas fa-sign-out-alt me-1"></i>
+              <span>Đăng Xuất</span>
+            </a>
+          </li>
+        </ul>
       </div>
-    </nav>
+    </div>
+  </nav>
 
-    <!-- Sidebar bên trái (giữ nguyên giao diện như mẫu trước) -->
-    <div class="sidebar">
-      <h5>Menu Quản Trị</h5>
-      <ul class="nav flex-column">
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/admin}"
-            ><i class="fas fa-home me-2"></i>Trang Chủ</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/admin/nguoidung/laytatcanguoidung}"
-            ><i class="fas fa-users me-2"></i>QL người dùng</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/admin/diem/bangxephang}"
-            ><i class="fas fa-chart-line me-2"></i>QL BXH người dùng</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/admin/baiviet}"
-            ><i class="fas fa-file-alt me-2"></i>QL Bài viết</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/admin/binhluan}"
-            ><i class="fas fa-comments me-2"></i>QL Bình luận</a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/admin/luotthich}"
-            ><i class="fas fa-thumbs-up me-2"></i>QL Lượt thích</a
-          >
-        </li>
-
-        <li class="nav-item">
-          <a
-            class="nav-link"
-            href="javascript:void(0);"
-            onclick="document.getElementById('logoutForm').submit();"
-            ><i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất</a
-          >
-        </li>
-
-        <form
-          id="logoutForm"
-          th:action="@{/logout}"
-          method="post"
-          style="display: none"
-        ></form>
-      </ul>
+  <div class="d-flex">
+    <div class="sidebar" style="width: 250px; min-height: 100vh; padding-top: 70px;">
+      <div class="p-3">
+        <h5 class="text-white mb-3">Menu Quản Trị</h5>
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" th:href="@{/admin}">
+              <i class="fas fa-home me-2"></i>Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/nguoidung/laytatcanguoidung}">
+              <i class="fas fa-users me-2"></i>Quản Lý Người Dùng
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/diem/bangxephang}">
+              <i class="fas fa-trophy me-2"></i>Bảng Xếp Hạng
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/baiviet}">
+              <i class="fas fa-file-alt me-2"></i>Quản Lý Bài Viết
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/binhluan}">
+              <i class="fas fa-comments me-2"></i>Quản Lý Bình Luận
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/luotthich}">
+              <i class="fas fa-heart me-2"></i>Quản Lý Lượt Thích
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="javascript:void(0);" onclick="document.getElementById('logoutForm').submit();">
+              <i class="fas fa-sign-out-alt me-2"></i>Đăng Xuất
+            </a>
+          </li>
+        </ul>
+      </div>
     </div>
 
-    <!-- Nội dung chính -->
     <div class="content">
       <div class="container-fluid">
-        <h1 class="mb-4">Chào mừng đến với trang quản trị viên !</h1>
-        <h3>
-          Đây là bảng điều khiển quản trị, nơi bạn có thể quản lý người dùng,
-          bài viết, bình luận, lượt thích và các chức năng khác.
-        </h3>
-        <div class="row mt-3">
-          <div class="col-md-12 mb-3">
-            <div class="card bg-info text-dark">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <i class="fas fa-user me-2"></i> Thông tin cá nhân
-                </h5>
-                <div class="card-text">
-                  <h5 th:text="'ID: ' + ${nguoiDung.id}">ID</h5>
-                  <h5 th:text="'Tên đăng nhập: ' + ${nguoiDung.tenDangNhap}">Tên đăng nhập</h5>
-                  <h5 th:text="'Vai trò: ' + ${nguoiDung.vaiTro}">Vai trò</h5>
-                  <h5 th:text="'Ngày tạo: ' + ${#temporals.format(nguoiDung.ngayTao, 'dd/MM/yyyy')}">Ngày tạo</h5>
-                </div>
-              </div>
-            </div>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h1 class="h3">Dashboard Overview</h1>
+          <div class="export-buttons">
+            <button class="export-btn pdf" onclick="exportToPDF()">
+              <i class="fas fa-file-pdf"></i>
+              <span>Xuất PDF</span>
+            </button>
+            <button class="export-btn excel" onclick="exportToExcel()">
+              <i class="fas fa-file-excel"></i>
+              <span>Xuất Excel</span>
+            </button>
           </div>
         </div>
-        <!-- Thẻ thống kê -->
-        <div class="row mt-3">
-          <div class="col-md-3 mb-3">
-            <div class="card bg-primary text-white">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <i class="fas fa-users me-2"></i> Tổng số người dùng
-                </h5>
-                <p class="card-text" th:text="${soLuongNguoiDung}"></p>
-              </div>
-            </div>
-          </div>
 
-          <div class="col-md-3 mb-3">
-            <div class="card bg-warning text-white">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <i class="fas fa-file-alt me-2"></i> Tổng số bài viết
-                </h5>
-                <p class="card-text" th:text="${soLuongBaiViet}"></p>
+        <!-- Admin Info Card -->
+        <div class="admin-info-card">
+          <div class="d-flex align-items-center">
+            <img th:src="@{/images/admin/admin.png}" alt="Admin Avatar" class="me-4">
+            <div>
+              <h4 class="mb-1" th:text="${nguoiDung.tenDangNhap}">Admin</h4>
+              <p class="mb-1"><i class="fas fa-id-badge me-2"></i><span th:text="'ID: ' + ${nguoiDung.id}"></span></p>
+              <p class="mb-1"><i class="fas fa-user-shield me-2"></i><span
+                  th:text="'Vai trò: ' + ${nguoiDung.vaiTro}"></span></p>
+              <p class="mb-0"><i class="fas fa-calendar-alt me-2"></i><span
+                  th:text="'Ngày tạo: ' + ${#temporals.format(nguoiDung.ngayTao, 'dd/MM/yyyy')}"></span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="row g-4 mb-4">
+          <div class="col-md-3">
+            <div class="stat-card primary">
+              <h5 class="card-title"><i class="fas fa-users me-2"></i>Người dùng</h5>
+              <p class="display-6 mb-0" th:text="${soLuongNguoiDung}"></p>
+              <div class="stat-icon">
+                <i class="fas fa-users"></i>
               </div>
             </div>
           </div>
-          <div class="col-md-3 mb-3">
-            <div class="card bg-secondary text-white">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <i class="fas fa-comments me-2"></i> Tổng số bình luận
-                </h5>
-                <p class="card-text" th:text="${soLuongBinhLuan}"></p>
+          <div class="col-md-3">
+            <div class="stat-card warning">
+              <h5 class="card-title"><i class="fas fa-file-alt me-2"></i>Bài viết</h5>
+              <p class="display-6 mb-0" th:text="${soLuongBaiViet}"></p>
+              <div class="stat-icon">
+                <i class="fas fa-file-alt"></i>
               </div>
             </div>
           </div>
-          <div class="col-md-3 mb-3">
-            <div class="card bg-success text-white">
-              <div class="card-body">
-                <h5 class="card-title">
-                  <i class="fas fa-chart-line me-2"></i> Tổng số điểm
-                </h5>
-                <p class="card-text" th:text="${tongSoDiem}"></p>
+          <div class="col-md-3">
+            <div class="stat-card info">
+              <h5 class="card-title"><i class="fas fa-comments me-2"></i>Bình luận</h5>
+              <p class="display-6 mb-0" th:text="${soLuongBinhLuan}"></p>
+              <div class="stat-icon">
+                <i class="fas fa-comments"></i>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="stat-card success">
+              <h5 class="card-title"><i class="fas fa-chart-line me-2"></i>Tổng điểm</h5>
+              <p class="display-6 mb-0" th:text="${tongSoDiem}"></p>
+              <div class="stat-icon">
+                <i class="fas fa-chart-line"></i>
               </div>
             </div>
           </div>
         </div>
-        <!-- Hoạt động gần đây -->
-        <div class="card mb-4 bg bg-primary-subtle">
-          <div class="card-header">Hoạt động gần đây</div>
-          <div class="card-body">
-            <p>
-              Đây là bảng điều khiển quản trị của bạn. Từ đây bạn có thể theo
-              dõi hoạt động, quản lý dữ liệu và thực hiện các tác vụ khác.
-            </p>
+
+        <!-- Charts -->
+        <div class="row g-4 mb-4">
+          <div class="col-md-8">
+            <div class="chart-container">
+              <h5><i class="fas fa-chart-line me-2"></i>Thống kê hoạt động theo tháng</h5>
+              <canvas id="activityChart"></canvas>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="chart-container">
+              <h5><i class="fas fa-users me-2"></i>Phân bố người dùng</h5>
+              <div id="userRoleChart"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="chart-container">
+          <h5><i class="fas fa-history me-2"></i>Hoạt động gần đây</h5>
+          <div class="activity-timeline">
+            <div class="activity-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1">Người dùng mới đăng ký</h6>
+                  <p class="mb-0 text-secondary">Nguyễn Văn A đã tạo tài khoản mới</p>
+                </div>
+                <span class="activity-time">2 phút trước</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1">Bài viết mới được đăng</h6>
+                  <p class="mb-0 text-secondary">Trần Thị B đã đăng một bài viết mới</p>
+                </div>
+                <span class="activity-time">15 phút trước</span>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <h6 class="mb-1">Bình luận mới</h6>
+                  <p class="mb-0 text-secondary">Lê Văn C đã bình luận trên bài viết</p>
+                </div>
+                <span class="activity-time">30 phút trước</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script src="/js/admin/trang_chu.js"></script>
-    <!-- Bootstrap JS và Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
-  </body>
+  <footer>
+    <div class="container">
+      <div class="footer-links">
+        <a href="https://www.thymeleaf.org/documentation.html" target="_blank" class="footer-link">
+          <i class="fas fa-book"></i>
+          <span>Tài liệu Thymeleaf</span>
+        </a>
+        <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/" target="_blank" class="footer-link">
+          <i class="fas fa-leaf"></i>
+          <span>Tài liệu Spring Boot</span>
+        </a>
+        <a href="https://github.com" target="_blank" class="footer-link">
+          <i class="fab fa-github"></i>
+          <span>GitHub</span>
+        </a>
+        <a href="https://chat.openai.com" target="_blank" class="footer-link">
+          <i class="fas fa-robot"></i>
+          <span>ChatGPT</span>
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <form id="logoutForm" th:action="@{/logout}" method="post" style="display: none"></form>
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+  <script>
+    // Activity Chart
+    const activityCtx = document.getElementById('activityChart').getContext('2d');
+    new Chart(activityCtx, {
+      type: 'line',
+      data: {
+        labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'],
+        datasets: [{
+          label: 'Bài viết',
+          data: [65, 59, 80, 81, 56, 55, 40, 45, 50, 55, 60, 65],
+          borderColor: '#4f46e5',
+          backgroundColor: 'rgba(79, 70, 229, 0.1)',
+          tension: 0.4,
+          fill: true
+        }, {
+          label: 'Bình luận',
+          data: [28, 48, 40, 19, 86, 27, 90, 85, 80, 75, 70, 65],
+          borderColor: '#0ea5e9',
+          backgroundColor: 'rgba(14, 165, 233, 0.1)',
+          tension: 0.4,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: '#e2e8f0'
+            }
+          }
+        },
+        scales: {
+          y: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            },
+            ticks: {
+              color: '#e2e8f0'
+            }
+          },
+          x: {
+            grid: {
+              color: 'rgba(255, 255, 255, 0.1)'
+            },
+            ticks: {
+              color: '#e2e8f0'
+            }
+          }
+        }
+      }
+    });
+
+    // User Role Chart
+    const userRoleOptions = {
+      series: [39.3, 49.1, 11.6],
+      chart: {
+        type: 'donut',
+        height: 350,
+        background: 'transparent'
+      },
+      labels: ['Người dùng', 'Quản trị viên', 'Khách'],
+      colors: ['#4f46e5', '#0ea5e9', '#f59e0b'],
+      plotOptions: {
+        pie: {
+          donut: {
+            size: '70%'
+          }
+        }
+      },
+      dataLabels: {
+        enabled: true,
+        formatter: function (val) {
+          return val.toFixed(1) + "%"
+        }
+      },
+      legend: {
+        position: 'bottom',
+        labels: {
+          colors: '#e2e8f0'
+        }
+      },
+      stroke: {
+        show: false
+      },
+      responsive: [{
+        breakpoint: 480,
+        options: {
+          chart: {
+            width: 200
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }]
+    };
+
+    const userRoleChart = new ApexCharts(document.querySelector("#userRoleChart"), userRoleOptions);
+    userRoleChart.render();
+
+    // Export to PDF
+    function exportToPDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      // Add title
+      doc.setFontSize(20);
+      doc.text('Báo Cáo Thống Kê', 105, 15, { align: 'center' });
+
+      // Add stats
+      doc.setFontSize(12);
+      doc.text('Thống kê tổng quan:', 20, 30);
+      doc.text(`Số lượng người dùng: ${document.querySelector('.stat-card:nth-child(1) .display-6').textContent}`, 30, 40);
+      doc.text(`Số lượng bài viết: ${document.querySelector('.stat-card:nth-child(2) .display-6').textContent}`, 30, 50);
+      doc.text(`Số lượng bình luận: ${document.querySelector('.stat-card:nth-child(3) .display-6').textContent}`, 30, 60);
+      doc.text(`Tổng điểm: ${document.querySelector('.stat-card:nth-child(4) .display-6').textContent}`, 30, 70);
+
+      // Add charts as images
+      const activityChart = document.getElementById('activityChart');
+      const activityChartImage = activityChart.toDataURL('image/png');
+      doc.addImage(activityChartImage, 'PNG', 20, 90, 170, 80);
+
+      // Save the PDF
+      doc.save('bao-cao-thong-ke.pdf');
+    }
+
+    // Export to Excel
+    function exportToExcel() {
+      const data = [
+        ['Thống kê tổng quan'],
+        ['Số lượng người dùng', document.querySelector('.stat-card:nth-child(1) .display-6').textContent],
+        ['Số lượng bài viết', document.querySelector('.stat-card:nth-child(2) .display-6').textContent],
+        ['Số lượng bình luận', document.querySelector('.stat-card:nth-child(3) .display-6').textContent],
+        ['Tổng điểm', document.querySelector('.stat-card:nth-child(4) .display-6').textContent],
+        [],
+        ['Thống kê theo tháng'],
+        ['Tháng', 'Bài viết', 'Bình luận'],
+        ['T1', 65, 28],
+        ['T2', 59, 48],
+        ['T3', 80, 40],
+        ['T4', 81, 19],
+        ['T5', 56, 86],
+        ['T6', 55, 27],
+        ['T7', 40, 90],
+        ['T8', 45, 85],
+        ['T9', 50, 80],
+        ['T10', 55, 75],
+        ['T11', 60, 70],
+        ['T12', 65, 65]
+      ];
+
+      const ws = XLSX.utils.aoa_to_sheet(data);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Thống kê');
+
+      // Save the file
+      XLSX.writeFile(wb, 'bao-cao-thong-ke.xlsx');
+    }
+  </script>
+</body>
+
 </html>
